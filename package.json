@@ -1,0 +1,21 @@
+{
+  "name": "portal-api",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "prettier": "^1.7.4"
+  },
+  "dependencies": {
+    "elasticsearch": "^13.3.1",
+    "express": "^4.16.2"
+  }
+}
