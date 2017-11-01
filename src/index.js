@@ -8,7 +8,11 @@ if (process.env.WITH_ES) {
     log: 'trace',
   })
 
-  ping(es).then(() => spinupServer(es))
+  ping(es)
+    .then(() => spinupServer(es))
+    .catch(err => {
+      spinupServer()
+    })
 } else {
   spinupServer()
 }

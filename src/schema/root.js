@@ -1,7 +1,9 @@
 import {
-  typeDefs as ExploreCaseTypeDefs,
-  resolvers as ExploreCaseResolvers,
-} from './ExploreCases'
+  typeDefs as ECasesTypeDefs,
+  resolvers as ECasesResolvers,
+} from './ECases'
+
+import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
 
 let SchemaDefinition = `
   type Project {
@@ -13,7 +15,8 @@ let SchemaDefinition = `
   }
 
   type Explore {
-    cases: ExploreCases
+    cases: ECases
+    genes: Genes
   }
 
   type Root {
@@ -44,7 +47,8 @@ let SchemaDefinition = `
 // `
 
 export let typeDefs = `
-  ${ExploreCaseTypeDefs}
+  ${ECasesTypeDefs}
+  ${GenesTypeDefs}
   ${SchemaDefinition}
 `
 
@@ -55,6 +59,8 @@ export let resolvers = {
   },
   Explore: {
     cases: () => ({}),
+    genes: () => ({}),
   },
-  ...ExploreCaseResolvers,
+  ...ECasesResolvers,
+  ...GenesResolvers,
 }

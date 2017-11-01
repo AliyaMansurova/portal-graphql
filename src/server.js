@@ -7,7 +7,10 @@ import schema from './schema'
 export default es => {
   let app = express()
 
-  if (!es) addMockFunctionsToSchema({ schema })
+  if (!es) {
+    console.log('⚠️ Running app with mocked responses! ⚠️')
+    addMockFunctionsToSchema({ schema })
+  }
 
   app.use(
     '/graphql',
