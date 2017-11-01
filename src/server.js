@@ -1,14 +1,21 @@
-import elasticsearch from 'elasticsearch'
-import ping from './ping'
-import spinupExpress from './spinupExpress'
+import express from 'express'
+import bodyParser from 'body-parser'
+import { addMockFunctionsToSchema } from 'graphql-tools'
+import { graphqlExpress } from 'apollo-server-express'
+import schema from './schema'
 
-if (process.env.WITH_ES) {
-  let es = new elasticsearch.Client({
-    host: process.env.ES_HOST,
-    log: 'trace',
-  })
+export default es => {
+  let app = express()
 
-  ping(es).then(() => spinupExpress(es))
-} else {
-  spinupExpress()
+  if (!es) addMockFunctionsToSchema({ schema })
+
+  app.use(
+    '/graphql',
+    bodyParser.json(),
+    graphqlExpress({ schema, context: { es } }),
+  )
+
+  app.listen(process.env.PORT, () =>
+    console.log(`⚡️ Listening on port ${process.env.PORT}`),
+  )
 }
