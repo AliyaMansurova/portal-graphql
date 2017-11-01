@@ -5,17 +5,18 @@ let query = `
     project_id: String
   }
 
-  type ECase {
+  type ExploreCase {
     case_id: String
     project: Project
   }
 
   type ExploreCases {
-    hits(first: Int offset: Int): [ECase]
+    total: Int
+    hits: [ExploreCase]
   }
 
   type Explore {
-    cases: ExploreCases
+    cases(first: Int offset: Int): ExploreCases
   }
 
   type Query {
@@ -36,32 +37,31 @@ let typeDefs = `
   ${query}
 `
 
-let ExploreCases = {
-  hits: async (obj, { first = 10, offset = 0 }, { es }, info) => {
-    let { hits } = await es.search({
-      index: process.env.ES_CASE_INDEX,
-      type: 'case_centric',
-      size: first,
-      from: offset,
-    })
-
-    return hits.hits.map(x => x._source)
-  },
-}
-
-let ECase = {
-  project: d => d.project,
-}
-
 let resolvers = {
   Query: {
     explore: () => ({}),
   },
   Explore: {
-    cases: () => ({}),
+    cases: async (obj, { first = 10, offset = 0 }, { es }, info) => {
+      let { hits } = await es.search({
+        index: process.env.ES_CASE_INDEX,
+        type: 'case_centric',
+        size: first,
+        from: offset,
+      })
+
+      return {
+        hits: hits.hits.map(x => x._source),
+        total: hits.total,
+      }
+    },
   },
-  ExploreCases,
-  ECase,
+  ExploreCases: {
+    hits: d => d.hits,
+  },
+  ExploreCase: {
+    project: d => d.project,
+  },
 }
 
 export default makeExecutableSchema({
