@@ -1,16 +1,15 @@
 import express from 'express'
-import graphqlHTTP from 'express-graphql'
+import bodyParser from 'body-parser'
+import { graphqlExpress } from 'apollo-server-express'
 import schema from './schema'
 
-export default () => {
+export default es => {
   let app = express()
 
   app.use(
     '/graphql',
-    graphqlHTTP({
-      schema,
-      graphiql: true,
-    }),
+    bodyParser.json(),
+    graphqlExpress({ schema, context: { es } }),
   )
 
   app.listen(process.env.PORT, () =>

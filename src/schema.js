@@ -1,12 +1,17 @@
 import { makeExecutableSchema } from 'graphql-tools'
 
 let query = `
+  type Project {
+    project_id: String
+  }
+
   type ECase {
-    id: String
+    case_id: String
+    project: Project
   }
 
   type ExploreCases {
-    hits: [ECase]
+    hits(first: Int offset: Int): [ECase]
   }
 
   type Explore {
@@ -29,29 +34,34 @@ let query = `
 
 let typeDefs = `
   ${query}
-
 `
 
-let ECase1 = {
-  id: () => '1',
-}
-
-let ECase2 = {
-  id: () => '2',
-}
-
 let ExploreCases = {
-  hits: () => [ECase1, ECase2],
+  hits: async (obj, { first = 10, offset = 0 }, { es }, info) => {
+    let { hits } = await es.search({
+      index: process.env.ES_CASE_INDEX,
+      type: 'case_centric',
+      size: first,
+      from: offset,
+    })
+
+    return hits.hits.map(x => x._source)
+  },
 }
 
-let Explore = {
-  cases: () => ExploreCases,
+let ECase = {
+  project: d => d.project,
 }
 
 let resolvers = {
   Query: {
-    explore: () => Explore,
+    explore: () => ({}),
   },
+  Explore: {
+    cases: () => ({}),
+  },
+  ExploreCases,
+  ECase,
 }
 
 export default makeExecutableSchema({

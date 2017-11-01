@@ -8,7 +8,7 @@ if (process.env.WITH_ES) {
     log: 'trace',
   })
 
-  ping(es).then(spinupExpress)
+  ping(es).then(() => spinupExpress(es))
 } else {
   spinupExpress()
 }
