@@ -30,7 +30,7 @@ export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
       })
 
       return {
-        hits: hits.hits.map(x => x._source),
+        hits: hits.hits.map(x => ({ ...x._source, id: x._id })),
         total: hits.total,
       }
     },

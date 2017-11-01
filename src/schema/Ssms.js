@@ -1,20 +1,16 @@
 import { createConnectionDefs, createConnectionResolvers } from './utils'
 
 let type = {
-  plural: 'ECases',
-  singular: 'ECase',
+  plural: 'Ssms',
+  singular: 'Ssm',
 }
 
 export let typeDefs = createConnectionDefs({
   type,
-  fields: `
-    case_id: String
-    primary_site: String
-  `,
 })
 
 export let resolvers = createConnectionResolvers({
   type,
-  esIndex: process.env.ES_ECASE_INDEX,
-  esType: 'case_centric',
+  esIndex: process.env.ES_SSM_INDEX,
+  esType: 'ssm_centric',
 })

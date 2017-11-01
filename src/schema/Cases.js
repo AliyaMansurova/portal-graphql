@@ -1,8 +1,8 @@
 import { createConnectionDefs, createConnectionResolvers } from './utils'
 
 let type = {
-  plural: 'ECases',
-  singular: 'ECase',
+  plural: 'Cases',
+  singular: 'Case',
 }
 
 export let typeDefs = createConnectionDefs({
@@ -15,6 +15,6 @@ export let typeDefs = createConnectionDefs({
 
 export let resolvers = createConnectionResolvers({
   type,
-  esIndex: process.env.ES_ECASE_INDEX,
-  esType: 'case_centric',
+  esIndex: process.env.ES_CASE_INDEX,
+  esType: 'case',
 })

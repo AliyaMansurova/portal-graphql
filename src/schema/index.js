@@ -1,5 +1,5 @@
 import { makeExecutableSchema } from 'graphql-tools'
-import { typeDefs, resolvers } from './root'
+import { typeDefs, resolvers } from './Root'
 
 export default makeExecutableSchema({
   typeDefs,

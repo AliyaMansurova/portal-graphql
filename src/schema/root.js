@@ -2,14 +2,25 @@ import {
   typeDefs as ECasesTypeDefs,
   resolvers as ECasesResolvers,
 } from './ECases'
-
+import {
+  typeDefs as AnnotationsTypeDefs,
+  resolvers as AnnotationsResolvers,
+} from './Annotations'
+import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
+import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
 import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
+import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
+import {
+  typeDefs as ProjectsTypeDefs,
+  resolvers as ProjectsResolvers,
+} from './Projects'
+import { typeDefs as UserTypeDefs } from './User'
+import {
+  typeDefs as RepositoryTypeDefs,
+  resolvers as RepositoryResolvers,
+} from './Repository'
 
-let SchemaDefinition = `
-  type Project {
-    project_id: String
-  }
-
+let RootTypeDefs = `
   interface Node {
     id: ID!
   }
@@ -17,17 +28,18 @@ let SchemaDefinition = `
   type Explore {
     cases: ECases
     genes: Genes
+    ssms: Ssms
   }
 
   type Root {
     node(id: ID): Node
     viewer: Root
-    #user: User
-    #query(query: String, types: [String]): QueryResults
-    #repository: Repository
+    repository: Repository
     explore: Explore
-    #annotations: Annotations
-    #projects: Projects
+    projects: Projects
+    user: User
+    annotations: Annotations
+    #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
     #analysis: Analysis
   }
@@ -46,21 +58,39 @@ let SchemaDefinition = `
 //   }
 // `
 
-export let typeDefs = `
-  ${ECasesTypeDefs}
-  ${GenesTypeDefs}
-  ${SchemaDefinition}
-`
+export let typeDefs = [
+  UserTypeDefs,
+  RepositoryTypeDefs,
+  AnnotationsTypeDefs,
+  ProjectsTypeDefs,
+  FilesTypeDefs,
+  CasesTypeDefs,
+  ECasesTypeDefs,
+  GenesTypeDefs,
+  SsmsTypeDefs,
+  RootTypeDefs,
+]
 
 export let resolvers = {
   Root: {
     viewer: () => ({}),
+    user: () => ({}),
+    annotations: () => ({}),
+    repository: () => ({}),
     explore: () => ({}),
+    repository: () => ({}),
   },
   Explore: {
     cases: () => ({}),
     genes: () => ({}),
+    ssms: () => ({}),
   },
+  ...RepositoryResolvers,
+  ...AnnotationsResolvers,
+  ...ProjectsResolvers,
+  ...FilesResolvers,
+  ...CasesResolvers,
   ...ECasesResolvers,
   ...GenesResolvers,
+  ...SsmsResolvers,
 }
