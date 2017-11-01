@@ -1,4 +1,5 @@
+require('dotenv').config()
 require('babel-register')({
   presets: ['env'],
 })
-require('./server')
+require('./src/server')
