@@ -1,8 +1,16 @@
 import { makeExecutableSchema } from 'graphql-tools'
-import { typeDefs, resolvers } from './Root'
+import {
+  typeDefs as generateTypeDefs,
+  resolvers as generateResolvers,
+} from './Root'
 
-export default mappings =>
-  makeExecutableSchema({
-    typeDefs: typeDefs(mappings),
-    resolvers: resolvers(mappings),
+export default async () => {
+  let tt = generateTypeDefs()
+  let typeDefs = await Promise.all(generateTypeDefs())
+  // let resolvers = await generateResolvers()
+
+  return makeExecutableSchema({
+    typeDefs,
+    resolvers: {},
   })
+}

@@ -30,13 +30,13 @@ let RootTypeDefs = `
   }
 
   type Root {
-    node(id: ID): Node
-    viewer: Root
-    repository: Repository
+    #node(id: ID): Node
+    #viewer: Root
+    #repository: Repository
     explore: Explore
-    projects: Projects
-    user: User
-    annotations: Annotations
+    #projects: Projects
+    #user: User
+    #annotations: Annotations
     #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
     #analysis: Analysis
@@ -56,21 +56,21 @@ let RootTypeDefs = `
 //   }
 // `
 
-export let typeDefs = mappings => [
-  UserTypeDefs,
-  RepositoryTypeDefs,
+export let typeDefs = () => [
+  // UserTypeDefs,
+  // RepositoryTypeDefs,
   ExploreTypeDefs,
-  AnnotationsTypeDefs,
-  ProjectsTypeDefs,
-  FilesTypeDefs,
-  CasesTypeDefs,
-  ECasesTypeDefs(mappings),
-  GenesTypeDefs,
-  SsmsTypeDefs,
+  // AnnotationsTypeDefs,
+  // ProjectsTypeDefs,
+  // FilesTypeDefs,
+  // CasesTypeDefs,
+  ECasesTypeDefs(),
+  // GenesTypeDefs,
+  // SsmsTypeDefs,
   RootTypeDefs,
 ]
 
-export let resolvers = mappings => ({
+export let resolvers = () => ({
   Root: {
     viewer: () => ({}),
     user: () => ({}),

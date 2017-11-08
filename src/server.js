@@ -2,26 +2,39 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import { addMockFunctionsToSchema } from 'graphql-tools'
 import { graphqlExpress } from 'apollo-server-express'
+import fs from 'fs'
+import { promisify } from 'util'
+import { ES_TYPES } from './constants'
 import generateSchema from './schema'
+
+let writeFile = promisify(fs.writeFile)
 
 export default async es => {
   let app = express()
 
   try {
-    let re = await es.indices.getMapping({
-      index: process.env.ES_ECASE_INDEX,
-      type: process.env.ES_ECASE_TYPE,
-    })
+    if (es) {
+      let types = Object.entries(ES_TYPES)
 
-    console.log(
-      re[process.env.ES_ECASE_INDEX].mappings[process.env.ES_ECASE_TYPE]
-        .properties,
-    )
+      let mappings = await Promise.all(
+        types.map(([, { index, type }]) =>
+          es.indices.getMapping({
+            index,
+            type,
+          }),
+        ),
+      )
 
-    let schema = generateSchema(
-      re[process.env.ES_ECASE_INDEX].mappings[process.env.ES_ECASE_TYPE]
-        .properties,
-    )
+      types.forEach(
+        async ([type], i) =>
+          await writeFile(
+            `src/mappings/${type}.mapping.json`,
+            JSON.stringify(Object.values(mappings[i])[0].mappings, null, 2),
+          ),
+      )
+    }
+
+    let schema = await generateSchema()
 
     if (!es) {
       console.log('⚠️ Running app with mocked responses! ⚠️')
