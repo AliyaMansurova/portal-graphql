@@ -1,17 +1,28 @@
-import { createConnectionDefs, createConnectionResolvers } from './utils'
+import {
+  createConnectionDefs,
+  createConnectionResolvers,
+  mappingToNestedTypes,
+  mappingToScalarFields,
+  mappingToNestedFields,
+} from './utils'
 
 let type = {
   plural: 'ECases',
   singular: 'ECase',
 }
 
-export let typeDefs = createConnectionDefs({
-  type,
-  fields: `
-    case_id: String
-    primary_site: String
-  `,
-})
+export let typeDefs = mapping =>
+  [
+    mappingToNestedTypes(type.singular, mapping),
+    createConnectionDefs({
+      type,
+      fields: [
+        mappingToScalarFields(mapping),
+        mappingToNestedFields(type.singular, mapping),
+        'available_variation_data: [String]',
+      ],
+    }),
+  ].join()
 
 export let resolvers = createConnectionResolvers({
   type,

@@ -19,16 +19,14 @@ import {
   typeDefs as RepositoryTypeDefs,
   resolvers as RepositoryResolvers,
 } from './Repository'
+import {
+  typeDefs as ExploreTypeDefs,
+  resolvers as ExploreResolvers,
+} from './Explore'
 
 let RootTypeDefs = `
   interface Node {
     id: ID!
-  }
-
-  type Explore {
-    cases: ECases
-    genes: Genes
-    ssms: Ssms
   }
 
   type Root {
@@ -58,20 +56,21 @@ let RootTypeDefs = `
 //   }
 // `
 
-export let typeDefs = [
+export let typeDefs = mappings => [
   UserTypeDefs,
   RepositoryTypeDefs,
+  ExploreTypeDefs,
   AnnotationsTypeDefs,
   ProjectsTypeDefs,
   FilesTypeDefs,
   CasesTypeDefs,
-  ECasesTypeDefs,
+  ECasesTypeDefs(mappings),
   GenesTypeDefs,
   SsmsTypeDefs,
   RootTypeDefs,
 ]
 
-export let resolvers = {
+export let resolvers = mappings => ({
   Root: {
     viewer: () => ({}),
     user: () => ({}),
@@ -80,12 +79,8 @@ export let resolvers = {
     explore: () => ({}),
     repository: () => ({}),
   },
-  Explore: {
-    cases: () => ({}),
-    genes: () => ({}),
-    ssms: () => ({}),
-  },
   ...RepositoryResolvers,
+  ...ExploreResolvers,
   ...AnnotationsResolvers,
   ...ProjectsResolvers,
   ...FilesResolvers,
@@ -93,4 +88,4 @@ export let resolvers = {
   ...ECasesResolvers,
   ...GenesResolvers,
   ...SsmsResolvers,
-}
+})
