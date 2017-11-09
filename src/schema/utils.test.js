@@ -62,8 +62,8 @@ test('flattenFields', () => {
         treatments: {
           type: 'nested',
           properties: {
-            days_to_treatment: {
-              type: 'long',
+            state: {
+              type: 'keyword',
             },
           },
         },
@@ -72,8 +72,8 @@ test('flattenFields', () => {
   })
 
   let expected = [
-    'diagnoses__age_at_diagnosis: Float',
-    'diagnoses__treatments__days_to_treatment: Float',
+    'diagnoses__age_at_diagnosis: NumericAggregations',
+    'diagnoses__treatments__state: Aggregations',
   ]
 
   expect(actual.length).toBe(expected.length)

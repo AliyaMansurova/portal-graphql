@@ -18,6 +18,20 @@ export let esToGraphqlTypeMap = {
   float: 'Float',
 }
 
+export let esToAggTypeMap = {
+  string: 'Aggregations',
+  object: 'Aggregations',
+  text: 'Aggregations',
+  boolean: 'Aggregations',
+  date: 'Aggregations',
+  keyword: 'Aggregations',
+  id: 'Aggregations',
+  long: 'NumericAggregations',
+  double: 'NumericAggregations',
+  integer: 'NumericAggregations',
+  float: 'NumericAggregations',
+}
+
 // flatten fields
 
 /*
@@ -41,7 +55,7 @@ export let flattenFields = (properties, parent = '') =>
     Object.entries(properties).map(
       ([field, data]) =>
         data.type && data.type !== 'nested'
-          ? `${__(parent) + field}: ${esToGraphqlTypeMap[data.type]}`
+          ? `${__(parent) + field}: ${esToAggTypeMap[data.type]}`
           : flattenFields(data.properties, __(parent) + field),
     ),
   )
@@ -49,10 +63,10 @@ export let flattenFields = (properties, parent = '') =>
 export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
   type ${type.plural} {
     hits(first: Int offset: Int): ${type.singular}Connection
-    aggregations: [${type.singular}Aggregations]
+    aggregations: [${type.plural}Aggregations]
   }
 
-  type ${type.singular}Aggregations {
+  type ${type.plural}Aggregations {
     ${flattenFields(mapping)}
   }
 
@@ -82,6 +96,32 @@ export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
         _source: Object.keys(getFields(info).edges.node),
       })
 
+      return {
+        hits: hits.hits.map(x => ({ ...x._source, id: x._id })),
+        total: hits.total,
+      }
+    },
+    aggregations: async (obj, { offset = 0 }, { es }, info) => {
+      let aggs = { case_id: { terms: { field: 'case_id', size: 100 } } }
+
+      // TODO: build aggs properly
+
+      let { aggregations } = await es.search({
+        index: esIndex,
+        type: esType,
+        size: 0,
+        _source: false,
+        body: {
+          // aggs: Object.keys(getFields(info)),
+          aggs,
+        },
+      })
+
+      console.log(123, aggregations)
+
+      // TODO: prune aggs
+
+      return Object.entries(aggregations)
       return {
         hits: hits.hits.map(x => ({ ...x._source, id: x._id })),
         total: hits.total,
