@@ -22,15 +22,13 @@ export let typeDefs = async () => {
 
   let mapping = JSON.parse(mappingFile).case_centric.properties
 
-  debugger
-
   return [
-    // mappingToNestedTypes(type.singular, mapping),
+    mappingToNestedTypes(type.singular, mapping),
     createConnectionDefs({
       type,
       fields: [
         mappingToScalarFields(mapping),
-        // mappingToNestedFields(type.singular, mapping),
+        mappingToNestedFields(type.singular, mapping),
         'available_variation_data: [String]',
       ],
     }),

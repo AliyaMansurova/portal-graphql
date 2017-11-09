@@ -1,4 +1,5 @@
 import getFields from 'graphql-fields'
+import { capitalize } from 'lodash'
 
 export let esToGraphqlTypeMap = {
   keyword: 'String',
@@ -17,11 +18,15 @@ export let mappingToNestedTypes = (type, mapping) =>
     .filter(([, metadata]) => metadata.type === 'nested')
     .map(
       ([field, metadata]) => `
-        type ${type + field} {
+        ${mappingToNestedTypes(type + capitalize(field), metadata.properties)}
+        type ${type + capitalize(field)} {
           ${mappingToScalarFields(metadata.properties)}
-          ${mappingToNestedFields(type + field, metadata.properties)},
+          ${mappingToNestedFields(
+            type + capitalize(field),
+            metadata.properties,
+          )}
         }
-    `,
+      `,
     )
 
 export let mappingToNestedFields = (type, mapping) =>
@@ -29,7 +34,7 @@ export let mappingToNestedFields = (type, mapping) =>
     .filter(([, metadata]) => metadata.type === 'nested')
     .map(
       ([field, metadata]) => `
-          ${field}: ${type + field}
+          ${field}: ${type + capitalize(field)}
         `,
     )
 
