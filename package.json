@@ -1,7 +1,7 @@
 {
   "name": "portal-graphql",
   "version": "0.1.0",
-  "description": "",
+  "description": "Standalone graphql server for portal-ui",
   "main": "index.js",
   "scripts": {
     "test": "jest",
@@ -13,8 +13,10 @@
       "src/mappings/*"
     ]
   },
-  "author": "",
-  "license": "ISC",
+  "author": {
+    "name": "OICR",
+    "url": "https://github.com/NCI-GDC/"
+  },
   "devDependencies": {
     "babel-jest": "^21.2.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
