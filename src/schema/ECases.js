@@ -22,6 +22,8 @@ export let typeDefs = async () => {
 
   let mapping = JSON.parse(mappingFile).case_centric.properties
 
+  debugger
+
   return [
     // mappingToNestedTypes(type.singular, mapping),
     createConnectionDefs({

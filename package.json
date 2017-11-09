@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "test": "jest",
+    "start": "nodemon index.js",
+    "debug": "node inspect index.js"
   },
   "nodemonConfig": {
     "ignore": [
@@ -15,9 +16,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "babel-jest": "^21.2.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.26.0",
+    "jest": "^21.2.1",
     "nodemon": "^1.12.1",
     "prettier": "^1.7.4"
   },

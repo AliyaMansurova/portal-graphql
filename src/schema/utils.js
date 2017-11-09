@@ -27,7 +27,7 @@ export let mappingToNestedFields = (type, mapping) =>
     .filter(([, metadata]) => metadata.type === 'nested')
     .map(
       ([field, metadata]) => `
-            ${field}: ${type + field}
+          ${field}: ${type + field}
         `,
     )
 

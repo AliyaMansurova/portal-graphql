@@ -13,6 +13,7 @@ export default async es => {
   let app = express()
 
   try {
+    // get mappings from es and cache them
     if (es) {
       let types = Object.entries(ES_TYPES)
 
@@ -37,7 +38,7 @@ export default async es => {
     let schema = await generateSchema()
 
     if (!es) {
-      console.log('⚠️ Running app with mocked responses! ⚠️')
+      console.log('⚠️ Running api with mocked responses! ⚠️')
       addMockFunctionsToSchema({ schema })
     }
 
