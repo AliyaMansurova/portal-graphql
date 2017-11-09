@@ -62,7 +62,17 @@ export let flattenFields = (properties, parent = '') =>
 
 export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
   type ${type.plural} {
-    hits(first: Int offset: Int): ${type.singular}Connection
+    hits(
+      score: String
+      query: String
+      offset: Int
+      sort: [Sort]
+      filters: FiltersArgument
+      before: String
+      after: String
+      first: Int
+      last: Int
+    ): ${type.singular}Connection
     aggregations: [${type.plural}Aggregations]
   }
 

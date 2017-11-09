@@ -1,3 +1,4 @@
+import { typeDefs as AggregationsTypeDefs } from './Aggregations'
 import {
   typeDefs as ECasesTypeDefs,
   resolvers as ECasesResolvers,
@@ -25,27 +26,30 @@ import {
 } from './Explore'
 
 let RootTypeDefs = `
-  type Stats {
-    max: Float
-    min: Float
-    count: Int
-    avg: Float
-    sum: Float
+  enum Missing {
+    first
+    last
   }
 
-  type Bucket {
-    doc_count: Int
-    key: String
-    key_as_string: String
+  enum Mode {
+    avg
+    max
+    min
+    sum
   }
 
-  type NumericAggregations {
-    stats: Stats
-    histogram(interval: Float): Aggregations
+  enum Order {
+    asc
+    desc
   }
 
-  type Aggregations {
-    buckets: [Bucket]
+  scalar FiltersArgument
+
+  input Sort {
+    field: String!
+    order: Order
+    mode: Mode
+    missing: Missing
   }
 
   interface Node {
@@ -80,6 +84,7 @@ let RootTypeDefs = `
 // `
 
 export let typeDefs = () => [
+  AggregationsTypeDefs,
   // UserTypeDefs,
   // RepositoryTypeDefs,
   ExploreTypeDefs,
@@ -88,7 +93,7 @@ export let typeDefs = () => [
   // FilesTypeDefs,
   // CasesTypeDefs,
   ECasesTypeDefs(),
-  // GenesTypeDefs(),
+  GenesTypeDefs(),
   // SsmsTypeDefs,
   RootTypeDefs,
 ]
@@ -109,6 +114,6 @@ export let resolvers = () => ({
   // ...FilesResolvers,
   // ...CasesResolvers,
   ...ECasesResolvers,
-  // ...GenesResolvers,
+  ...GenesResolvers,
   // ...SsmsResolvers,
 })
