@@ -1,12 +1,6 @@
 import fs from 'fs'
 import { promisify } from 'util'
-import {
-  createConnectionDefs,
-  createConnectionResolvers,
-  mappingToNestedTypes,
-  mappingToScalarFields,
-  mappingToNestedFields,
-} from './utils'
+import { createConnectionResolvers, mappingToFields } from './utils'
 
 let readFile = promisify(fs.readFile)
 
@@ -22,21 +16,19 @@ export let typeDefs = async () => {
 
   let mapping = JSON.parse(mappingFile).case_centric.properties
 
-  return [
-    mappingToNestedTypes(type.singular, mapping),
-    createConnectionDefs({
-      type,
-      fields: [
-        mappingToScalarFields(mapping),
-        mappingToNestedFields(type.singular, mapping),
-        'available_variation_data: [String]',
-      ],
-    }),
-  ].join()
+  return mappingToFields({
+    type,
+    mapping,
+    custom: `
+      available_variation_data: [String]
+    `,
+  })
 }
 
-export let resolvers = createConnectionResolvers({
-  type,
-  esIndex: process.env.ES_ECASE_INDEX,
-  esType: 'case_centric',
-})
+export let resolvers = {
+  ...createConnectionResolvers({
+    type,
+    esIndex: process.env.ES_ECASE_INDEX,
+    esType: 'case_centric',
+  }),
+}

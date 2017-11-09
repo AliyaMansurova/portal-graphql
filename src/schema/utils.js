@@ -13,40 +13,6 @@ export let esToGraphqlTypeMap = {
   float: 'Float',
 }
 
-export let mappingToNestedTypes = (type, mapping) =>
-  Object.entries(mapping)
-    .filter(([, metadata]) => metadata.type === 'nested')
-    .map(
-      ([field, metadata]) => `
-        ${mappingToNestedTypes(type + capitalize(field), metadata.properties)}
-        type ${type + capitalize(field)} {
-          ${mappingToScalarFields(metadata.properties)}
-          ${mappingToNestedFields(
-            type + capitalize(field),
-            metadata.properties,
-          )}
-        }
-      `,
-    )
-
-export let mappingToNestedFields = (type, mapping) =>
-  Object.entries(mapping)
-    .filter(([, metadata]) => metadata.type === 'nested')
-    .map(
-      ([field, metadata]) => `
-          ${field}: ${type + capitalize(field)}
-        `,
-    )
-
-export let mappingToScalarFields = mapping =>
-  Object.entries(mapping)
-    .filter(([, metadata]) =>
-      Object.keys(esToGraphqlTypeMap).includes(metadata.type),
-    )
-    .map(
-      ([field, metadata]) => `${field}: ${esToGraphqlTypeMap[metadata.type]}`,
-    )
-
 export let createConnectionDefs = ({ type, fields = '' }) => `
   type ${type.plural} {
     hits(first: Int offset: Int): ${type.singular}Connection
@@ -92,3 +58,50 @@ export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
     node: node => node,
   },
 })
+
+export let mappingToNestedTypes = (type, mapping) =>
+  Object.entries(mapping)
+    .filter(([, metadata]) => metadata.type === 'nested')
+    .map(
+      ([field, metadata]) => `
+        ${mappingToNestedTypes(type + capitalize(field), metadata.properties)}
+        type ${type + capitalize(field)} {
+          ${mappingToScalarFields(metadata.properties)}
+          ${mappingToNestedFields(
+            type + capitalize(field),
+            metadata.properties,
+          )}
+        }
+      `,
+    )
+
+export let mappingToNestedFields = (type, mapping) =>
+  Object.entries(mapping)
+    .filter(([, metadata]) => metadata.type === 'nested')
+    .map(
+      ([field, metadata]) => `
+          ${field}: [${type + capitalize(field)}]
+        `,
+    )
+
+export let mappingToScalarFields = mapping =>
+  Object.entries(mapping)
+    .filter(([, metadata]) =>
+      Object.keys(esToGraphqlTypeMap).includes(metadata.type),
+    )
+    .map(
+      ([field, metadata]) => `${field}: ${esToGraphqlTypeMap[metadata.type]}`,
+    )
+
+export let mappingToFields = ({ type, mapping, custom }) =>
+  [
+    mappingToNestedTypes(type.singular, mapping),
+    createConnectionDefs({
+      type,
+      fields: [
+        mappingToScalarFields(mapping),
+        mappingToNestedFields(type.singular, mapping),
+        custom,
+      ],
+    }),
+  ].join()

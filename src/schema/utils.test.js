@@ -39,7 +39,7 @@ test('mappingToNestedFields', () => {
     }
     type ECaseDiagnoses {
       age_at_diagnosis: Float
-      treatments: ECaseDiagnosesTreatments
+      treatments: [ECaseDiagnosesTreatments]
     }
   `,
   ]
