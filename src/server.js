@@ -14,7 +14,7 @@ export default async es => {
 
   try {
     // get mappings from es and cache them
-    if (es) {
+    if (es && process.env.CACHE_MAPPINGS) {
       let types = Object.entries(ES_TYPES)
 
       let mappings = await Promise.all(
@@ -25,6 +25,8 @@ export default async es => {
           }),
         ),
       )
+
+      console.log(`✏️ writing mappings to disk`)
 
       types.forEach(
         async ([type], i) =>

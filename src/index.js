@@ -3,10 +3,13 @@ import ping from './ping'
 import spinupServer from './server'
 
 if (process.env.WITH_ES) {
-  let es = new elasticsearch.Client({
+  let esconfig = {
     host: process.env.ES_HOST,
-    log: process.env.ES_TRACE,
-  })
+  }
+
+  if (process.env.ES_TRACE) esconfig.log = process.env.ES_TRACE
+
+  let es = new elasticsearch.Client(esconfig)
 
   ping(es)
     .then(() => spinupServer(es))
