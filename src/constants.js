@@ -32,3 +32,5 @@ export let ES_TYPES = {
     type: process.env.ES_SSM_OCC_CENTRIC_TYPE,
   },
 }
+
+export let GET_MAPPING = type => `src/mappings/${type}.mapping.json`

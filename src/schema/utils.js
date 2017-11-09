@@ -1,5 +1,10 @@
+import fs from 'fs'
+import { promisify } from 'util'
 import getFields from 'graphql-fields'
 import { capitalize } from 'lodash'
+import { GET_MAPPING } from '../constants'
+
+let readFile = promisify(fs.readFile)
 
 export let esToGraphqlTypeMap = {
   keyword: 'String',
@@ -93,8 +98,14 @@ export let mappingToScalarFields = mapping =>
       ([field, metadata]) => `${field}: ${esToGraphqlTypeMap[metadata.type]}`,
     )
 
-export let mappingToFields = ({ type, mapping, custom }) =>
-  [
+export let mappingToFields = async ({ type, custom }) => {
+  let mappingFile = await readFile(GET_MAPPING(type.es_type), {
+    encoding: 'utf8',
+  })
+
+  let mapping = JSON.parse(mappingFile)[type.es_type].properties
+
+  return [
     mappingToNestedTypes(type.singular, mapping),
     createConnectionDefs({
       type,
@@ -105,3 +116,4 @@ export let mappingToFields = ({ type, mapping, custom }) =>
       ],
     }),
   ].join()
+}
