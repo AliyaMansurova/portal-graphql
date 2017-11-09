@@ -1,7 +1,9 @@
 import {
+  esToGraphqlTypeMap,
   mappingToScalarFields,
   mappingToNestedTypes,
   mappingToNestedFields,
+  flattenFields,
 } from './utils'
 
 test('mappingToScalarFields', () => {
@@ -47,4 +49,33 @@ test('mappingToNestedFields', () => {
   actual.every((type, i) =>
     expect(type.replace(/\s/g, '')).toBe(expected[i].replace(/\s/g, '')),
   )
+})
+
+test('flattenFields', () => {
+  let actual = flattenFields({
+    diagnoses: {
+      type: 'nested',
+      properties: {
+        age_at_diagnosis: {
+          type: 'long',
+        },
+        treatments: {
+          type: 'nested',
+          properties: {
+            days_to_treatment: {
+              type: 'long',
+            },
+          },
+        },
+      },
+    },
+  })
+
+  let expected = [
+    'diagnoses__age_at_diagnosis: Float',
+    'diagnoses__treatments__days_to_treatment: Float',
+  ]
+
+  expect(actual.length).toBe(expected.length)
+  actual.forEach((x, i) => expect(x).toBe(expected[i]))
 })

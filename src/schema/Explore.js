@@ -1,7 +1,7 @@
 export let typeDefs = `
   type Explore {
     cases: ECases
-    genes: Genes
+    #genes: Genes
     #ssms: Ssms
   }
 `
@@ -9,7 +9,7 @@ export let typeDefs = `
 export let resolvers = {
   Explore: {
     cases: () => ({}),
-    genes: () => ({}),
+    // genes: () => ({}),
     //ssms: () => ({}),
   },
 }

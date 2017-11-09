@@ -2,23 +2,23 @@ import {
   typeDefs as ECasesTypeDefs,
   resolvers as ECasesResolvers,
 } from './ECases'
-import {
-  typeDefs as AnnotationsTypeDefs,
-  resolvers as AnnotationsResolvers,
-} from './Annotations'
-import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
-import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
+// import {
+//   typeDefs as AnnotationsTypeDefs,
+//   resolvers as AnnotationsResolvers,
+// } from './Annotations'
+// import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
+// import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
 import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
-import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
-import {
-  typeDefs as ProjectsTypeDefs,
-  resolvers as ProjectsResolvers,
-} from './Projects'
-import { typeDefs as UserTypeDefs } from './User'
-import {
-  typeDefs as RepositoryTypeDefs,
-  resolvers as RepositoryResolvers,
-} from './Repository'
+// import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
+// import {
+//   typeDefs as ProjectsTypeDefs,
+//   resolvers as ProjectsResolvers,
+// } from './Projects'
+// import { typeDefs as UserTypeDefs } from './User'
+// import {
+//   typeDefs as RepositoryTypeDefs,
+//   resolvers as RepositoryResolvers,
+// } from './Repository'
 import {
   typeDefs as ExploreTypeDefs,
   resolvers as ExploreResolvers,
@@ -65,7 +65,7 @@ export let typeDefs = () => [
   // FilesTypeDefs,
   // CasesTypeDefs,
   ECasesTypeDefs(),
-  GenesTypeDefs(),
+  // GenesTypeDefs(),
   // SsmsTypeDefs,
   RootTypeDefs,
 ]
@@ -86,6 +86,6 @@ export let resolvers = () => ({
   // ...FilesResolvers,
   // ...CasesResolvers,
   ...ECasesResolvers,
-  ...GenesResolvers,
+  // ...GenesResolvers,
   // ...SsmsResolvers,
 })

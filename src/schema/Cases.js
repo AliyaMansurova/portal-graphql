@@ -5,13 +5,14 @@ let type = {
   singular: 'Case',
 }
 
-export let typeDefs = createConnectionDefs({
-  type,
-  fields: `
-    case_id: String
-    primary_site: String
-  `,
-})
+export let typeDefs = async () => {
+  return mappingToFields({
+    type,
+    custom: `
+      available_variation_data: [String]
+    `,
+  })
+}
 
 export let resolvers = createConnectionResolvers({
   type,

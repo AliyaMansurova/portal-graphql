@@ -1,7 +1,7 @@
 import fs from 'fs'
 import { promisify } from 'util'
 import getFields from 'graphql-fields'
-import { capitalize } from 'lodash'
+import { capitalize, flattenDeep } from 'lodash'
 import { GET_MAPPING } from '../constants'
 
 let readFile = promisify(fs.readFile)
@@ -18,10 +18,42 @@ export let esToGraphqlTypeMap = {
   float: 'Float',
 }
 
-export let createConnectionDefs = ({ type, fields = '' }) => `
+// flatten fields
+
+/*
+def flatten_all_fields_from_es_schema(path, properties, descriptions, parent=None):
+    acc = {}
+    for k, v in properties.items():
+        key = '__'.join((parent, k)) if parent else k
+
+        if 'properties' not in v:
+            acc[key] = get_agg_type(v['type'])
+        else:
+            acc.update(flatten_all_fields_from_es_schema('.'.join((path, k)), v['properties'], descriptions, parent=key))
+
+    return acc
+*/
+
+let __ = x => x && x + '__'
+
+export let flattenFields = (properties, parent = '') =>
+  flattenDeep(
+    Object.entries(properties).map(
+      ([field, data]) =>
+        data.type && data.type !== 'nested'
+          ? `${__(parent) + field}: ${esToGraphqlTypeMap[data.type]}`
+          : flattenFields(data.properties, __(parent) + field),
+    ),
+  )
+
+export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
   type ${type.plural} {
     hits(first: Int offset: Int): ${type.singular}Connection
-    #aggregations: [${type.singular}Aggregations]
+    aggregations: [${type.singular}Aggregations]
+  }
+
+  type ${type.singular}Aggregations {
+    ${flattenFields(mapping)}
   }
 
   type ${type.singular}Connection {
@@ -109,6 +141,7 @@ export let mappingToFields = async ({ type, custom }) => {
     mappingToNestedTypes(type.singular, mapping),
     createConnectionDefs({
       type,
+      mapping,
       fields: [
         mappingToScalarFields(mapping),
         mappingToNestedFields(type.singular, mapping),

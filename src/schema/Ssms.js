@@ -5,9 +5,11 @@ let type = {
   singular: 'Ssm',
 }
 
-export let typeDefs = createConnectionDefs({
-  type,
-})
+export let typeDefs = async () => {
+  return mappingToFields({
+    type,
+  })
+}
 
 export let resolvers = createConnectionResolvers({
   type,
