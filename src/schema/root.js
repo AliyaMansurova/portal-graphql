@@ -30,8 +30,8 @@ let RootTypeDefs = `
   }
 
   type Root {
-    #node(id: ID): Node
-    #viewer: Root
+    node(id: ID): Node
+    viewer: Root
     #repository: Repository
     explore: Explore
     #projects: Projects
@@ -65,14 +65,14 @@ export let typeDefs = () => [
   // FilesTypeDefs,
   // CasesTypeDefs,
   ECasesTypeDefs(),
-  // GenesTypeDefs,
+  GenesTypeDefs(),
   // SsmsTypeDefs,
   RootTypeDefs,
 ]
 
 export let resolvers = () => ({
   Root: {
-    // viewer: () => ({}),
+    viewer: () => ({}),
     // user: () => ({}),
     // annotations: () => ({}),
     // repository: () => ({}),
@@ -86,6 +86,6 @@ export let resolvers = () => ({
   // ...FilesResolvers,
   // ...CasesResolvers,
   ...ECasesResolvers,
-  // ...GenesResolvers,
+  ...GenesResolvers,
   // ...SsmsResolvers,
 })
