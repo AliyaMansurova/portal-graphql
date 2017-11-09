@@ -6,6 +6,8 @@ import fs from 'fs'
 import { promisify } from 'util'
 import { ES_TYPES } from './constants'
 import generateSchema from './schema'
+import chalk from 'chalk'
+import { rainbow } from 'chalk-animation'
 
 let writeFile = promisify(fs.writeFile)
 
@@ -26,7 +28,7 @@ export default async es => {
         ),
       )
 
-      console.log(`✏️ writing mappings to disk`)
+      console.log(chalk`✏️ {cyan writing mappings to disk} ✏️`)
 
       types.forEach(
         async ([type], i) =>
@@ -40,7 +42,9 @@ export default async es => {
     let schema = await generateSchema()
 
     if (!es) {
-      console.log('⚠️ Running api with mocked responses! ⚠️')
+      console.log(
+        chalk`⚠️ {keyword('orange') Running api with mocked responses!} ⚠️`,
+      )
       addMockFunctionsToSchema({ schema })
     }
 
@@ -51,7 +55,7 @@ export default async es => {
     )
 
     app.listen(process.env.PORT, () =>
-      console.log(`⚡️ Listening on port ${process.env.PORT}`),
+      rainbow(`⚡️ Listening on port ${process.env.PORT} ⚡️`),
     )
   } catch (e) {
     console.warn(e)
