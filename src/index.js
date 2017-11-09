@@ -5,7 +5,7 @@ import spinupServer from './server'
 if (process.env.WITH_ES) {
   let es = new elasticsearch.Client({
     host: process.env.ES_HOST,
-    log: process.env.ES_TRACE,
+    // log: process.env.ES_TRACE,
   })
 
   ping(es)

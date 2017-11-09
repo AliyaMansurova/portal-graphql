@@ -1,3 +1,5 @@
+import getFields from 'graphql-fields'
+
 export let esToGraphqlTypeMap = {
   keyword: 'String',
   string: 'String',
@@ -69,6 +71,7 @@ export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
         type: esType,
         size: first,
         from: offset,
+        _source: Object.keys(getFields(info).edges.node),
       })
 
       return {

@@ -5,12 +5,11 @@ import {
 } from './Root'
 
 export default async () => {
-  let tt = generateTypeDefs()
   let typeDefs = await Promise.all(generateTypeDefs())
-  // let resolvers = await generateResolvers()
+  let resolvers = generateResolvers()
 
   return makeExecutableSchema({
     typeDefs,
-    resolvers: {},
+    resolvers,
   })
 }
