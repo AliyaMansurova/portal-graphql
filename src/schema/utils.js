@@ -32,7 +32,14 @@ export let esToAggTypeMap = {
   float: 'NumericAggregations',
 }
 
-let __ = x => x && x + '__'
+// __ : maybe String -> String
+// add two underscores after a value if it exists
+// used to create fields representing es paths
+// why? because graphql fields cannot contain dots
+// diagnoses.treatments 👎
+// vs
+// diagnoses__treatments 👍
+let __ = x => (x ? x + '__' : '')
 
 export let flattenFields = (properties, parent = '') =>
   flattenDeep(
