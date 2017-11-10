@@ -1,3 +1,5 @@
+// @flow
+
 import fs from 'fs'
 import { promisify } from 'util'
 import getFields from 'graphql-fields'
@@ -32,22 +34,23 @@ export let esToAggTypeMap = {
   float: 'NumericAggregations',
 }
 
-// __ : maybe String -> String
-// add two underscores after a value if it exists
+// add two underscores after a value if it's truthy (not an empty string)
 // used to create fields representing es paths
 // why? because graphql fields cannot contain dots
 // diagnoses.treatments 👎
 // vs
 // diagnoses__treatments 👍
-let __ = x => (x ? x + '__' : '')
+type TappendUnderscores = (a: string) => string
+let appendUnderscores: TappendUnderscores = x => (x ? x + '__' : '')
 
-export let flattenFields = (properties, parent = '') =>
+type TFlattenFields = (a: Object, b: string) => string[]
+export let flattenFields: TFlattenFields = (properties, parent = '') =>
   flattenDeep(
     Object.entries(properties).map(
       ([field, data]) =>
         data.type && data.type !== 'nested'
-          ? `${__(parent) + field}: ${esToAggTypeMap[data.type]}`
-          : flattenFields(data.properties, __(parent) + field),
+          ? `${appendUnderscores(parent) + field}: ${esToAggTypeMap[data.type]}`
+          : flattenFields(data.properties, appendUnderscores(parent) + field),
     ),
   )
 
