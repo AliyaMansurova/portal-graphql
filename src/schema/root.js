@@ -1,3 +1,4 @@
+import { typeDefs as MutationTypeDefs } from './Mutation'
 import { typeDefs as AggregationsTypeDefs } from './Aggregations'
 import {
   typeDefs as ECasesTypeDefs,
@@ -71,17 +72,9 @@ let RootTypeDefs = `
 
   schema {
     query: Root
+    mutation: Mutation
   }
 `
-
-// let mutation = `
-//   # this schema allows the following mutation:
-//   type Mutation {
-//     upvotePost (
-//       postId: Int!
-//     ): Post
-//   }
-// `
 
 export let typeDefs = () => [
   AggregationsTypeDefs,
@@ -96,6 +89,7 @@ export let typeDefs = () => [
   GenesTypeDefs(),
   // SsmsTypeDefs,
   RootTypeDefs,
+  MutationTypeDefs,
 ]
 
 export let resolvers = () => ({
