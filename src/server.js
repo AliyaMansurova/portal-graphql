@@ -5,7 +5,7 @@ import { graphqlExpress } from 'apollo-server-express'
 import fs from 'fs'
 import { promisify } from 'util'
 import { ES_TYPES } from './constants'
-import generateSchema from './schema'
+import makeSchema from './schema'
 import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
 
@@ -39,7 +39,8 @@ export default async es => {
       )
     }
 
-    let schema = await generateSchema()
+    // schema is made from cached mapping files
+    let schema = await makeSchema()
 
     if (!es) {
       console.log(
