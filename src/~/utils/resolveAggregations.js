@@ -1,7 +1,7 @@
 import { ES_TYPES } from '~/constants'
 
 export default type => async (obj, { offset = 0 }, { es }, info) => {
-  let aggs = { case_id: { terms: { field: 'case_id', size: 100 } } }
+  let aggs = { primary_site: { terms: { field: 'primary_site', size: 100 } } }
 
   // TODO: build aggs properly
 
@@ -18,9 +18,7 @@ export default type => async (obj, { offset = 0 }, { es }, info) => {
 
   // TODO: prune aggs
 
-  return Object.entries(aggregations)
-  return {
-    hits: hits.hits.map(x => ({ ...x._source, id: x._id })),
-    total: hits.total,
-  }
+  return Object.entries(aggregations).map(([field, data]) => ({
+    [field]: data,
+  }))
 }
