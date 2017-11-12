@@ -1,6 +1,6 @@
 import { capitalize } from 'lodash'
 import mappingToNestedTypes from './mappingToNestedTypes'
-import mappingToNestedFields from './mappingToScalarFields'
+import mappingToNestedFields from './mappingToNestedFields'
 import mappingToScalarFields from './mappingToScalarFields'
 
 export default (type, mapping) =>

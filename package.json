@@ -4,7 +4,7 @@
   "description": "Standalone graphql server for portal-ui",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "NODE_PATH=src jest",
     "start": "NODE_PATH=src nodemon index.js",
     "start-es": "WITH_ES=true NODE_PATH=src nodemon index.js",
     "debug": "node inspect index.js"

@@ -1,9 +1,7 @@
 import {
-  esToGraphqlTypeMap,
   mappingToScalarFields,
   mappingToNestedTypes,
-  mappingToNestedFields,
-  flattenFields,
+  mappingToAggsType,
 } from '~/utils'
 
 test('mappingToScalarFields', () => {
@@ -14,7 +12,7 @@ test('mappingToScalarFields', () => {
   }).forEach(field => expect(field).toBe('case_id: String'))
 })
 
-test('mappingToNestedFields', () => {
+test('mappingToNestedTypes', () => {
   let actual = mappingToNestedTypes('ECase', {
     diagnoses: {
       type: 'nested',
@@ -51,8 +49,8 @@ test('mappingToNestedFields', () => {
   )
 })
 
-test('flattenFields', () => {
-  let actual = flattenFields({
+test('mappingToAggsType', () => {
+  let actual = mappingToAggsType({
     diagnoses: {
       type: 'nested',
       properties: {
