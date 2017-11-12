@@ -61,7 +61,7 @@ export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
       query: String
       offset: Int
       sort: [Sort]
-      filters: FiltersArgument
+      filters: JSON
       before: String
       after: String
       first: Int
@@ -69,7 +69,7 @@ export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
     ): ${type.singular}Connection
 
     aggregations(
-      filters: FiltersArgument
+      filters: JSON
 
       # Should term aggregations be affected by queries that contain filters on their field. For example if a query is filtering primary_site by Blood should the term aggregation on primary_site return all values or just Blood. Set to False for UIs that allow users to select multiple values of an aggregation.
       aggregations_filter_themselves: Boolean
@@ -97,7 +97,9 @@ export let createConnectionDefs = ({ type, mapping, fields = '' }) => `
 
 export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
   [type.plural]: {
-    hits: async (obj, { first = 10, offset = 0 }, { es }, info) => {
+    hits: async (obj, { first = 10, offset = 0, ...rest }, { es }, info) => {
+      console.log('fil', rest)
+
       let { hits } = await es.search({
         index: esIndex,
         type: esType,
@@ -126,8 +128,6 @@ export let createConnectionResolvers = ({ type, esIndex, esType }) => ({
           aggs,
         },
       })
-
-      console.log(123, aggregations)
 
       // TODO: prune aggs
 

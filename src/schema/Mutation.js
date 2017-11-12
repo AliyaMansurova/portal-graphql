@@ -1,6 +1,6 @@
 export let typeDefs = `
   input CreateSetInput {
-    filters: FiltersArgument
+    filters: JSON
     size: Int
     sort: [Sort]
     score: String
@@ -8,7 +8,7 @@ export let typeDefs = `
   }
 
   input AppendSetInput {
-    filters: FiltersArgument
+    filters: JSON
     size: Int
     sort: [Sort]
     score: String
@@ -100,7 +100,7 @@ export let typeDefs = `
   }
 
   input RemoveFromSetInput {
-    filters: FiltersArgument
+    filters: JSON
     set_id: String
   }
 
@@ -154,7 +154,7 @@ export let typeDefs = `
   }
 
   input RelayIsDumb {
-    relay_is_dumb: FiltersArgument
+    relay_is_dumb: JSON
   }
 
   type Mutation {

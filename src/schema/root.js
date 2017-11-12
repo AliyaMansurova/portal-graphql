@@ -1,3 +1,4 @@
+import GraphQLJSON from 'graphql-type-json'
 import { typeDefs as MutationTypeDefs } from './Mutation'
 import { typeDefs as AggregationsTypeDefs } from './Aggregations'
 import {
@@ -8,7 +9,7 @@ import {
 //   typeDefs as AnnotationsTypeDefs,
 //   resolvers as AnnotationsResolvers,
 // } from './Annotations'
-// import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
+import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
 // import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
 import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
 // import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
@@ -17,10 +18,10 @@ import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
 //   resolvers as ProjectsResolvers,
 // } from './Projects'
 // import { typeDefs as UserTypeDefs } from './User'
-// import {
-//   typeDefs as RepositoryTypeDefs,
-//   resolvers as RepositoryResolvers,
-// } from './Repository'
+import {
+  typeDefs as RepositoryTypeDefs,
+  resolvers as RepositoryResolvers,
+} from './Repository'
 import {
   typeDefs as ExploreTypeDefs,
   resolvers as ExploreResolvers,
@@ -44,7 +45,7 @@ let RootTypeDefs = `
     desc
   }
 
-  scalar FiltersArgument
+  scalar JSON
 
   input Sort {
     field: String!
@@ -60,7 +61,7 @@ let RootTypeDefs = `
   type Root {
     node(id: ID): Node
     viewer: Root
-    #repository: Repository
+    repository: Repository
     explore: Explore
     #projects: Projects
     #user: User
@@ -79,12 +80,12 @@ let RootTypeDefs = `
 export let typeDefs = () => [
   AggregationsTypeDefs,
   // UserTypeDefs,
-  // RepositoryTypeDefs,
+  RepositoryTypeDefs,
   ExploreTypeDefs,
   // AnnotationsTypeDefs,
   // ProjectsTypeDefs,
   // FilesTypeDefs,
-  // CasesTypeDefs,
+  CasesTypeDefs(),
   ECasesTypeDefs(),
   GenesTypeDefs(),
   // SsmsTypeDefs,
@@ -97,17 +98,17 @@ export let resolvers = () => ({
     viewer: () => ({}),
     // user: () => ({}),
     // annotations: () => ({}),
-    // repository: () => ({}),
+    repository: () => ({}),
     explore: () => ({}),
-    // repository: () => ({}),
   },
-  // ...RepositoryResolvers,
+  ...RepositoryResolvers,
   ...ExploreResolvers,
   // ...AnnotationsResolvers,
   // ...ProjectsResolvers,
   // ...FilesResolvers,
-  // ...CasesResolvers,
+  ...CasesResolvers,
   ...ECasesResolvers,
   ...GenesResolvers,
   // ...SsmsResolvers,
+  JSON: GraphQLJSON,
 })
