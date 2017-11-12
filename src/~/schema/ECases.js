@@ -1,4 +1,3 @@
-import { ES_TYPES } from '~/constants'
 import { createConnectionResolvers, mappingToFields } from '~/utils'
 
 let type = {
@@ -19,7 +18,5 @@ export let typeDefs = async () => {
 export let resolvers = {
   ...createConnectionResolvers({
     type,
-    esIndex: ES_TYPES[type.es_type].index,
-    esType: ES_TYPES[type.es_type].type,
   }),
 }
