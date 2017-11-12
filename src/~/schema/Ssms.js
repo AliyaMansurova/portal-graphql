@@ -1,4 +1,4 @@
-import { createConnectionDefs, createConnectionResolvers } from './utils'
+import { createConnectionDefs, createConnectionResolvers } from '~/utils'
 
 let type = {
   plural: 'Ssms',

@@ -4,7 +4,7 @@ import {
   mappingToNestedTypes,
   mappingToNestedFields,
   flattenFields,
-} from './utils'
+} from '~/utils'
 
 test('mappingToScalarFields', () => {
   mappingToScalarFields({

@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon index.js",
+    "start": "NODE_PATH=src nodemon index.js",
+    "start-es": "WITH_ES=true NODE_PATH=src nodemon index.js",
     "debug": "node inspect index.js"
   },
   "nodemonConfig": {

@@ -33,4 +33,4 @@ export let ES_TYPES = {
   },
 }
 
-export let GET_MAPPING = type => `src/mappings/${type}.mapping.json`
+export let GET_MAPPING = type => `src/~/mappings/${type}.mapping.json`

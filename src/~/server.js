@@ -4,10 +4,10 @@ import { addMockFunctionsToSchema } from 'graphql-tools'
 import { graphqlExpress } from 'apollo-server-express'
 import fs from 'fs'
 import { promisify } from 'util'
-import { ES_TYPES } from './constants'
-import makeSchema from './schema'
 import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
+import { ES_TYPES } from '~/constants'
+import makeSchema from '~/schema'
 
 let writeFile = promisify(fs.writeFile)
 
@@ -33,7 +33,7 @@ export default async es => {
       types.forEach(
         async ([type], i) =>
           await writeFile(
-            `src/mappings/${type}.mapping.json`,
+            `src/~/mappings/${type}.mapping.json`,
             JSON.stringify(Object.values(mappings[i])[0].mappings, null, 2),
           ),
       )

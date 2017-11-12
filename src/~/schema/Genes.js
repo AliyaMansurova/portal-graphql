@@ -1,18 +1,15 @@
-import { ES_TYPES } from '../constants'
-import { createConnectionResolvers, mappingToFields } from './utils'
+import { ES_TYPES } from '~/constants'
+import { createConnectionResolvers, mappingToFields } from '~/utils'
 
 let type = {
-  es_type: 'case_centric',
-  plural: 'ECases',
-  singular: 'ECase',
+  es_type: 'gene_centric',
+  plural: 'Genes',
+  singular: 'Gene',
 }
 
 export let typeDefs = async () => {
   return mappingToFields({
     type,
-    custom: `
-      available_variation_data: [String]
-    `,
   })
 }
 

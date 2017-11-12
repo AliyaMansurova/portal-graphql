@@ -1,6 +1,6 @@
 import elasticsearch from 'elasticsearch'
-import ping from './ping'
-import spinupServer from './server'
+import ping from '~/ping'
+import spinupServer from '~/server'
 
 if (process.env.WITH_ES) {
   let esconfig = {
