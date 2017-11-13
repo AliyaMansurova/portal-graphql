@@ -5,19 +5,19 @@ import {
   typeDefs as ECasesTypeDefs,
   resolvers as ECasesResolvers,
 } from './ECases'
-// import {
-//   typeDefs as AnnotationsTypeDefs,
-//   resolvers as AnnotationsResolvers,
-// } from './Annotations'
+import {
+  typeDefs as AnnotationsTypeDefs,
+  resolvers as AnnotationsResolvers,
+} from './Annotations'
 import { typeDefs as CasesTypeDefs, resolvers as CasesResolvers } from './Cases'
-// import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
+import { typeDefs as FilesTypeDefs, resolvers as FilesResolvers } from './Files'
 import { typeDefs as GenesTypeDefs, resolvers as GenesResolvers } from './Genes'
-// import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
-// import {
-//   typeDefs as ProjectsTypeDefs,
-//   resolvers as ProjectsResolvers,
-// } from './Projects'
-// import { typeDefs as UserTypeDefs } from './User'
+import { typeDefs as SsmsTypeDefs, resolvers as SsmsResolvers } from './Ssms'
+import {
+  typeDefs as ProjectsTypeDefs,
+  resolvers as ProjectsResolvers,
+} from './Projects'
+import { typeDefs as UserTypeDefs } from './User'
 import {
   typeDefs as RepositoryTypeDefs,
   resolvers as RepositoryResolvers,
@@ -63,9 +63,9 @@ let RootTypeDefs = `
     viewer: Root
     repository: Repository
     explore: Explore
-    #projects: Projects
-    #user: User
-    #annotations: Annotations
+    projects: Projects
+    user: User
+    annotations: Annotations
     #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
     #analysis: Analysis
@@ -79,16 +79,16 @@ let RootTypeDefs = `
 
 export let typeDefs = () => [
   AggregationsTypeDefs,
-  // UserTypeDefs,
+  UserTypeDefs,
   RepositoryTypeDefs,
   ExploreTypeDefs,
-  // AnnotationsTypeDefs,
-  // ProjectsTypeDefs,
-  // FilesTypeDefs,
+  AnnotationsTypeDefs(),
+  ProjectsTypeDefs(),
+  FilesTypeDefs(),
   CasesTypeDefs(),
   ECasesTypeDefs(),
   GenesTypeDefs(),
-  // SsmsTypeDefs,
+  SsmsTypeDefs(),
   RootTypeDefs,
   MutationTypeDefs,
 ]
@@ -96,19 +96,19 @@ export let typeDefs = () => [
 export let resolvers = () => ({
   Root: {
     viewer: () => ({}),
-    // user: () => ({}),
-    // annotations: () => ({}),
+    user: () => ({}),
+    annotations: () => ({}),
     repository: () => ({}),
     explore: () => ({}),
   },
   ...RepositoryResolvers,
   ...ExploreResolvers,
-  // ...AnnotationsResolvers,
-  // ...ProjectsResolvers,
-  // ...FilesResolvers,
+  ...AnnotationsResolvers,
+  ...ProjectsResolvers,
+  ...FilesResolvers,
   ...CasesResolvers,
   ...ECasesResolvers,
   ...GenesResolvers,
-  // ...SsmsResolvers,
+  ...SsmsResolvers,
   JSON: GraphQLJSON,
 })

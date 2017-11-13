@@ -1,6 +1,7 @@
-import { createConnectionDefs, createConnectionResolvers } from '~/utils'
+import { mappingToFields, createConnectionResolvers } from '~/utils'
 
 let type = {
+  es_type: 'project',
   plural: 'Projects',
   singular: 'Project',
 }
@@ -13,6 +14,4 @@ export let typeDefs = async () => {
 
 export let resolvers = createConnectionResolvers({
   type,
-  esIndex: process.env.ES_PROJECT_INDEX,
-  esType: 'project',
 })

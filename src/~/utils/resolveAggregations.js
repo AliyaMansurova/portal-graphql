@@ -1,11 +1,23 @@
+import getFields from 'graphql-fields'
 import { ES_TYPES } from '~/constants'
+import buildAggregations from './buildAggregations'
 
 let pairToObject = ([a, b]) => ({ [a]: b })
 
-export default type => async (obj, { offset = 0 }, { es }, info) => {
-  let aggs = { primary_site: { terms: { field: 'primary_site', size: 100 } } }
+export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
+  let graphql_fields = getFields(info)
+  let fields = Object.keys(graphql_fields)
 
   // TODO: build aggs properly
+
+  let { query, aggs } = await buildAggregations({
+    type,
+    args,
+    fields,
+    graphql_fields,
+  })
+
+  console.log(query, aggs)
 
   let { aggregations } = await es.search({
     index: ES_TYPES[type.es_type].index,
@@ -13,10 +25,12 @@ export default type => async (obj, { offset = 0 }, { es }, info) => {
     size: 0,
     _source: false,
     body: {
-      // aggs: Object.keys(getFields(info)),
+      query,
       aggs,
     },
   })
+
+  console.log(aggregations)
 
   // TODO: prune aggs
 
