@@ -9,7 +9,7 @@ let getNested = x =>
     .slice(0, -1)
     .join('.')
 
-let toGraphqlField = ([a, b]) => ({ [a.replace(/\./g, '__')]: b })
+let toGraphqlField = (acc, [a, b]) => ({ ...acc, [a.replace(/\./g, '__')]: b })
 
 export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
   let graphql_fields = getFields(info)
@@ -35,12 +35,10 @@ export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
     },
   })
 
-  // TODO: prune aggs
-
   let { pruned } = await pruneAggregations({
     aggs: aggregations,
     nested_fields,
   })
 
-  return Object.entries(pruned).map(toGraphqlField)
+  return Object.entries(pruned).reduce(toGraphqlField, {})
 }

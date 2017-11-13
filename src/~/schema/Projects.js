@@ -1,4 +1,4 @@
-import { mappingToFields, createConnectionResolvers } from '~/utils'
+import { createConnectionResolvers, mappingToFields } from '~/utils'
 
 let type = {
   es_type: 'project',
@@ -12,6 +12,8 @@ export let typeDefs = async () => {
   })
 }
 
-export let resolvers = createConnectionResolvers({
-  type,
-})
+export let resolvers = {
+  ...createConnectionResolvers({
+    type,
+  }),
+}

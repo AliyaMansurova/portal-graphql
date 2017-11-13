@@ -1,4 +1,5 @@
 import GraphQLJSON from 'graphql-type-json'
+import { ES_TYPES } from '~/constants'
 import { typeDefs as MutationTypeDefs } from './Mutation'
 import { typeDefs as AggregationsTypeDefs } from './Aggregations'
 import {
@@ -63,8 +64,19 @@ let RootTypeDefs = `
     viewer: Root
     repository: Repository
     explore: Explore
+    case: Cases
+    file: Files
+    case_centric: ECases
+    gene_centric: Genes
+    ssm_centric: Ssms
+    project: Projects
     projects: Projects
+
+    # placeholder
+    ssm_occurrence_centric: String
+    
     user: User
+    annotation: Annotations
     annotations: Annotations
     #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
@@ -97,9 +109,17 @@ export let resolvers = () => ({
   Root: {
     viewer: () => ({}),
     user: () => ({}),
-    annotations: () => ({}),
     repository: () => ({}),
     explore: () => ({}),
+    annotations: () => ({}),
+    projects: () => ({}),
+    ...Object.keys(ES_TYPES).reduce(
+      (acc, key) => ({
+        ...acc,
+        [key]: () => ({}),
+      }),
+      {},
+    ),
   },
   ...RepositoryResolvers,
   ...ExploreResolvers,

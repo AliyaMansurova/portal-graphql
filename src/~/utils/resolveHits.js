@@ -11,12 +11,14 @@ export default type => async (
   // TODO: pass nested fields
   let { query } = await buildQuery({ type, filters })
 
+  let fields = getFields(info)
+
   let { hits } = await es.search({
     index: ES_TYPES[type.es_type].index,
     type: ES_TYPES[type.es_type].type,
     size: first,
     from: offset,
-    _source: Object.keys(getFields(info).edges.node),
+    _source: fields.edges && Object.keys(fields.edges.node),
     body: {
       query,
     },
