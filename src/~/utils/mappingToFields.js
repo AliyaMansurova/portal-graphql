@@ -8,7 +8,7 @@ import createConnectionTypeDefs from './createConnectionTypeDefs'
 
 let readFile = promisify(fs.readFile)
 
-export default async ({ type, custom }) => {
+export default async ({ type }) => {
   let mappingFile = await readFile(GET_MAPPING(type.es_type), {
     encoding: 'utf8',
   })
@@ -23,7 +23,7 @@ export default async ({ type, custom }) => {
       fields: [
         mappingToScalarFields(mapping),
         mappingToNestedFields(type.singular, mapping),
-        custom,
+        type.customFields,
       ],
     }),
   ].join()

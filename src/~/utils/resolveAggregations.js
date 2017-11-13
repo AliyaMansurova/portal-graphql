@@ -25,8 +25,8 @@ export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
   })
 
   let { aggregations } = await es.search({
-    index: ES_TYPES[type.es_type].index,
-    type: ES_TYPES[type.es_type].type,
+    index: type.index,
+    type: type.es_type,
     size: 0,
     _source: false,
     body: {

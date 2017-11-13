@@ -21,10 +21,10 @@ export default async es => {
       let types = Object.entries(ES_TYPES)
 
       let mappings = await Promise.all(
-        types.map(([, { index, type }]) =>
+        types.map(([, { index, es_type }]) =>
           es.indices.getMapping({
             index,
-            type,
+            type: es_type,
           }),
         ),
       )

@@ -1,5 +1,4 @@
 import getFields from 'graphql-fields'
-import { ES_TYPES } from '~/constants'
 import buildQuery from './buildQuery'
 
 export default type => async (
@@ -14,8 +13,8 @@ export default type => async (
   let fields = getFields(info)
 
   let { hits } = await es.search({
-    index: ES_TYPES[type.es_type].index,
-    type: ES_TYPES[type.es_type].type,
+    index: type.index,
+    type: type.es_type,
     size: first,
     from: offset,
     _source: fields.edges && Object.keys(fields.edges.node),
