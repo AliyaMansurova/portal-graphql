@@ -1,23 +1,28 @@
 import getFields from 'graphql-fields'
 import { ES_TYPES } from '~/constants'
 import buildAggregations from './buildAggregations'
+import pruneAggregations from './pruneAggregations'
 
-let pairToObject = ([a, b]) => ({ [a]: b })
+let getNested = x =>
+  x
+    .split('__')
+    .slice(0, -1)
+    .join('.')
+
+let toGraphqlField = ([a, b]) => ({ [a.replace(/\./g, '__')]: b })
 
 export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
   let graphql_fields = getFields(info)
   let fields = Object.keys(graphql_fields)
-
-  // TODO: build aggs properly
+  let nested_fields = fields.map(getNested)
 
   let { query, aggs } = await buildAggregations({
     type,
     args,
     fields,
     graphql_fields,
+    nested_fields,
   })
-
-  console.log(query, aggs)
 
   let { aggregations } = await es.search({
     index: ES_TYPES[type.es_type].index,
@@ -30,9 +35,12 @@ export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
     },
   })
 
-  console.log(aggregations)
-
   // TODO: prune aggs
 
-  return Object.entries(aggregations).map(pairToObject)
+  let { pruned } = await pruneAggregations({
+    aggs: aggregations,
+    nested_fields,
+  })
+
+  return Object.entries(pruned).map(toGraphqlField)
 }
