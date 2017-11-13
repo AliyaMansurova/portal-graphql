@@ -1,5 +1,6 @@
 import getFields from 'graphql-fields'
 import { ES_TYPES } from '~/constants'
+import buildQuery from './buildQuery'
 
 export default type => async (
   obj,
@@ -7,18 +8,8 @@ export default type => async (
   { es },
   info,
 ) => {
-  // let query = {
-  //   bool: {
-  //     must: [
-  //       {
-  //         terms: {
-  //           case_id: ['a25a714e-c142-482b-91c8-4fea763e0254'],
-  //           boost: 0,
-  //         },
-  //       },
-  //     ],
-  //   },
-  // }
+  // TODO: pass nested fields
+  let { query } = await buildQuery({ type, filters })
 
   let { hits } = await es.search({
     index: ES_TYPES[type.es_type].index,
@@ -27,7 +18,7 @@ export default type => async (
     from: offset,
     _source: Object.keys(getFields(info).edges.node),
     body: {
-      query: {},
+      query,
     },
   })
 

@@ -1,5 +1,7 @@
 import { ES_TYPES } from '~/constants'
 
+let pairToObject = ([a, b]) => ({ [a]: b })
+
 export default type => async (obj, { offset = 0 }, { es }, info) => {
   let aggs = { primary_site: { terms: { field: 'primary_site', size: 100 } } }
 
@@ -18,7 +20,5 @@ export default type => async (obj, { offset = 0 }, { es }, info) => {
 
   // TODO: prune aggs
 
-  return Object.entries(aggregations).map(([field, data]) => ({
-    [field]: data,
-  }))
+  return Object.entries(aggregations).map(pairToObject)
 }
