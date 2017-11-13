@@ -53,7 +53,7 @@ export default async es => {
     app.use(cors())
 
     app.use(
-      '/graphql',
+      ['/graphql', '/graphql/:query'],
       bodyParser.json(),
       graphqlExpress({ schema, context: { es } }),
     )
