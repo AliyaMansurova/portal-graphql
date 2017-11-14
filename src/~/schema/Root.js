@@ -45,18 +45,42 @@ let RootTypeDefs = `
     id: ID!
   }
 
+  type TopCasesCountByGenes {
+    data(
+      first: Int
+      gene_ids: [String]
+      filters: JSON
+    ): JSON
+  }
+
+  type ProteinMutations {
+    data(
+      first: Int
+      offset: Int
+      fields: [String]!
+      score: String
+      filters: JSON
+    ): JSON
+  }
+
+  type Analysis {
+    protein_mutations: ProteinMutations
+    top_cases_count_by_genes: TopCasesCountByGenes
+    pvalue(data: [[Int]]!): Float
+  }
+
   type Root {
     node(id: ID): Node
-    viewer: Root
-    repository: Repository
-    explore: Explore
+    viewer: Root @deprecated (reason: "Use top level fields for ES types.")
+    repository: Repository @deprecated (reason: "Use top level fields for ES types.")
+    explore: Explore @deprecated (reason: "Use top level fields for ES types.")
 
     ${Object.entries(ES_TYPES).map(([key, type]) => `${key}: ${type.plural}`)}
 
     user: User
     #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
-    #analysis: Analysis
+    analysis: Analysis
   }
 
   schema {
