@@ -10,6 +10,14 @@ export let ES_TYPES = {
     es_type: process.env.ES_PROJECT_TYPE,
     singular: 'Project',
     plural: 'Projects',
+    nested_fields: [
+      'summary.data_categories',
+      'summary.experimental_strategies',
+    ],
+    customFields: `
+      disease_type: [String]
+      primary_site: [String]
+    `,
   },
   cases: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,

@@ -14,7 +14,7 @@ let toGraphqlField = (acc, [a, b]) => ({ ...acc, [a.replace(/\./g, '__')]: b })
 export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
   let graphql_fields = getFields(info)
   let fields = Object.keys(graphql_fields)
-  let nested_fields = fields.map(getNested)
+  let nested_fields = type.nested_fields || fields.map(getNested)
 
   let { query, aggs } = await buildAggregations({
     type,
