@@ -3,14 +3,19 @@ import buildQuery from './buildQuery'
 
 export default type => async (
   obj,
-  { first = 10, offset = 0, filters = {} },
+  { first = 10, offset = 0, filters },
   { es },
   info,
 ) => {
   // TODO: pass nested fields
-  let { query } = await buildQuery({ type, filters })
-
   let fields = getFields(info)
+
+  let query = filters || {}
+
+  if (filters) {
+    let response = await buildQuery({ type, filters })
+    query = response.query
+  }
 
   let { hits } = await es.search({
     index: type.index,

@@ -11,6 +11,6 @@ export default ({ type, filters }) =>
     body: JSON.stringify({
       filters,
       doc_type: type.plural.toLowerCase(),
-      nested: [],
+      nested_fields: type.nested_fields || [],
     }),
   }).then(r => r.json())
