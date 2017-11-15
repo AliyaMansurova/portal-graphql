@@ -108,6 +108,7 @@ export let resolvers = () => ({
     user: resolveObject,
     repository: resolveObject,
     explore: resolveObject,
+    analysis: resolveObject,
     ...Object.keys(ES_TYPES).reduce(
       (acc, key) => ({
         ...acc,
@@ -129,4 +130,19 @@ export let resolvers = () => ({
   // deprecated wrappers
   ...RepositoryResolvers,
   ...ExploreResolvers,
+  // TopCasesCountByGenes: async (obj, { gene_ids = [], first = 0}) => {
+  //   let data = await fetch(process.env.GDCAPI + '/top_cases_counts_by_genes', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify({
+  //       gene_ids: gene_ids.join(),
+  //       size: first,
+  //       filters: json.dumps(args.get('filters', { op: 'and', content: [] })),
+  //     }),
+  //   }).then(r => r.json())
+  //   console.log(data)
+  //   return '{}'
+  // },
 })

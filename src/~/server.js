@@ -47,7 +47,10 @@ export default async es => {
       console.log(
         chalk`⚠️ {keyword('orange') Running api with mocked responses!} ⚠️`,
       )
-      addMockFunctionsToSchema({ schema })
+      addMockFunctionsToSchema({
+        schema,
+        mocks: { JSON: () => JSON.stringify({ key: 'value' }) },
+      })
     }
 
     app.use(cors())

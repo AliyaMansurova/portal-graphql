@@ -46,6 +46,9 @@ export let ES_TYPES = {
     es_type: process.env.ES_GENE_CENTRIC_TYPE,
     singular: 'Gene',
     plural: 'Genes',
+    customFields: `
+      cytoband: [String]
+    `,
   },
   ssm_centric: {
     index: process.env.ES_SSM_CENTRIC_INDEX,

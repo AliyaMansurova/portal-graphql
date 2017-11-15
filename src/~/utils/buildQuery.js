@@ -2,7 +2,7 @@ import fetch from 'node-fetch'
 
 let api = `${process.env.GDCAPI}/graphql`
 
-export default ({ type, filters }) =>
+export default ({ type, filters, score, nested_fields }) =>
   fetch(api + '/build_filters', {
     method: 'POST',
     headers: {
@@ -10,7 +10,8 @@ export default ({ type, filters }) =>
     },
     body: JSON.stringify({
       filters,
+      score,
       doc_type: type.plural.toLowerCase(),
-      nested_fields: type.nested_fields || [],
+      nested_fields,
     }),
   }).then(r => r.json())

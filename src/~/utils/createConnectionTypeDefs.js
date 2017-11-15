@@ -37,6 +37,7 @@ export default ({ type, mapping, fields = '' }) => `
 
   type ${type.singular} implements Node {
     id: ID!
+    score: Int
     ${fields}
   }
 `
