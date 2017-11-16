@@ -2,34 +2,11 @@ import GraphQLJSON from 'graphql-type-json'
 import { startCase } from 'lodash'
 import { typeDefs as MutationTypeDefs } from './Mutation'
 import { typeDefs as AggregationsTypeDefs } from './Aggregations'
+import { typeDefs as SortTypeDefs } from './Sort'
 import { createConnectionResolvers, mappingToFields } from '~/utils'
 
 let RootTypeDefs = `
-  enum Missing {
-    first
-    last
-  }
-
-  enum Mode {
-    avg
-    max
-    min
-    sum
-  }
-
-  enum Order {
-    asc
-    desc
-  }
-
   scalar JSON
-
-  input Sort {
-    field: String!
-    order: Order
-    mode: Mode
-    missing: Missing
-  }
 
   interface Node {
     id: ID!
@@ -37,9 +14,15 @@ let RootTypeDefs = `
 
   ${Object.values(global.config.ROOT_TYPES).map(type => type.typeDefs)}
 
+  type QueryResults {
+    total: Int
+    hits: [Node]
+  }
+
   type Root {
     node(id: ID): Node
     viewer: Root
+    query(query: String, types: [String]): QueryResults
 
     ${Object.entries(global.config.ES_TYPES).map(
       ([key, type]) => `${key}: ${type.name}`,
@@ -49,7 +32,6 @@ let RootTypeDefs = `
       key => `${key}: ${startCase(key).replace(/\s/g, '')}`,
     )}
 
-    #query(query: String, types: [String]): QueryResults
     #cart_summary: CartSummary
   }
 
@@ -60,9 +42,10 @@ let RootTypeDefs = `
 `
 
 export let typeDefs = () => [
-  AggregationsTypeDefs,
   RootTypeDefs,
   MutationTypeDefs,
+  AggregationsTypeDefs,
+  SortTypeDefs,
   ...Object.values(global.config.ES_TYPES).map(type =>
     mappingToFields({ type }),
   ),
