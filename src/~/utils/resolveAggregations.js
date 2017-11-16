@@ -1,5 +1,4 @@
 import getFields from 'graphql-fields'
-import { ES_TYPES } from '~/constants'
 import buildAggregations from './buildAggregations'
 import pruneAggregations from './pruneAggregations'
 

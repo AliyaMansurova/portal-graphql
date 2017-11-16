@@ -7,7 +7,6 @@ import fs from 'fs'
 import { promisify } from 'util'
 import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
-import { ES_TYPES } from '~/constants'
 import makeSchema from '~/schema'
 
 let writeFile = promisify(fs.writeFile)
@@ -18,7 +17,7 @@ export default async es => {
   try {
     // get mappings from es and cache them
     if (es && process.env.CACHE_MAPPINGS) {
-      let types = Object.entries(ES_TYPES)
+      let types = Object.entries(global.config.ES_TYPES)
 
       let mappings = await Promise.all(
         types.map(([, { index, es_type }]) =>

@@ -12,7 +12,7 @@ export default ({ type, fields, graphql_fields, nested_fields, args }) =>
       args,
       fields,
       graphql_fields,
-      doc_type: type.plural.toLowerCase(),
+      doc_type: type.name.toLowerCase(),
       nested_fields,
     }),
   }).then(r => r.json())

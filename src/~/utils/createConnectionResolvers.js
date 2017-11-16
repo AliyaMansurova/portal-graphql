@@ -8,14 +8,14 @@ type TcreateConnectionResolvers = (
   args: TcreateConnectionResolversArgs,
 ) => Object
 let createConnectionResolvers: TcreateConnectionResolvers = ({ type }) => ({
-  [type.plural]: {
+  [type.name]: {
     hits: resolveHits(type),
     aggregations: resolveAggregations(type),
   },
-  [type.singular + 'Connection']: {
+  [type.name + 'Connection']: {
     edges: edges => edges.hits,
   },
-  [type.singular + 'Edge']: {
+  [type.name + 'Edge']: {
     node: node => node,
   },
 })
