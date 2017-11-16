@@ -12,6 +12,10 @@ let RootTypeDefs = `
     id: ID!
   }
 
+  type FileSize {
+    value: Float
+  }
+
   ${Object.values(global.config.ROOT_TYPES).map(type => type.typeDefs)}
 
   type QueryResults {
@@ -31,8 +35,6 @@ let RootTypeDefs = `
     ${Object.keys(global.config.ROOT_TYPES).map(
       key => `${key}: ${startCase(key).replace(/\s/g, '')}`,
     )}
-
-    #cart_summary: CartSummary
   }
 
   schema {

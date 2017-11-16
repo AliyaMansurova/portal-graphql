@@ -149,4 +149,33 @@ export let ROOT_TYPES = {
       }
     `,
   },
+  cart_summary: {
+    typeDefs: `
+      type CartSummaryCasesCount {
+        doc_count: Int
+      }
+      type CartSummaryBucket {
+        cases: CartSummaryCasesCount
+        doc_count: Int
+        case_count: Int
+        file_size: Float
+        key: String
+      }
+      type SummaryAggregations {
+        buckets: [CartSummaryBucket]
+      }
+      type CartSummaryAggs {
+        access: SummaryAggregations
+        data_format: SummaryAggregations
+        data_type: SummaryAggregations
+        experimental_strategy: SummaryAggregations
+        project__primary_site: SummaryAggregations
+        project__project_id: SummaryAggregations
+        fs: FileSize
+      }
+      type CartSummary {
+        aggregations(filters: JSON): CartSummaryAggs
+      }
+    `,
+  },
 }
