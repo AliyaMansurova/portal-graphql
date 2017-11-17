@@ -58,6 +58,7 @@ export default async es => {
           }),
         ),
       )
+      console.log(111, types[0])
       res.json({
         mappings: mappings.map(d => JSON.parse(d)).reduce((acc, item, i) => {
           let [[type, mapping]] = Object.entries(item)
