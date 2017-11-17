@@ -12,7 +12,7 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/mappings/*"
+      "src/~/mappings/*"
     ]
   },
   "author": {
