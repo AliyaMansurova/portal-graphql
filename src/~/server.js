@@ -52,18 +52,18 @@ export default async es => {
 
     app.get('/mappings', async (req, res) => {
       let mappings = await Promise.all(
-        types.map(([, { es_type }], i) =>
-          readFile(mappingFolder(es_type), {
+        types.map(([type], i) =>
+          readFile(mappingFolder(type), {
             encodpng: 'utf8',
           }),
         ),
       )
       res.json({
-        mappings: mappings.map(d => JSON.parse(d)).reduce((acc, item) => {
+        mappings: mappings.map(d => JSON.parse(d)).reduce((acc, item, i) => {
           let [[type, mapping]] = Object.entries(item)
           return {
             ...acc,
-            [type]: mapping,
+            [types[i][0]]: mapping,
           }
         }, {}),
       })
