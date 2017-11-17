@@ -3,22 +3,18 @@ import bodyParser from 'body-parser'
 import cors from 'cors'
 import { addMockFunctionsToSchema } from 'graphql-tools'
 import { graphqlExpress } from 'apollo-server-express'
-import fs from 'fs'
-import { promisify } from 'util'
 import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
 import makeSchema from '~/schema'
-
-let writeFile = promisify(fs.writeFile)
+import { writeFile, readFile, mappingFolder } from '~/utils'
 
 export default async es => {
+  let types = Object.entries(global.config.ES_TYPES)
   let app = express()
 
   try {
     // get mappings from es and cache them
     if (es && process.env.CACHE_MAPPINGS) {
-      let types = Object.entries(global.config.ES_TYPES)
-
       let mappings = await Promise.all(
         types.map(([, { index, es_type }]) =>
           es.indices.getMapping({
@@ -33,7 +29,7 @@ export default async es => {
       types.forEach(
         async ([type], i) =>
           await writeFile(
-            `src/~/mappings/${type}.mapping.json`,
+            mappingFolder(type),
             JSON.stringify(Object.values(mappings[i])[0].mappings, null, 2),
           ),
       )
@@ -53,6 +49,25 @@ export default async es => {
     }
 
     app.use(cors())
+
+    app.get('/mappings', async (req, res) => {
+      let mappings = await Promise.all(
+        types.map(([, { es_type }], i) =>
+          readFile(mappingFolder(es_type), {
+            encodpng: 'utf8',
+          }),
+        ),
+      )
+      res.json({
+        mappings: mappings.map(d => JSON.parse(d)).reduce((acc, item) => {
+          let [[type, mapping]] = Object.entries(item)
+          return {
+            ...acc,
+            [type]: mapping,
+          }
+        }, {}),
+      })
+    })
 
     app.use(
       ['/graphql', '/graphql/:query'],

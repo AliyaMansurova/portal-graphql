@@ -1,15 +1,11 @@
-import fs from 'fs'
-import { promisify } from 'util'
-import { getMapping } from '~/utils'
+import { readFile, mappingFolder } from '~/utils'
 import mappingToNestedTypes from './mappingToNestedTypes'
 import mappingToNestedFields from './mappingToNestedFields'
 import mappingToScalarFields from './mappingToScalarFields'
 import createConnectionTypeDefs from './createConnectionTypeDefs'
 
-let readFile = promisify(fs.readFile)
-
 export default async ({ type }) => {
-  let mappingFile = await readFile(getMapping(type.es_type), {
+  let mappingFile = await readFile(mappingFolder(type.es_type), {
     encoding: 'utf8',
   })
 
