@@ -52,7 +52,7 @@ export default async es => {
 
     app.get('/mappings', async (req, res) => {
       let mappings = await Promise.all(
-        types.map(([type], i) =>
+        types.map(([type]) =>
           readFile(mappingFolder(type), {
             encodpng: 'utf8',
           }),
