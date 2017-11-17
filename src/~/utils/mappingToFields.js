@@ -4,8 +4,8 @@ import mappingToNestedFields from './mappingToNestedFields'
 import mappingToScalarFields from './mappingToScalarFields'
 import createConnectionTypeDefs from './createConnectionTypeDefs'
 
-export default async ({ type }) => {
-  let mappingFile = await readFile(mappingFolder(type.es_type), {
+export default async ({ key, type }) => {
+  let mappingFile = await readFile(mappingFolder(key), {
     encoding: 'utf8',
   })
 

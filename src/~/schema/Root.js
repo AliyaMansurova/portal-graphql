@@ -48,8 +48,8 @@ export let typeDefs = () => [
   MutationTypeDefs,
   AggregationsTypeDefs,
   SortTypeDefs,
-  ...Object.values(global.config.ES_TYPES).map(type =>
-    mappingToFields({ type }),
+  ...Object.entries(global.config.ES_TYPES).map(([key, type]) =>
+    mappingToFields({ key, type }),
   ),
 ]
 

@@ -64,21 +64,11 @@
         }
       },
       "case_autocomplete": {
-        "type": "keyword",
+        "type": "text",
         "fields": {
-          "analyzed": {
-            "type": "text",
-            "analyzer": "autocomplete_analyzed",
-            "search_analyzer": "lowercase_keyword"
-          },
-          "lowercase": {
-            "type": "text",
-            "analyzer": "lowercase_keyword"
-          },
-          "prefix": {
-            "type": "text",
-            "analyzer": "autocomplete_prefix",
-            "search_analyzer": "lowercase_keyword"
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
           }
         }
       },
@@ -2245,6 +2235,15 @@
           },
           "updated_datetime": {
             "type": "keyword"
+          }
+        }
+      },
+      "id": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
           }
         }
       },
