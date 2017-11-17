@@ -63,15 +63,6 @@
           }
         }
       },
-      "case_autocomplete": {
-        "type": "text",
-        "fields": {
-          "keyword": {
-            "type": "keyword",
-            "ignore_above": 256
-          }
-        }
-      },
       "case_id": {
         "type": "keyword",
         "copy_to": [
