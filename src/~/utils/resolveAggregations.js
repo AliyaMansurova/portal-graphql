@@ -2,19 +2,11 @@ import getFields from 'graphql-fields'
 import buildAggregations from './buildAggregations'
 import pruneAggregations from './pruneAggregations'
 
-let getNested = x =>
-  x
-    .split('__')
-    .slice(0, -1)
-    .join('.')
-
 let toGraphqlField = (acc, [a, b]) => ({ ...acc, [a.replace(/\./g, '__')]: b })
 
 export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
   let graphql_fields = getFields(info)
-  let fields = Object.keys(graphql_fields).filter(
-    x => !x.includes('_autocomplete'),
-  )
+  let fields = Object.keys(graphql_fields)
   let nested_fields = type.nested_fields
 
   let { query, aggs } = await buildAggregations({
