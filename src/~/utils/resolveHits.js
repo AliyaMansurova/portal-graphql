@@ -1,12 +1,6 @@
 import getFields from 'graphql-fields'
 import buildQuery from './buildQuery'
 
-let getNested = x =>
-  x
-    .split('__')
-    .slice(0, -1)
-    .join('.')
-
 export default type => async (
   obj,
   { first = 10, offset = 0, filters, score, sort },
@@ -14,9 +8,7 @@ export default type => async (
   info,
 ) => {
   let fields = getFields(info)
-  let nested_fields =
-    type.nested_fields ||
-    (fields.edges && Object.keys(fields.edges.node).map(getNested))
+  let nested_fields = type.nested_fields
 
   let query = filters || {}
 
