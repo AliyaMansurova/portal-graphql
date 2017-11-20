@@ -6,7 +6,7 @@ import { graphqlExpress } from 'apollo-server-express'
 import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
 import makeSchema from '~/schema'
-import { writeFile, readFile, mappingFolder } from '~/utils'
+import { writeFile, readFile, mappingFolder, getNestedFields } from '~/utils'
 
 export default async es => {
   let types = Object.entries(global.config.ES_TYPES)
@@ -41,9 +41,10 @@ export default async es => {
     // TODO: get nested fields?
 
     types.forEach(([key, type], i) => {
-      type.mapping = Object.values(mappings[i])[0].mappings[
-        type.es_type
-      ].properties
+      let mapping = Object.values(mappings[i])[0].mappings[type.es_type]
+        .properties
+      type.mapping = mapping
+      type.nested_fields = getNestedFields(mapping)
     })
 
     let schema = await makeSchema({ types })
