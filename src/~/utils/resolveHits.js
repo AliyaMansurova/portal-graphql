@@ -50,8 +50,28 @@ export default type => async (
     body,
   })
 
+  let nodes = hits.hits.map(x => {
+    let source = x._source
+    let nested_nodes = Object.entries(source)
+      .filter(([field]) => nested_fields.includes(field))
+      .reduce(
+        (acc, [field, hits]) => ({
+          ...acc,
+          [field]: {
+            hits: {
+              edges: hits.map(node => ({ node })),
+              total: hits.length,
+            },
+          },
+        }),
+        {},
+      )
+
+    return { id: x._id, ...source, ...nested_nodes }
+  })
+
   return {
-    hits: hits.hits.map(x => ({ ...x._source, id: x._id })),
+    hits: nodes,
     total: hits.total,
   }
 }
