@@ -43,14 +43,12 @@ let RootTypeDefs = `
   }
 `
 
-export let typeDefs = () => [
+export let typeDefs = ({ types }) => [
   RootTypeDefs,
   MutationTypeDefs,
   AggregationsTypeDefs,
   SortTypeDefs,
-  ...Object.entries(global.config.ES_TYPES).map(([key, type]) =>
-    mappingToFields({ key, type }),
-  ),
+  ...types.map(([key, type]) => mappingToFields({ key, type })),
 ]
 
 let resolveObject = () => ({})
