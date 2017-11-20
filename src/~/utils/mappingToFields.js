@@ -1,24 +1,16 @@
-import { readFile, mappingFolder } from '~/utils'
 import mappingToNestedTypes from './mappingToNestedTypes'
 import mappingToNestedFields from './mappingToNestedFields'
 import mappingToScalarFields from './mappingToScalarFields'
 import createConnectionTypeDefs from './createConnectionTypeDefs'
 
-export default async ({ key, type }) => {
-  let mappingFile = await readFile(mappingFolder(key), {
-    encoding: 'utf8',
-  })
-
-  let mapping = JSON.parse(mappingFile)[type.es_type].properties
-
+export default ({ key, type }) => {
   return [
-    mappingToNestedTypes(type.name, mapping),
+    mappingToNestedTypes(type.name, type.mapping),
     createConnectionTypeDefs({
       type,
-      mapping,
       fields: [
-        mappingToScalarFields(mapping),
-        mappingToNestedFields(type.name, mapping),
+        mappingToScalarFields(type.mapping),
+        mappingToNestedFields(type.name, type.mapping),
         type.customFields,
       ],
     }),

@@ -11,11 +11,12 @@ import { writeFile, readFile, mappingFolder } from '~/utils'
 export default async es => {
   let types = Object.entries(global.config.ES_TYPES)
   let app = express()
+  let mappings
 
   try {
     // get mappings from es and cache them
     if (es && process.env.CACHE_MAPPINGS) {
-      let mappings = await Promise.all(
+      mappings = await Promise.all(
         types.map(([, { index, es_type }]) =>
           es.indices.getMapping({
             index,
@@ -35,8 +36,17 @@ export default async es => {
       )
     }
 
-    // schema is made from cached mapping files
-    let schema = await makeSchema()
+    // TODO: get mappings from cache
+
+    // TODO: get nested fields?
+
+    types.forEach(([key, type], i) => {
+      type.mapping = Object.values(mappings[i])[0].mappings[
+        type.es_type
+      ].properties
+    })
+
+    let schema = await makeSchema({ types })
 
     if (!es) {
       console.log(
@@ -58,7 +68,6 @@ export default async es => {
           }),
         ),
       )
-      console.log(111, types[0])
       res.json({
         mappings: mappings.map(d => JSON.parse(d)).reduce((acc, item, i) => {
           let [[type, mapping]] = Object.entries(item)

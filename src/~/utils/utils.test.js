@@ -20,6 +20,13 @@ test('mappingToNestedTypes', () => {
         age_at_diagnosis: {
           type: 'long',
         },
+        project: {
+          properties: {
+            project_id: {
+              type: 'keyword',
+            },
+          },
+        },
         treatments: {
           type: 'nested',
           properties: {
@@ -34,11 +41,15 @@ test('mappingToNestedTypes', () => {
 
   let expected = [
     `
+    typeECaseDiagnosesProject {
+      project_id: String
+    }
     type ECaseDiagnosesTreatments {
       days_to_treatment: Float
     }
     type ECaseDiagnoses {
       age_at_diagnosis: Float
+      project: ECaseDiagnosesProject
       treatments: [ECaseDiagnosesTreatments]
     }
   `,
