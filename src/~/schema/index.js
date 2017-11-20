@@ -4,8 +4,8 @@ import {
   resolvers as generateResolvers,
 } from './Root'
 
-export default async () => {
-  let typeDefs = await Promise.all(generateTypeDefs())
+export default async ({ types }) => {
+  let typeDefs = generateTypeDefs({ types })
   let resolvers = generateResolvers()
 
   return makeExecutableSchema({

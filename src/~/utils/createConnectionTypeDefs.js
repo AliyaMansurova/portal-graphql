@@ -1,6 +1,6 @@
 import mappingToAggsType from './mappingToAggsType'
 
-export default ({ type, mapping, fields = '' }) => `
+export default ({ type, fields = '' }) => `
   type ${type.name} {
     hits(
       score: String
@@ -23,7 +23,7 @@ export default ({ type, mapping, fields = '' }) => `
   }
 
   type ${type.name}Aggregations {
-    ${mappingToAggsType(mapping)}
+    ${mappingToAggsType(type.mapping)}
   }
 
   type ${type.name}Connection {
