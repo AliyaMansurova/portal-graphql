@@ -23,8 +23,8 @@ export let esToAggTypeMap = {
 type TappendUnderscores = (a: string) => string
 let appendUnderscores: TappendUnderscores = x => (x ? x + '__' : '')
 
-let mappingToAggsType = (properties, parent = '') =>
-  flattenDeep(
+let mappingToAggsType = (properties, parent = '') => {
+  return flattenDeep(
     Object.entries(properties).map(
       ([field, data]) =>
         data.type && data.type !== 'nested'
@@ -35,5 +35,5 @@ let mappingToAggsType = (properties, parent = '') =>
             ),
     ),
   )
-
+}
 export default mappingToAggsType
