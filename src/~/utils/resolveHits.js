@@ -1,6 +1,31 @@
 import getFields from 'graphql-fields'
 import buildQuery from './buildQuery'
 
+let resolveNested = ({ node, nested_fields, parent }) => {
+  return node
+    .filter(([field]) => nested_fields.includes(`${parent}.${field}`))
+    .reduce((acc, [field, hits]) => {
+      return {
+        ...acc,
+        [field]: {
+          hits: {
+            edges: hits.map(node => ({
+              node: {
+                ...node,
+                ...resolveNested({
+                  node: Object.entries(node),
+                  nested_fields,
+                  parent: `${parent}.${field}`,
+                }),
+              },
+            })),
+            total: hits.length,
+          },
+        },
+      }
+    }, {})
+}
+
 export default type => async (
   obj,
   { first = 10, offset = 0, filters, score, sort },
@@ -51,7 +76,16 @@ export default type => async (
           ...acc,
           [field]: {
             hits: {
-              edges: hits.map(node => ({ node })),
+              edges: hits.map(node => ({
+                node: {
+                  ...node,
+                  ...resolveNested({
+                    node: Object.entries(node),
+                    nested_fields,
+                    parent: field,
+                  }),
+                },
+              })),
               total: hits.length,
             },
           },

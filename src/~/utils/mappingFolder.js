@@ -1,1 +1,2 @@
-export default type => `src/~/mappings/${type}.mapping.json`
+export default type =>
+  `src/~/mappings/${process.env.CONFIG}-${type}.mapping.json`

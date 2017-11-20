@@ -1,6 +1,6 @@
 export let ES_TYPES = {
   cases: {
-    index: process.env.ES_GDC_FROM_GRAPH_INDEX,
+    index: 'gdc_from_graph',
     es_type: process.env.ES_CASE_TYPE,
     name: 'Case',
     customFields: `

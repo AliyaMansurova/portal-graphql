@@ -5,6 +5,6 @@ require('babel-register')({
   plugins: ['transform-object-rest-spread'],
 })
 
-global.config = require('./config')
+global.config = require(`./${process.env.CONFIG}.config`)
 
 require('~')
