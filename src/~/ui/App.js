@@ -4,6 +4,7 @@ import '~/ui/App.css'
 import Table from '~/ui/Table'
 import Facets from '~/ui/Facets'
 import TypePanel from '~/ui/TypePanel'
+import Header from '~/ui/Header'
 
 class Item extends Component {
   render() {
@@ -31,7 +32,7 @@ class App extends Component {
     ) : (
       <BrowserRouter>
         <div>
-          <div className="header z1">DATA PORTAL</div>
+          <Header />
           <div style={{ display: 'flex' }}>
             <TypePanel types={Object.keys(mappings)} />
             <Route exact path="/:type">

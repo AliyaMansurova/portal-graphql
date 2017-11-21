@@ -8,8 +8,10 @@ export default ({ type, mapping }) => {
   )
 
   return (
-    <div style={{ width: 400 }}>
-      <div style={{ padding: '10px 20px' }}>Facets</div>
+    <div style={{ minWidth: 400 }}>
+      <div className="section-title">
+        <span>Facets</span>
+      </div>
       {aggs.map(([field]) => (
         <div key={field}>
           <div>{field.replace(/__/g, '.')}</div>
