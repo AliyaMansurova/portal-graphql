@@ -1,18 +1,56 @@
 body {
   margin: 0;
   padding: 0;
+  color: #696b73;
 }
 
 * {
   font-family: 'Roboto', sans-serif;
 }
 
+.current-filters input {
+  border: none;
+  flex: 1;
+  padding: 0 20px;
+  outline: none;
+}
+
 .header {
-  padding: 10px;
+  position: relative;
+  z-index: 10;
+  line-height: 40px;
+  padding: 0px 10px;
   font-size: 18px;
   font-weight: bold;
   background-color: #19678a;
   color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.type-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transform: scale(0.8);
+  border-radius: 20px;
+}
+
+.type-link a {
+  text-decoration: none;
+}
+
+.type-link.active {
+  background-color: #e84d1e;
+  color: white;
+}
+
+.type-link:hover {
+  background-color: #d5e6f1;
 }
 
 .z1 {
@@ -20,8 +58,29 @@ body {
     0 3px 1px -2px rgba(0, 0, 0, 0.2);
 }
 
+.remainder {
+  height: calc(100vh - 135px);
+  overflow: auto;
+}
+
+.add-facet {
+  text-decoration: none;
+  color: #393e42;
+}
+
+.smaller {
+  font-size: 0.8em;
+}
+
+.current-filters {
+  display: flex;
+  line-height: 50px;
+  border-bottom: 1px solid rgb(188, 208, 206);
+}
+
 .section-title {
-  padding: 15px 10px;
+  line-height: 45px;
+  padding: 0px 15px;
   text-transform: uppercase;
   font-weight: bold;
   font-size: 14px;
@@ -30,6 +89,15 @@ body {
 }
 .section-title span {
   border-bottom: 1px solid;
+}
+
+.facet-actions span + span {
+  margin-left: 8px;
+}
+
+.facet-actions span {
+  font-size: 12px;
+  letter-spacing: 0.07rem;
 }
 
 @keyframes App-logo-spin {
@@ -48,4 +116,43 @@ body {
 
 a:visited {
   color: inherit;
+}
+
+.facet {
+  padding: 5px 15px;
+  display: block;
+  padding: 0 15px;
+}
+
+.facet:hover {
+  background-color: rgb(249, 215, 236);
+  cursor: pointer;
+}
+
+a.add-facet.active div {
+  background-color: #e84d20;
+  color: white;
+  border-radius: 20px;
+}
+
+.facet-actions span:hover {
+  cursor: pointer;
+  background-color: rgb(227, 208, 140);
+}
+
+.pure-button,
+input {
+  line-height: normal;
+  border: none;
+}
+
+.facet-actions span {
+  padding: 3px 5px;
+  border-radius: 10px;
+}
+
+.facet-actions .active {
+  font-weight: bold;
+  background-color: #e84d21;
+  color: white;
 }

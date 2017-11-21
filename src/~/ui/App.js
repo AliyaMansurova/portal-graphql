@@ -2,9 +2,10 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route } from 'react-router-dom'
 import '~/ui/App.css'
 import Table from '~/ui/Table'
-import Facets from '~/ui/Facets'
-import TypePanel from '~/ui/TypePanel'
+import FacetsPanel from '~/ui/FacetsPanel'
+import TypesPanel from '~/ui/TypesPanel'
 import Header from '~/ui/Header'
+// import CurrentFilters from '~/ui/CurrentFilters'
 
 class Item extends Component {
   render() {
@@ -33,23 +34,31 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Header />
+          {/* <CurrentFilters /> */}
           <div style={{ display: 'flex' }}>
-            <TypePanel types={Object.keys(mappings)} />
-            <Route exact path="/:type">
-              {({ match }) => (
-                <Facets
-                  type={match.params.type}
-                  mapping={mappings[match.params.type].properties}
-                />
+            <Route>
+              {({ location }) => (
+                <TypesPanel types={Object.keys(mappings)} location={location} />
               )}
             </Route>
             <Route exact path="/:type">
-              {({ match }) => (
-                <Table
-                  type={match.params.type}
-                  mapping={mappings[match.params.type].properties}
-                />
-              )}
+              {({ match, location }) =>
+                match && (
+                  <FacetsPanel
+                    location={location}
+                    type={match.params.type}
+                    mapping={mappings[match.params.type].properties}
+                  />
+                )}
+            </Route>
+            <Route exact path="/:type">
+              {({ match }) =>
+                match && (
+                  <Table
+                    type={match.params.type}
+                    mapping={mappings[match.params.type].properties}
+                  />
+                )}
             </Route>
           </div>
           <Route

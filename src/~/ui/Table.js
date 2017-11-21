@@ -32,15 +32,20 @@ export default ({ type, mapping }) => {
               width: 'calc(100% - 600px)',
             }}
           >
-            <div className="section-title">
-              <span>Table</span>
-            </div>
+            <span className="section-title">
+              <span>Results</span>
+            </span>
+            <span className="showing">
+              <span>2 of {data[type].hits.total}</span>
+            </span>
             <div
               style={{
                 overflowX: 'auto',
+                height: 'calc(100vh - 135px)',
+                overflow: 'auto',
               }}
             >
-              <table>
+              <table className="pure-table smaller pure-table-bordered">
                 <thead>
                   <tr>
                     {scalarFields.map(field => <th key={field}>{field}</th>)}
@@ -50,7 +55,7 @@ export default ({ type, mapping }) => {
                   {data[type].hits.edges.map(({ node }) => (
                     <tr key={node.id}>
                       {scalarFields.map(field => (
-                        <th key={field}>{node[field]}</th>
+                        <td key={field}>{node[field]}</td>
                       ))}
                     </tr>
                   ))}
