@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Link, Route } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import '~/ui/App.css'
 import Table from '~/ui/Table'
-import Query from '~/ui/Query'
 import Facets from '~/ui/Facets'
+import TypePanel from '~/ui/TypePanel'
 
 class Item extends Component {
   render() {
@@ -15,51 +15,39 @@ class Item extends Component {
   }
 }
 
-let TypePanel = ({ types }) => (
-  <div style={{ width: 200 }}>
-    <div style={{ padding: '10px 20px' }}>Types</div>
-    {types.map(type => (
-      <div key={type} style={{ padding: '10px 20px' }}>
-        <Link to={'/' + type}>{type}</Link>
-      </div>
-    ))}
-  </div>
-)
-
 class App extends Component {
-  // componentDidMount() {
-  //   let aggs = mappingToAggsType(this.props.mappings.cases.properties)
-  //   console.log(123, aggs)
-  // }
+  state = { mappings: null }
+  componentDidMount() {
+    let API = 'http://localhost:5050'
+
+    fetch(API + '/mappings')
+      .then(r => r.json())
+      .then(({ mappings }) => this.setState({ mappings }))
+  }
   render() {
-    return (
+    let { mappings } = this.state
+    return !mappings ? (
+      'loading'
+    ) : (
       <BrowserRouter>
         <div>
           <div className="header z1">DATA PORTAL</div>
           <div style={{ display: 'flex' }}>
-            <TypePanel types={Object.keys(this.props.mappings)} />
+            <TypePanel types={Object.keys(mappings)} />
             <Route
               exact
               path="/:type"
               component={props => (
                 <Facets
                   type={props.match.params.type}
-                  mapping={
-                    this.props.mappings[props.match.params.type].properties
-                  }
+                  mapping={mappings[props.match.params.type].properties}
                 />
               )}
             />
             <Route
               exact
               path="/:type"
-              component={props => (
-                <div>
-                  <Table {...props} />
-                  <hr />
-                  {JSON.stringify(props, null, 2)}
-                </div>
-              )}
+              component={props => <Table {...props} />}
             />
           </div>
           <Route

@@ -1,4 +1,4 @@
-import { capitalize, flattenDeep } from 'lodash'
+import { flattenDeep } from 'lodash'
 
 export let esToAggTypeMap = {
   string: 'Aggregations',

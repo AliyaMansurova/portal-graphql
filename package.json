@@ -13,7 +13,8 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "src/~/mappings/*"
+      "src/~/mappings/*",
+      "src/~/ui/*"
     ]
   },
   "author": {

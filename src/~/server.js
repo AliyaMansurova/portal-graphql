@@ -86,8 +86,8 @@ export default async es => {
       graphqlExpress({ schema, context: { es } }),
     )
 
-    app.listen(process.env.PORT, () =>
-      rainbow(`⚡️ Listening on port ${process.env.PORT} ⚡️`),
+    app.listen(process.env.API_PORT, () =>
+      rainbow(`⚡️ Listening on port ${process.env.API_PORT} ⚡️`),
     )
   } catch (e) {
     console.warn(e)
