@@ -8,7 +8,8 @@
     "start": "NODE_PATH=src nodemon index.js",
     "start-es": "WITH_ES=true NODE_PATH=src nodemon index.js",
     "start-es-trace": "WITH_ES=true ES_TRACE=trace NODE_PATH=src nodemon index.js",
-    "debug": "node inspect index.js"
+    "debug": "node inspect index.js",
+    "ui": "react-scripts start"
   },
   "nodemonConfig": {
     "ignore": [
@@ -46,6 +47,10 @@
     "graphql-tools": "^2.6.1",
     "graphql-type-json": "^0.1.4",
     "lodash": "^4.17.4",
-    "node-fetch": "^1.7.3"
+    "node-fetch": "^1.7.3",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "^1.0.17"
   }
 }
