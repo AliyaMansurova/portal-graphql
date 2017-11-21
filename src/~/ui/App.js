@@ -34,21 +34,22 @@ class App extends Component {
           <div className="header z1">DATA PORTAL</div>
           <div style={{ display: 'flex' }}>
             <TypePanel types={Object.keys(mappings)} />
-            <Route
-              exact
-              path="/:type"
-              component={props => (
+            <Route exact path="/:type">
+              {({ match }) => (
                 <Facets
-                  type={props.match.params.type}
-                  mapping={mappings[props.match.params.type].properties}
+                  type={match.params.type}
+                  mapping={mappings[match.params.type].properties}
                 />
               )}
-            />
-            <Route
-              exact
-              path="/:type"
-              component={props => <Table {...props} />}
-            />
+            </Route>
+            <Route exact path="/:type">
+              {({ match }) => (
+                <Table
+                  type={match.params.type}
+                  mapping={mappings[match.params.type].properties}
+                />
+              )}
+            </Route>
           </div>
           <Route
             path="/:type/:id"

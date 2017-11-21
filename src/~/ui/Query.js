@@ -2,8 +2,8 @@ import { Component } from 'react'
 
 let API = 'http://localhost:5050'
 
-let api = ({ query, variables }) =>
-  fetch(API + '/graphql', {
+let api = ({ name = 'UnnamedQuery', query, variables }) =>
+  fetch(API + `/graphql/${name}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -14,13 +14,15 @@ let api = ({ query, variables }) =>
 export default class extends Component {
   state = { data: null }
   componentDidMount() {
-    let { query, variables } = this.props
-    api({ query, variables }).then(data => this.setState({ data }))
+    let { query, variables, name } = this.props
+    api({ query, variables, name }).then(({ data }) => this.setState({ data }))
   }
   componentWillReceiveProps(next) {
     if (JSON.stringify(this.props.query) !== JSON.stringify(next.query)) {
-      let { query, variables } = next
-      api({ query, variables }).then(data => this.setState({ data }))
+      let { query, variables, name } = next
+      api({ query, variables, name }).then(({ data }) =>
+        this.setState({ data }),
+      )
     }
   }
   render() {
