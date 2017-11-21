@@ -5,7 +5,7 @@ import Table from '~/ui/Table'
 import FacetsPanel from '~/ui/FacetsPanel'
 import TypesPanel from '~/ui/TypesPanel'
 import Header from '~/ui/Header'
-// import CurrentFilters from '~/ui/CurrentFilters'
+import CurrentFilters from '~/ui/CurrentFilters'
 
 class Item extends Component {
   render() {
@@ -34,7 +34,7 @@ class App extends Component {
       <BrowserRouter>
         <div>
           <Header />
-          {/* <CurrentFilters /> */}
+          <CurrentFilters />
           <div style={{ display: 'flex' }}>
             <Route>
               {({ location }) => (
@@ -52,7 +52,7 @@ class App extends Component {
                 )}
             </Route>
             <Route exact path="/:type">
-              {({ match }) =>
+              {({ match, ...props }) =>
                 match && (
                   <Table
                     type={match.params.type}

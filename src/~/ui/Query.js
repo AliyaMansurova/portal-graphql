@@ -18,7 +18,10 @@ export default class extends Component {
     api({ query, variables, name }).then(({ data }) => this.setState({ data }))
   }
   componentWillReceiveProps(next) {
-    if (JSON.stringify(this.props.query) !== JSON.stringify(next.query)) {
+    if (
+      JSON.stringify(this.props.query) !== JSON.stringify(next.query) ||
+      JSON.stringify(this.props.variables) !== JSON.stringify(next.variables)
+    ) {
       let { query, variables, name } = next
       api({ query, variables, name }).then(({ data }) =>
         this.setState({ data }),

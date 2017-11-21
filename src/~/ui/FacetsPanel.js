@@ -3,19 +3,31 @@ import Query from '~/ui/Query'
 import mappingToAggsType from '~/utils/mappingToAggsType'
 import Link from '~/ui/Link'
 import { parse, stringify } from 'query-string'
+import TermAgg from './TermAgg'
 
 class FacetsPanel extends Component {
-  state = { mode: 'add' }
+  state = { mode: 'add', search: '' }
   render() {
-    let { type, mapping, location } = this.props
-    let aggs = mappingToAggsType(mapping).map(field =>
-      field.split(':').map(x => x.trim()),
-    )
+    let { search } = this.state
+    let { type, location } = this.props
 
-    let activeFacets = parse(location.search)[type + 'fc'] || []
+    let mappings = mappingToAggsType(this.props.mapping)
+
+    let aggs = mappings.map(field => field.split(':').map(x => x.trim()))
+
+    let activeFacets = []
+      .concat(parse(location.search)[type + 'fc'])
+      .filter(Boolean)
 
     return (
-      <div style={{ minWidth: 400 }} className="z1">
+      <div
+        style={{
+          minWidth: 400,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+        className="z1"
+      >
         <div style={{ display: 'flex' }}>
           <div className="section-title">
             <span>Facets</span>
@@ -36,41 +48,55 @@ class FacetsPanel extends Component {
           </div>
         </div>
 
-        {this.state.mode == 'add' && <input className="inputs" />}
+        <input
+          className="facet-search"
+          placeholder="Search..."
+          onChange={e => this.setState({ search: e.target.value })}
+        />
 
-        <div className="remainder">
-          {aggs.map(([field]) => (
-            <Link
-              key={field}
-              className={`add-facet ${activeFacets.includes(field)
-                ? 'active'
-                : ''}`}
-              to={{
-                search: stringify({
-                  [type + 'fc']: [
-                    field,
-                    ...(activeFacets.includes(field)
-                      ? activeFacets.filter(active => active !== field)
-                      : [...activeFacets, field]),
-                  ],
-                }),
-              }}
-            >
-              <div className="facet">
-                <div>{field.replace(/__/g, '.')}</div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        {false && (
-          <Query
-            name="FacetQuery"
-            query={`
+        {this.state.mode === 'add' && (
+          <div className="remainder">
+            {aggs
+              .filter(([field]) => (search ? field.includes(search) : true))
+              .map(([field]) => {
+                let facets = activeFacets.includes(field)
+                  ? activeFacets.filter(f => f !== field)
+                  : activeFacets.concat(field)
+
+                return (
+                  <Link
+                    key={field}
+                    to={{
+                      search: stringify({
+                        [type + 'fc']: facets,
+                      }),
+                    }}
+                  >
+                    <div
+                      className={`facet add-facet ${activeFacets.includes(field)
+                        ? 'active'
+                        : ''}`}
+                    >
+                      <div>{field.replace(/__/g, '.')}</div>
+                    </div>
+                  </Link>
+                )
+              })}
+          </div>
+        )}
+        {this.state.mode === 'select' &&
+          !!activeFacets.length && (
+            <Query
+              name="FacetQuery"
+              query={`
                 query {
                   ${type} {
                     aggregations {
-                      ${mappingToAggsType(mapping)
-                        .slice(0, 20)
+                      ${mappings
+                        .filter(field => {
+                          let [name] = field.split(':').map(x => x.trim())
+                          return activeFacets.includes(name)
+                        })
                         .map(field => {
                           let [name, type] = field.split(':').map(x => x.trim())
                           return type === 'Aggregations'
@@ -104,19 +130,23 @@ class FacetsPanel extends Component {
                   }
                 }
               `}
-          >
-            {data =>
-              !data
-                ? 'loading'
-                : Object.entries(
-                    data[type].aggregations,
-                  ).map(([field, data]) => (
-                    <div className="facet" key={field}>
-                      <div>{field}</div>
-                    </div>
-                  ))}
-          </Query>
-        )}
+            >
+              {data =>
+                !data ? (
+                  'loading'
+                ) : (
+                  <div className="remainder">
+                    {Object.entries(
+                      data[type].aggregations,
+                    ).map(([field, data]) => (
+                      <div key={field}>
+                        <TermAgg field={field} buckets={data.buckets} />
+                      </div>
+                    ))}
+                  </div>
+                )}
+            </Query>
+          )}
       </div>
     )
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import Link from '~/ui/Link'
 
 let TypePanel = ({ types, location }) => (
-  <div style={{ minWidth: 200 }} className="z1">
+  <div style={{ minWidth: 200, position: 'relative' }} className="z1">
     <div className="section-title">
       <span>Types</span>
     </div>

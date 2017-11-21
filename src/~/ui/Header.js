@@ -7,7 +7,11 @@ let Header = () => {
         <i className="fa fa-bar-chart" />
         <span style={{ marginLeft: 5 }}>DATA PORTAL</span>
       </div>
-      <a href="https://github.com/NCI-GDC/portal-graphql" target="_blank">
+      <a
+        href="https://github.com/NCI-GDC/portal-graphql"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <i style={{ float: 'right', fontSize: 25 }} className="fa fa-github" />
       </a>
     </div>

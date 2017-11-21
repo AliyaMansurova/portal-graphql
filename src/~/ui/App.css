@@ -59,7 +59,7 @@ body {
 }
 
 .remainder {
-  height: calc(100vh - 135px);
+  height: calc(100vh - 175px);
   overflow: auto;
 }
 
@@ -129,7 +129,7 @@ a:visited {
   cursor: pointer;
 }
 
-a.add-facet.active div {
+.facet.active {
   background-color: #e84d20;
   color: white;
   border-radius: 20px;
@@ -155,4 +155,12 @@ input {
   font-weight: bold;
   background-color: #e84d21;
   color: white;
+}
+
+.facet-search {
+  line-height: 40px;
+  padding: 0 15px;
+  border-top: 1px solid rgb(193, 208, 217);
+  border-bottom: 1px solid rgb(193, 208, 217);
+  outline: none;
 }
