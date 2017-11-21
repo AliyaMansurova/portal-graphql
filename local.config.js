@@ -1,9 +1,9 @@
-import GraphQLJSON from 'graphql-type-json'
+import JSONType from './JSONTypeTemp'
 
 export let JSONScalar = 'FiltersArgument'
 
 export let SCALARS = {
-  FiltersArgument: GraphQLJSON,
+  [JSONScalar]: JSONType(JSONScalar),
 }
 
 export let ES_TYPES = {
