@@ -1,3 +1,11 @@
+import GraphQLJSON from 'graphql-type-json'
+
+export let JSONScalar = 'FiltersArgument'
+
+export let SCALARS = {
+  [JSONScalar]: GraphQLJSON,
+}
+
 export let ES_TYPES = {
   annotations: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
@@ -114,8 +122,8 @@ export let ROOT_TYPES = {
         data(
           first: Int
           gene_ids: [String]
-          filters: JSON
-        ): JSON
+          filters: ${JSONScalar}
+        ): ${JSONScalar}
       }
     `,
     // resolvers: {
@@ -144,8 +152,8 @@ export let ROOT_TYPES = {
           offset: Int
           fields: [String]!
           score: String
-          filters: JSON
-        ): JSON
+          filters: ${JSONScalar}
+        ): ${JSONScalar}
       }
     `,
   },
@@ -174,7 +182,7 @@ export let ROOT_TYPES = {
         fs: FileSize
       }
       type CartSummary {
-        aggregations(filters: JSON): CartSummaryAggs
+        aggregations(filters: ${JSONScalar}): CartSummaryAggs
       }
     `,
   },

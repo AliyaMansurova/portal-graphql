@@ -1,10 +1,13 @@
 import getFields from 'graphql-fields'
 import buildQuery from './buildQuery'
 
-let resolveNested = ({ node, nested_fields, parent }) => {
-  return node
-    .filter(([field]) => nested_fields.includes(`${parent}.${field}`))
+let joinParent = (parent, field) => (parent ? `${parent}.${field}` : field)
+
+let resolveNested = ({ node, nested_fields, parent = '' }) => {
+  return Object.entries(node)
+    .filter(([field]) => nested_fields.includes(joinParent(parent, field)))
     .reduce((acc, [field, hits]) => {
+      // TODO: inner hits query if necessary
       return {
         ...acc,
         [field]: {
@@ -13,9 +16,9 @@ let resolveNested = ({ node, nested_fields, parent }) => {
               node: {
                 ...node,
                 ...resolveNested({
-                  node: Object.entries(node),
+                  node,
                   nested_fields,
-                  parent: `${parent}.${field}`,
+                  parent: joinParent(parent, field),
                 }),
               },
             })),
@@ -46,7 +49,8 @@ export default type => async (
     query,
   }
 
-  if (sort)
+  if (sort) {
+    // TODO: build sort properly
     body.sort = [
       {
         'summary.case_count': {
@@ -56,6 +60,7 @@ export default type => async (
         },
       },
     ]
+  }
 
   let { hits } = await es.search({
     index: type.index,
@@ -69,30 +74,10 @@ export default type => async (
 
   let nodes = hits.hits.map(x => {
     let source = x._source
-    let nested_nodes = Object.entries(source)
-      .filter(([field]) => nested_fields.includes(field))
-      .reduce(
-        (acc, [field, hits]) => ({
-          ...acc,
-          [field]: {
-            hits: {
-              edges: hits.map(node => ({
-                node: {
-                  ...node,
-                  ...resolveNested({
-                    node: Object.entries(node),
-                    nested_fields,
-                    parent: field,
-                  }),
-                },
-              })),
-              total: hits.length,
-            },
-          },
-        }),
-        {},
-      )
-
+    let nested_nodes = resolveNested({
+      node: source,
+      nested_fields,
+    })
     return { id: x._id, ...source, ...nested_nodes }
   })
 

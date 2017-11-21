@@ -8,6 +8,8 @@ import { createConnectionResolvers, mappingToFields } from '~/utils'
 let RootTypeDefs = `
   scalar JSON
 
+  ${Object.keys(global.config.SCALARS).map(type => `scalar ${type}`)}
+
   interface Node {
     id: ID!
   }
@@ -77,13 +79,19 @@ export let resolvers = () => ({
     }),
     {},
   ),
-
   ...Object.entries(global.config.ROOT_TYPES).reduce(
     (acc, [key, type]) => ({
       ...acc,
       ...(type.resolvers
         ? { [startCase(key).replace(/\s/g, '')]: type.resolvers }
         : {}),
+    }),
+    {},
+  ),
+  ...Object.entries(global.config.SCALARS).reduce(
+    (acc, [scalar, resolver]) => ({
+      ...acc,
+      [scalar]: resolver,
     }),
     {},
   ),

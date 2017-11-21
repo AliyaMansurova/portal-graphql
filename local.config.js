@@ -1,3 +1,11 @@
+import GraphQLJSON from 'graphql-type-json'
+
+export let JSONScalar = 'FiltersArgument'
+
+export let SCALARS = {
+  FiltersArgument: GraphQLJSON,
+}
+
 export let ES_TYPES = {
   cases: {
     index: 'gdc_from_graph',
