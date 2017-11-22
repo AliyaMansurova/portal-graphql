@@ -2,21 +2,20 @@ import React from 'react'
 import Query from '~/ui/Query'
 import { parse } from 'query-string'
 import { Route } from 'react-router-dom'
+import Location from './Location'
 
 export default ({ type, mapping, ...props }) => {
   let scalarFields = Object.entries(mapping)
     .filter(([, metadata]) => metadata.type && metadata.type !== 'nested')
     .map(([field]) => field)
 
-  console.log('testingyo')
-
   return (
-    <Route>
+    <Location>
       {p => (
         <Query
           name="TableQuery"
           variables={{
-            filters: JSON.parse(parse(p.location.search).filters),
+            filters: p.filters,
           }}
           query={`
         query TableQuery($filters: FiltersArgument) {
@@ -77,6 +76,6 @@ export default ({ type, mapping, ...props }) => {
             )}
         </Query>
       )}
-    </Route>
+    </Location>
   )
 }

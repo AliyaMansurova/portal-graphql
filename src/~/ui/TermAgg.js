@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom'
 import Link from './Link'
 import { parse } from 'query-string'
 import { inCurrentFilters } from './filters'
+import Location from './Location'
 
 export default props => {
   const dotField = props.field.replace(/__/g, '.')
@@ -18,13 +19,13 @@ export default props => {
           .map(b => ({ ...b, name: b.key_as_string || b.key }))
           .map(bucket => (
             <div key={bucket.name}>
-              <Route>
+              <Location>
                 {p => (
                   <Link
                     className="bucket-link"
                     merge="toggle"
                     query={{
-                      ...parse(p.location.search),
+                      ...p,
                       offset: 0,
                       filters: {
                         op: 'and',
@@ -52,9 +53,7 @@ export default props => {
                       checked={inCurrentFilters({
                         key: bucket.name,
                         dotField,
-                        currentFilters: JSON.parse(
-                          parse(p.location.search).filters,
-                        ).content,
+                        currentFilters: (p.filters || {}).content,
                       })}
                       id={`input-${props.title}-${bucket.name.replace(
                         /\s/g,
@@ -80,7 +79,7 @@ export default props => {
                   </OverflowTooltippedLabel> */}
                   </Link>
                 )}
-              </Route>
+              </Location>
               <span className="bucket-count">
                 {bucket.doc_count.toLocaleString()}
               </span>
