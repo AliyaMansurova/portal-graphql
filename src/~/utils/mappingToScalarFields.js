@@ -10,11 +10,13 @@ export let esToGraphqlTypeMap = {
   float: 'Float',
 }
 
-export default mapping =>
-  Object.entries(mapping)
+export default mapping => {
+  console.log(666, mapping)
+  return Object.entries(mapping)
     .filter(([, metadata]) =>
       Object.keys(esToGraphqlTypeMap).includes(metadata.type),
     )
     .map(
       ([field, metadata]) => `${field}: ${esToGraphqlTypeMap[metadata.type]}`,
     )
+}

@@ -7,7 +7,7 @@ import createConnectionTypeDefs from './createConnectionTypeDefs'
 
 let mappingToObjectTypes = (type, mapping) => {
   return Object.entries(mapping)
-    .filter(([, metadata]) => !metadata.type)
+    .filter(([, metadata]) => !metadata.type && metadata.properties)
     .map(
       ([field, metadata]) => `
         ${mappingToNestedTypes(

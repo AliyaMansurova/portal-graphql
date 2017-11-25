@@ -5,6 +5,7 @@ import createConnectionTypeDefs from './createConnectionTypeDefs'
 import mappingToObjectTypes from './mappingToObjectTypes'
 
 let mappingToNestedTypes = (type, mapping) => {
+  console.log(type, mapping)
   return Object.entries(mapping)
     .filter(([, metadata]) => metadata.type === 'nested')
     .map(

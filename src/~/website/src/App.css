@@ -1,28 +1,53 @@
-.App {
-  text-align: center;
+html,
+body,
+#root {
+  margin: 0;
+  height: 100vh;
+  font-family: helvetica;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
+.header {
+  background-color: rgb(40, 139, 156);
   color: white;
+  font-weight: 100;
+  letter-spacing: 2px;
+  font-size: 20px;
 }
 
-.App-title {
-  font-size: 1.5em;
+.nav {
+  background-color: rgb(33, 33, 33);
 }
 
-.App-intro {
-  font-size: large;
+.nav a {
+  color: white;
+  text-decoration: none;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.header,
+.nav {
+  line-height: 50px;
+  padding: 0 20px;
+}
+
+.nav a {
+  padding: 0 10px;
+}
+
+.graphiql-container {
+  width: 350px;
+}
+
+.graphiql-container .editorWrap {
+  display: none;
+}
+
+.docExplorerWrap {
+  display: block !important;
+}
+
+.monaco-editor,
+.monaco-editor .monaco-editor,
+.monaco-scrollable-element,
+.react-monaco-editor-container {
+  height: calc(100vh - 100px) !important;
 }

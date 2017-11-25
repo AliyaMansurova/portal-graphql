@@ -10,7 +10,8 @@
     "start-es-trace": "WITH_ES=true ES_TRACE=trace NODE_PATH=src nodemon index.js",
     "debug": "node inspect index.js",
     "ui": "react-scripts start",
-    "storybook": "babelrc=false start-storybook -p 9001 -c .storybook"
+    "storybook": "babelrc=false start-storybook -p 9001 -c .storybook",
+    "website": "cd src/~/website && npm start"
   },
   "nodemonConfig": {
     "ignore": [
