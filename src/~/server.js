@@ -101,7 +101,7 @@ export default async es => {
         return res.json({ valid: false })
       }
 
-      let ep = 'blah'
+      let ep = `blah${+new Date()}`
 
       app.use(
         [`/${ep}`],

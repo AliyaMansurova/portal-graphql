@@ -41,13 +41,13 @@ let RootTypeDefs = `
 
   schema {
     query: Root
-    mutation: Mutation
+    # mutation: Mutation
   }
 `
 
 export let typeDefs = ({ types }) => [
   RootTypeDefs,
-  MutationTypeDefs,
+  // MutationTypeDefs,
   AggregationsTypeDefs,
   SortTypeDefs,
   ...types.map(([key, type]) => mappingToFields({ key, type })),
