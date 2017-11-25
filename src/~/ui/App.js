@@ -1,77 +1,71 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, Link } from 'react-router-dom'
+import MonacoEditor from 'react-monaco-editor'
 import '~/ui/App.css'
-import Table from '~/ui/Table'
-import FacetsPanel from '~/ui/FacetsPanel'
-import TypesPanel from '~/ui/TypesPanel'
-import Header from '~/ui/Header'
-import CurrentFilters from '~/ui/CurrentFilters'
 
-class Item extends Component {
-  render() {
-    return (
-      <div>
-        <h1>{this.props.match.params.type} list</h1>
-      </div>
-    )
-  }
+import GraphiQL from 'graphiql'
+import 'graphiql/graphiql.css'
+
+let API = 'http://localhost:5050'
+
+function graphQLFetcher(graphQLParams) {
+  return fetch(API + '/graphql', {
+    method: 'post',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(graphQLParams),
+  }).then(response => response.json())
 }
+// import Table from '~/ui/Table'
+// import FacetsPanel from '~/ui/FacetsPanel'
+// import TypesPanel from '~/ui/TypesPanel'
+// import Header from '~/ui/Header'
+// import CurrentFilters from '~/ui/CurrentFilters'
+
+let Aux = p => p.children
 
 class App extends Component {
-  state = { mappings: null }
-  componentDidMount() {
-    let API = 'http://localhost:5050'
-
-    fetch(API + '/mappings')
-      .then(r => r.json())
-      .then(({ mappings }) => this.setState({ mappings }))
-  }
+  // state = { mappings: null }
+  // componentDidMount() {
+  //
+  //
+  //   fetch(API + '/mappings')
+  //     .then(r => r.json())
+  //     .then(({ mappings }) => this.setState({ mappings }))
+  // }
   render() {
-    let { mappings } = this.state
-    return !mappings ? (
-      'loading'
-    ) : (
+    const requireConfig = {
+      url:
+        'https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.1/require.min.js',
+      paths: {
+        vs: 'https://www.mycdn.com/monaco-editor/0.6.1/min/vs',
+      },
+    }
+    return (
       <BrowserRouter>
-        <div>
-          <Header />
-          <CurrentFilters />
-          <div style={{ display: 'flex' }}>
-            <Route>
-              {({ location }) => (
-                <TypesPanel types={Object.keys(mappings)} location={location} />
-              )}
-            </Route>
-            <Route exact path="/:type">
-              {({ match, location }) =>
-                match && (
-                  <FacetsPanel
-                    location={location}
-                    type={match.params.type}
-                    mapping={mappings[match.params.type].properties}
-                  />
-                )}
-            </Route>
-            <Route exact path="/:type">
-              {({ match, ...props }) =>
-                match && (
-                  <Table
-                    type={match.params.type}
-                    mapping={mappings[match.params.type].properties}
-                  />
-                )}
-            </Route>
+        <Aux>
+          <div id="title">portalize</div>
+          <div>
+            <Link to="mappingsToSchema">mappingsToSchema</Link>
           </div>
-          <Route
-            path="/:type/:id"
-            component={props => (
-              <div>
-                <Item {...props} />
-                <hr />
-                {JSON.stringify(props, null, 2)}
-              </div>
+          <Route exact path="mappingsToSchema">
+            {() => (
+              <Aux>
+                <MonacoEditor
+                  width="800"
+                  height="600"
+                  language="javascript"
+                  value="// type your code..."
+                  requireConfig={requireConfig}
+                />
+                <GraphiQL fetcher={graphQLFetcher} />
+              </Aux>
             )}
-          />
-        </div>
+          </Route>
+
+          {/* <div>
+            <h1>mapping to schema</h1>
+          </div> */}
+        </Aux>
       </BrowserRouter>
     )
   }

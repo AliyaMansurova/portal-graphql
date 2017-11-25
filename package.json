@@ -9,7 +9,8 @@
     "start-es": "WITH_ES=true NODE_PATH=src nodemon index.js",
     "start-es-trace": "WITH_ES=true ES_TRACE=trace NODE_PATH=src nodemon index.js",
     "debug": "node inspect index.js",
-    "ui": "react-scripts start"
+    "ui": "react-scripts start",
+    "storybook": "babelrc=false start-storybook -p 9001 -c .storybook"
   },
   "nodemonConfig": {
     "ignore": [
@@ -22,6 +23,7 @@
     "url": "https://github.com/NCI-GDC/"
   },
   "devDependencies": {
+    "@storybook/react": "^3.2.16",
     "babel-jest": "^21.2.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
@@ -43,15 +45,18 @@
     "elasticsearch": "^13.3.1",
     "express": "^4.16.2",
     "express-graphql": "^0.6.11",
+    "graphiql": "^0.11.10",
     "graphql": "^0.11.7",
     "graphql-fields": "^1.0.2",
     "graphql-tools": "^2.6.1",
     "graphql-type-json": "^0.1.4",
     "lodash": "^4.17.4",
+    "monaco-editor": "^0.10.1",
     "node-fetch": "^1.7.3",
     "query-string": "^5.0.1",
     "react": "^16.1.1",
     "react-dom": "^16.1.1",
+    "react-monaco-editor": "^0.12.0",
     "react-router-dom": "^4.2.2",
     "react-scripts": "^1.0.17"
   }

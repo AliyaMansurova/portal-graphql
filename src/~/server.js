@@ -38,8 +38,6 @@ export default async es => {
 
     // TODO: get mappings from cache
 
-    // TODO: get nested fields?
-
     types.forEach(([key, type], i) => {
       let mapping = Object.values(mappings[i])[0].mappings[type.es_type]
         .properties
