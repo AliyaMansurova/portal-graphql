@@ -46,6 +46,7 @@ class App extends Component {
           <div id="title">portalize</div>
           <div>
             <Link to="mappingsToSchema">mappingsToSchema</Link>
+            <Link to="mappingsToSchema">mappingsToSchema</Link>
           </div>
           <Route exact path="mappingsToSchema">
             {() => (
@@ -61,10 +62,6 @@ class App extends Component {
               </Aux>
             )}
           </Route>
-
-          {/* <div>
-            <h1>mapping to schema</h1>
-          </div> */}
         </Aux>
       </BrowserRouter>
     )

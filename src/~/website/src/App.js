@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { BrowserRouter, Route, NavLink } from 'react-router-dom'
 import './App.css'
 import MappingsToSchema from './MappingsToSchema'
+import MappingsToAggregations from './MappingsToAggregations'
 
 class App extends Component {
   render() {
@@ -13,12 +14,16 @@ class App extends Component {
             <NavLink to="/mappingsToSchema" activeClassName="active">
               mappingsToSchema
             </NavLink>
-            <NavLink to="/mappingToAggregations" activeClassName="active">
-              mappingToAggregations
+            <NavLink to="/mappingsToAggregations" activeClassName="active">
+              mappingsToAggregations
             </NavLink>
           </div>
           <Route exact path="/" component={() => <div>home</div>} />
           <Route path="/mappingsToSchema" component={MappingsToSchema} />
+          <Route
+            path="/mappingsToAggregations"
+            component={MappingsToAggregations}
+          />
         </div>
       </BrowserRouter>
     )
