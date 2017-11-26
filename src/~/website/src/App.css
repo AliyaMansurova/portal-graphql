@@ -31,14 +31,21 @@ body,
 
 .nav a {
   padding: 0 10px;
+  line-height: 50px;
+  display: inline-block;
+}
+
+.nav a.active,
+.nav a:hover {
+  background-color: rgb(65, 74, 74);
 }
 
 .graphiql-container {
-  width: 350px;
+  width: 350px !important;
 }
 
 .graphiql-container .editorWrap {
-  display: none;
+  display: none !important;
 }
 
 .docExplorerWrap {
