@@ -6,7 +6,7 @@ import {
 
 export default async ({ types }) => {
   let typeDefs = generateTypeDefs({ types })
-  let resolvers = generateResolvers()
+  let resolvers = generateResolvers({ types })
 
   return makeExecutableSchema({
     typeDefs,

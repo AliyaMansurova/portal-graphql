@@ -2,6 +2,17 @@
 
 Standalone graphql server for portal-ui to consume.
 
+### ES init
+
+mapping first
+doc first
+
+- what happens to mappings when new fields are inserted after mapping is made?
+
+### Install
+
+### Roadmap
+
 ### Goals:
 
 - decouple `/graphql` endpoint from gdcapi
@@ -14,4 +25,4 @@ Standalone graphql server for portal-ui to consume.
 - ability to share code front <> back
 - better ecosystem support
 - fully understand the architectural and design decisions of the existing graphql implementation
-- simplify graphql schema whereever possible 
+- simplify graphql schema whereever possible

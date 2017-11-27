@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter, Route, Link } from 'react-router-dom'
+import { Route, Link } from 'react-router-dom'
 import MonacoEditor from 'react-monaco-editor'
 import { debounce } from 'lodash'
 import './App.css'
@@ -7,30 +7,37 @@ import mappingToAggsType from './mapaggs'
 
 let API = 'http://localhost:5050'
 
-let cars = {
-  cars: {
-    properties: {
-      model: {
-        type: 'keyword',
-      },
-      condition: {
-        type: 'float',
+let user = {
+  properties: {
+    name: {
+      type: 'keyword',
+    },
+    favorite_movies: {
+      type: 'nested',
+      properties: {
+        title: {
+          type: 'keyword',
+        },
+        rating: {
+          type: 'integer',
+        },
       },
     },
   },
 }
 
-let models = {
-  models: {
-    properties: {
-      name: {
-        type: 'keyword',
-      },
+let movies = {
+  properties: {
+    name: {
+      type: 'keyword',
+    },
+    first_release: {
+      type: 'keyword',
     },
   },
 }
 
-let mappings = { ...cars, ...models }
+let mappings = { user, movies }
 
 class App extends Component {
   state = {
@@ -44,6 +51,23 @@ class App extends Component {
     this.onChange(this.state.mappings)
   }
   onChange = (newValue, e) => {
+    let mappings
+    let valid
+    try {
+      mappings = JSON.parse(newValue)
+      valid = true
+    } catch (e) {
+      valid = false
+    }
+    if (valid) {
+      this.setState({ loading: true })
+      this.dmap(mappings)
+    } else {
+      this.setState({ valid: false })
+    }
+    this.setState({ mappings: newValue })
+  }
+  onChangeData = (newValue, e) => {
     let mappings
     let valid
     try {
@@ -119,6 +143,24 @@ class App extends Component {
           onChange={this.onChange}
           editorDidMount={this.editorDidMount}
         />
+        {/* <div>
+          <MonacoEditor
+            language="json"
+            value={this.state.mappings}
+            options={options}
+            onChange={this.onChange}
+            editorDidMount={this.editorDidMount}
+          />
+        </div>
+        <div>
+          <MonacoEditor
+            language="json"
+            value={this.state.mappings}
+            options={options}
+            onChange={this.onChange}
+            editorDidMount={this.editorDidMount}
+          />
+        </div> */}
         {!this.state.valid &&
           !this.state.loading && (
             <div style={{ width: '350px', padding: 20 }}>Invalid mapping.</div>
