@@ -58,3 +58,25 @@ body,
 .react-monaco-editor-container {
   height: calc(100vh - 100px) !important;
 }
+
+.splash-input::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: white;
+}
+.splash-input::-moz-placeholder {
+  /* Firefox 19+ */
+  color: white;
+}
+
+.pure-button {
+  font-family: inherit;
+  font-size: 100%;
+  padding: 0.5em 1em;
+  color: #444;
+  color: rgba(0, 0, 0, 0.8);
+  border: 1px solid #999;
+  border: transparent;
+  background-color: rgb(40, 139, 156);
+  text-decoration: none;
+  border-radius: 2px;
+}

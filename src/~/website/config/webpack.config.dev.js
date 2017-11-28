@@ -244,6 +244,14 @@ module.exports = {
         from: 'node_modules/monaco-editor/min/vs',
         to: 'vs',
       },
+      {
+        from: 'node_modules/monaco-editor/min/vs',
+        to: '**/vs',
+      },
+      {
+        from: 'node_modules/monaco-editor/min/vs',
+        to: '**/**/vs',
+      },
     ]),
   ],
   // Some libraries import Node modules but don't use them in the browser.

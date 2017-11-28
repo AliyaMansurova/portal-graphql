@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Route, Link } from 'react-router-dom'
-import MonacoEditor from 'react-monaco-editor'
+import MonacoEditor from './MonacoEditor'
 import { debounce } from 'lodash'
 import './App.css'
 import mappingToAggsType from './mapaggs'
@@ -9,6 +9,61 @@ import TermAgg from './TermAgg'
 
 let API = 'http://localhost:5050'
 
+let exampleInit = {
+  user: [
+    {
+      name: 'Alex',
+      favorite_movies: [
+        {
+          title: 'Memento',
+          rating: 5,
+        },
+        {
+          title: 'Fight Club',
+          rating: 4,
+        },
+      ],
+    },
+    {
+      name: 'Chris',
+      favorite_movies: [
+        {
+          title: 'Memento',
+          rating: 4,
+        },
+        {
+          title: 'Superman',
+          rating: 3,
+        },
+      ],
+    },
+  ],
+  movie: [
+    {
+      title: 'Memento',
+    },
+    {
+      title: 'Fight Club',
+    },
+  ],
+}
+
+let initData = [
+  {
+    name: 'Chris',
+    favorite_movies: [
+      {
+        title: 'Memento',
+        rating: 4,
+      },
+      {
+        title: 'Superman',
+        rating: 3,
+      },
+    ],
+  },
+]
+
 class App extends Component {
   state = {
     code: 'test',
@@ -16,48 +71,11 @@ class App extends Component {
     loading: true,
     // mappings: JSON.stringify(mappings, null, 2),
     mappings: null,
-    data: JSON.stringify(
-      {
-        user: [
-          {
-            name: 'Alex',
-            favorite_movies: [
-              {
-                title: 'Memento',
-                rating: 5,
-              },
-              {
-                title: 'Fight Club',
-                rating: 4,
-              },
-            ],
-          },
-          {
-            name: 'Chris',
-            favorite_movies: [
-              {
-                title: 'Memento',
-                rating: 4,
-              },
-              {
-                title: 'Superman',
-                rating: 3,
-              },
-            ],
-          },
-        ],
-        movie: [
-          {
-            title: 'Memento',
-          },
-          {
-            title: 'Fight Club',
-          },
-        ],
-      },
-      null,
-      2,
-    ),
+    //     data: `// start by adding a thing
+    //
+    // ${JSON.stringify(initData, null, 2)}
+    // `,
+    data: JSON.stringify(initData, null, 2),
   }
   componentDidMount() {
     // this.dmap = debounce(this.map2S, 300)
@@ -154,6 +172,7 @@ class App extends Component {
         }}
       >
         <MonacoEditor
+          requireConfig={{ url: '/vs/loader.js' }}
           language="json"
           value={this.state.data}
           options={options}
@@ -207,10 +226,10 @@ class App extends Component {
               ))}
             </div>
           )}
-        {this.state.valid &&
-          !this.state.loading &&
-          aggs.map(agg => (
-            <div className="aggs-config" style={{ width: 700 }}>
+        <div className="aggs-config" style={{ width: 700 }}>
+          {this.state.valid &&
+            !this.state.loading &&
+            aggs.map(agg => (
               <Query
                 endpoint={this.state.ep}
                 name="FacetQuery"
@@ -226,30 +245,30 @@ class App extends Component {
                             .map(([name, type]) => {
                               return type === 'Aggregations'
                                 ? `
-                                  ${name} {
-                                    buckets {
-                                      doc_count
-                                      key
-                                    }
-                                  }
-                                `
-                                : `
                                 ${name} {
-                                  stats {
-                                    max
-                                    min
-                                    count
-                                    avg
-                                    sum
-                                  }
-                                  histogram(interval: 1.0) {
-                                    buckets {
-                                      doc_count
-                                      key
-                                    }
+                                  buckets {
+                                    doc_count
+                                    key
                                   }
                                 }
-                                `
+                              `
+                                : `
+                              ${name} {
+                                stats {
+                                  max
+                                  min
+                                  count
+                                  avg
+                                  sum
+                                }
+                                histogram(interval: 1.0) {
+                                  buckets {
+                                    doc_count
+                                    key
+                                  }
+                                }
+                              }
+                              `
                             })}
                         }
                       }
@@ -271,8 +290,8 @@ class App extends Component {
                     </div>
                   )}
               </Query>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     )
   }
