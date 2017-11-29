@@ -62,13 +62,15 @@ export default async es => {
 
     app.use(cors())
 
-    app.get('/:index/type', async (req, res) => {
-      let { index } = req.params
+    app.get('/:index/:type', async (req, res) => {
+      let { index, type } = req.params
+      index = index.toLowerCase()
+      type = type.toLowerCase()
       let r
       try {
         r = await es.search({
           index,
-          type: 'type',
+          type,
         })
       } catch (e) {
         console.warn('no index found')
@@ -81,13 +83,15 @@ export default async es => {
 
     app.post('/:index/type', bodyParser.json(), async (req, res) => {
       let r
-      let type = req.body.type.toLowerCase()
+      let { type } = req.body
       let index = req.params.index.toLowerCase()
 
       if (!type) {
         res.json({ error: 'Must provide a name!' })
         return
       }
+
+      type = type.toLowerCase()
 
       try {
         r = await es.search({
@@ -173,7 +177,10 @@ export default async es => {
     app.use('/dataToAggregations', bodyParser.json(), async (req, res) => {
       let { project, type, docs } = req.body
 
-      let index = `${project}_${type}`.toLowerCase()
+      project = project.toLowerCase()
+      type = type.toLowerCase()
+
+      let index = `${project}_${type}`
 
       try {
         await es.indices.delete({ index })

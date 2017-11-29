@@ -24,7 +24,6 @@ type TappendUnderscores = (a: string) => string
 let appendUnderscores: TappendUnderscores = x => (x ? x + '__' : '')
 
 let mappingToAggsType = (properties, parent = '') => {
-  console.log(333, properties, parent)
   return flattenDeep(
     Object.entries(properties)
       .filter(

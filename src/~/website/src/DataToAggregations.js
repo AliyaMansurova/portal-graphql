@@ -79,9 +79,18 @@ class App extends Component {
     // `,
     data: JSON.stringify(initData, null, 2),
   }
-  componentDidMount() {
+  async componentDidMount() {
     this.getmaps = debounce(this.getmaps, 500)
-    this.onChange(this.state.data)
+    let r = await fetch(
+      API +
+        `/${this.props.match.params.name}_${this.props.match.params.type}/${this
+          .props.match.params.type}`,
+    ).then(r => r.json())
+
+    this.setState(
+      { data: JSON.stringify(r.hits.map(x => x._source), null, 2) },
+      () => this.onChange(this.state.data),
+    )
   }
   onChange = (newValue, e) => {
     let data
@@ -101,7 +110,6 @@ class App extends Component {
     this.setState({ data: newValue })
   }
   getmaps = docs => {
-    // console.log(123, data)
     fetch(API + '/dataToAggregations', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
@@ -135,7 +143,7 @@ class App extends Component {
       },
     }
 
-    let { mappings } = this.state
+    let { mappings, data } = this.state
     let { type, location } = this.props
 
     let aggs
@@ -151,7 +159,11 @@ class App extends Component {
       })
     }
 
-    console.log(aggs)
+    let d
+
+    try {
+      d = JSON.parse(data)
+    } catch (e) {}
 
     return (
       <div
@@ -164,32 +176,18 @@ class App extends Component {
         <MonacoEditor
           requireConfig={{ url: '/vs/loader.js' }}
           language="json"
-          value={this.state.data}
+          value={data}
           options={options}
           onChange={this.onChange}
           editorDidMount={this.editorDidMount}
         />
-        {/* <div>
-          <MonacoEditor
-            language="json"
-            value={this.state.mappings}
-            options={options}
-            onChange={this.onChange}
-            editorDidMount={this.editorDidMount}
-          />
-        </div>
-        <div>
-          <MonacoEditor
-            language="json"
-            value={this.state.mappings}
-            options={options}
-            onChange={this.onChange}
-            editorDidMount={this.editorDidMount}
-          />
-        </div> */}
         {!this.state.valid &&
-          !this.state.loading && (
-            <div style={{ width: 700, padding: 20 }}>Invalid mapping.</div>
+          !this.state.loading &&
+          !d && <div style={{ width: 700, padding: 20 }}>Invalid mapping.</div>}
+        {!this.state.loading &&
+          d &&
+          !d.length && (
+            <div style={{ width: 700, padding: 20 }}>No documents.</div>
           )}
         {this.state.loading && (
           <div style={{ width: 700, padding: 20 }}>Loading.</div>
