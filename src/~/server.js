@@ -8,6 +8,8 @@ import chalk from 'chalk'
 import { rainbow } from 'chalk-animation'
 import makeSchema from '~/schema'
 import { writeFile, readFile, mappingFolder, getNestedFields } from '~/utils'
+import uuid from 'uuid/v4'
+import bb from 'bodybuilder'
 
 export default async es => {
   let types = Object.entries(global.config.ES_TYPES)
@@ -59,6 +61,63 @@ export default async es => {
     }
 
     app.use(cors())
+
+    app.get('/:index/type', async (req, res) => {
+      let { index } = req.params
+      let r
+      try {
+        r = await es.search({
+          index,
+          type: 'type',
+        })
+      } catch (e) {
+        console.warn('no index found')
+        res.json({ error: 'no such index' })
+        return
+      }
+
+      res.json({ hits: r.hits.hits })
+    })
+
+    app.post('/:index/type', bodyParser.json(), async (req, res) => {
+      let r
+      let { type } = req.body
+      let { index } = req.params
+
+      if (!type) {
+        res.json({ error: 'Must provide a name!' })
+        return
+      }
+
+      try {
+        r = await es.search({
+          index,
+          type: 'type',
+          body: bb()
+            .query('term', 'name', type)
+            .build(),
+        })
+        if (r.hits.total) {
+          res.json({ error: 'This type already exists.' })
+          return
+        }
+      } catch (e) {
+        console.warn(
+          'no index found, probably creating index for the first time',
+        )
+      }
+
+      r = await es.create({
+        index,
+        type: 'type',
+        id: uuid(),
+        body: {
+          name: type,
+        },
+      })
+
+      res.json({ success: true })
+    })
 
     app.get('/mappings', async (req, res) => {
       let mappings = await Promise.all(

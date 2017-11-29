@@ -99,7 +99,7 @@ export default props => (
               </div>
 
               {typesState.types.map(type => (
-                <div key="type" style={{ lineHeight: 20, paddingLeft: 10 }}>
+                <div key="type" style={{ lineHeight: 2, paddingLeft: 10 }}>
                   {type}
                 </div>
               ))}
