@@ -28,8 +28,6 @@ export default type => async (obj, { offset = 0, ...args }, { es }, info) => {
     },
   })
 
-  console.log(12341234, aggregations, nested_fields)
-
   let { pruned } = await pruneAggregations({
     aggs: aggregations,
     nested_fields,

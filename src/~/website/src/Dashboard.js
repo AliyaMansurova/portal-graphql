@@ -1,7 +1,7 @@
 import React from 'react'
 import Aux from './Aux'
 import State from './State'
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Link, Redirect } from 'react-router-dom'
 import DataToAggregations from './DataToAggregations'
 import Modal from 'react-modal'
 
@@ -12,6 +12,14 @@ export default props => (
         types: [],
         addingType: false,
       }}
+      async={() =>
+        fetch(`http://localhost:5050/${props.match.params.name}/type`)
+          .then(r => r.json())
+          .then(r => {
+            return {
+              types: r.error ? [] : r.hits.map(x => x._source.name),
+            }
+          })}
     >
       {typesState => (
         <Aux>
@@ -54,24 +62,34 @@ export default props => (
                     placeholder="ex: user"
                     onChange={e =>
                       typeInputState.update({ text: e.target.value })}
-                    onKeyPress={e => {
+                    onKeyPress={async e => {
                       if (e.key === 'Enter') {
-                        typesState.update({
-                          types: [...typesState.types, typeInputState.text],
-                          addingType: false,
-                        })
-                        typeInputState.update({ go: true })
-                        setTimeout(() => {
-                          typeInputState.update({ go: false, text: '' })
-                        })
+                        let r = await fetch(
+                          `http://localhost:5050/${props.match.params
+                            .name}/type`,
+                          {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                              type: typeInputState.text,
+                            }),
+                          },
+                        ).then(r => r.json())
+                        if (!r.error) {
+                          typesState.update({
+                            types: [...typesState.types, typeInputState.text],
+                            addingType: false,
+                          })
+                          typeInputState.update({ text: '' })
+                        }
                       }
                     }}
                   />
-                  {typeInputState.go && (
+                  {/* {typeInputState.go && (
                     <Redirect
                       to={`${props.match.params.name}/${typeInputState.text}`}
                     />
-                  )}
+                  )} */}
                 </Aux>
               )}
             </State>
@@ -99,8 +117,8 @@ export default props => (
               </div>
 
               {typesState.types.map(type => (
-                <div key="type" style={{ lineHeight: 2, paddingLeft: 10 }}>
-                  {type}
+                <div key={type} style={{ lineHeight: 2, paddingLeft: 10 }}>
+                  <Link to={`${props.match.params.name}/${type}`}>{type}</Link>
                 </div>
               ))}
             </div>

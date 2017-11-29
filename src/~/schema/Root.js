@@ -57,7 +57,6 @@ export let typeDefs = ({ types }) => [
 let resolveObject = () => ({})
 
 export let resolvers = ({ types }) => {
-  console.log(1111111, types)
   return {
     JSON: GraphQLJSON,
     Root: {

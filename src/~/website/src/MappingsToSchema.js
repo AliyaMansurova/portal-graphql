@@ -9,7 +9,6 @@ import './App.css'
 let API = 'http://localhost:5050'
 
 let graphQLFetcher = ep => graphQLParams => {
-  console.log(3333, API + `/${ep}`)
   return fetch(API + `/${ep}`, {
     method: 'post',
     headers: { 'Content-Type': 'application/json' },
@@ -287,7 +286,6 @@ class App extends Component {
     this.setState({ mappings: newValue })
   }
   map2S = mappings => {
-    console.log(1111, mappings)
     fetch(API + '/mappingsToSchema', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },

@@ -81,8 +81,8 @@ export default async es => {
 
     app.post('/:index/type', bodyParser.json(), async (req, res) => {
       let r
-      let { type } = req.body
-      let { index } = req.params
+      let type = req.body.type.toLowerCase()
+      let index = req.params.index.toLowerCase()
 
       if (!type) {
         res.json({ error: 'Must provide a name!' })
@@ -156,7 +156,6 @@ export default async es => {
       try {
         schema = await makeSchema({ types })
       } catch (e) {
-        console.warn(123, e)
         return res.json({ valid: false })
       }
 
@@ -171,59 +170,71 @@ export default async es => {
       res.json({ ep, valid: true })
     })
 
-    // app.use('/dataToAggregations', async (req, res) => {
-    //   let r = await es.bulk({
-    //     body: [
-    //       // action description
-    //       { index: { _index: 'myindex', _type: 'mytype', _id: 1 } },
-    //       // the document to index
-    //       { title: 'foo' },
-    //       // action description
-    //       { update: { _index: 'myindex', _type: 'mytype', _id: 2 } },
-    //       // the document to update
-    //       { doc: { title: 'foo' } },
-    //       // action description
-    //       { delete: { _index: 'myindex', _type: 'mytype', _id: 3 } },
-    //       // no document needed for this delete
-    //     ],
-    //   })
-    //
-    //   console.log(r)
-    //
-    //   res.json({ success: true })
-    // })
-
     app.use('/dataToAggregations', bodyParser.json(), async (req, res) => {
+      let { project, type, docs } = req.body
+
+      let index = `${project}_${type}`.toLowerCase()
+
       try {
-        await es.indices.delete({ index: 'demo' })
+        await es.indices.delete({ index })
+        console.log(`${index} index wiped`)
       } catch (e) {
-        console.warn(e)
+        console.warn('index not created yet')
       }
 
-      let types = Object.entries(req.body.data)
+      if (docs.length) {
+        if (docs.some(doc => !Object.keys(doc).length)) {
+          res.json({ error: 'objects must have keys' })
+          return
+        }
+        try {
+          let body = flattenDeep(
+            docs.map(doc => [
+              { index: { _index: index, _type: type, _id: uuid() } },
+              JSON.stringify(doc),
+            ]),
+          )
 
-      let body = flattenDeep(
-        types.map(([_type, docs]) =>
-          docs.map((doc, i) => [
-            { index: { _index: 'demo', _type, _id: _type + i } },
-            JSON.stringify(doc),
-          ]),
+          console.warn(`bulk insert: ${docs}`)
+          await es.bulk({ body })
+        } catch (e) {
+          res.json({ error: 'malformed documents' })
+          return
+        }
+      }
+
+      let r
+
+      try {
+        r = await es.search({
+          index: project,
+          type: 'type',
+        })
+      } catch (e) {
+        console.warn('no index found')
+      }
+
+      let types = r.hits.hits.map(x => x._source.name)
+
+      let mappings = (await Promise.all(
+        types.map(type =>
+          es.indices
+            .getMapping({
+              index,
+              type,
+            })
+            .catch(() => null),
         ),
-      )
+      )).filter(Boolean)
 
-      await es.bulk({ body })
-
-      let mappings = await Promise.all(
-        types.map(([type]) =>
-          es.indices.getMapping({
-            index: 'demo',
-            type,
-          }),
-        ),
-      )
+      if (!mappings.length) {
+        res.json({ error: 'no mappings' })
+        return
+      }
 
       mappings = mappings.reduce((acc, mapping) => {
-        let [[type, mappings]] = Object.entries(mapping.demo.mappings)
+        let [index] = Object.values(mapping)
+        let [[type, mappings]] = Object.entries(index.mappings)
         return {
           ...acc,
           [type]: mappings,
@@ -233,12 +244,10 @@ export default async es => {
       types = Object.entries(mappings)
 
       types.forEach(([key, type], i) => {
-        // let mapping = Object.values(mappings[i])[0].mappings[type.es_type]
-        // .properties
         type.mapping = type.properties
         type.es_type = key
         type.name = capitalize(key)
-        type.index = 'demo'
+        type.index = index
         type.nested_fields = getNestedFields(type.mapping)
       })
 
@@ -246,7 +255,6 @@ export default async es => {
       try {
         schema = await makeSchema({ types })
       } catch (e) {
-        console.warn(123, e)
         return res.json({ valid: false })
       }
 

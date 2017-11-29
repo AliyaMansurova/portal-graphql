@@ -11,7 +11,6 @@ export let esToGraphqlTypeMap = {
 }
 
 export default mapping => {
-  console.log(666, mapping)
   return Object.entries(mapping)
     .filter(([, metadata]) =>
       Object.keys(esToGraphqlTypeMap).includes(metadata.type),

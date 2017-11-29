@@ -49,20 +49,22 @@ let exampleInit = {
 }
 
 let initData = [
-  {
-    name: 'Chris',
-    favorite_movies: [
-      {
-        title: 'Memento',
-        rating: 4,
-      },
-      {
-        title: 'Superman',
-        rating: 3,
-      },
-    ],
-  },
+  // {
+  //   name: 'Chris',
+  //   favorite_movies: [
+  //     {
+  //       title: 'Memento',
+  //       rating: 4,
+  //     },
+  //     {
+  //       title: 'Superman',
+  //       rating: 3,
+  //     },
+  //   ],
+  // },
 ]
+
+initData = []
 
 class App extends Component {
   state = {
@@ -78,7 +80,7 @@ class App extends Component {
     data: JSON.stringify(initData, null, 2),
   }
   componentDidMount() {
-    // this.dmap = debounce(this.map2S, 300)
+    this.getmaps = debounce(this.getmaps, 500)
     this.onChange(this.state.data)
   }
   onChange = (newValue, e) => {
@@ -98,29 +100,15 @@ class App extends Component {
     }
     this.setState({ data: newValue })
   }
-  // onChangeData = (newValue, e) => {
-  //   let mappings
-  //   let valid
-  //   try {
-  //     mappings = JSON.parse(newValue)
-  //     valid = true
-  //   } catch (e) {
-  //     valid = false
-  //   }
-  //   if (valid) {
-  //     this.setState({ loading: true })
-  //     this.dmap(mappings)
-  //   } else {
-  //     this.setState({ valid: false })
-  //   }
-  //   this.setState({ mappings: newValue })
-  // }
-  getmaps = data => {
+  getmaps = docs => {
+    // console.log(123, data)
     fetch(API + '/dataToAggregations', {
       method: 'post',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        data,
+        project: this.props.match.params.name,
+        type: this.props.match.params.type,
+        docs,
       }),
     })
       .then(r => r.json())
@@ -162,6 +150,8 @@ class App extends Component {
         }
       })
     }
+
+    console.log(aggs)
 
     return (
       <div
@@ -209,31 +199,30 @@ class App extends Component {
             <div className="aggs-config" style={{ width: 700 }}>
               <div>Aggregation Configuration</div>
               <hr />
-              {aggs.map(agg => (
-                <div key={agg.type}>
-                  <div>
-                    <b>{agg.type}</b>
-                  </div>
-                  {agg.mapping.map(([field]) => {
+              {aggs
+                .filter(agg => agg.type === this.props.match.params.type)
+                .map(agg =>
+                  agg.mapping.map(([field]) => {
                     return (
                       <div key={field}>
                         <div>{field.replace(/__/g, '.')}</div>
                       </div>
                     )
-                  })}
-                  <hr />
-                </div>
-              ))}
+                  }),
+                )}
             </div>
           )}
         <div className="aggs-config" style={{ width: 700 }}>
           {this.state.valid &&
             !this.state.loading &&
-            aggs.map(agg => (
-              <Query
-                endpoint={this.state.ep}
-                name="FacetQuery"
-                query={`
+            aggs
+              .filter(agg => agg.type === this.props.match.params.type)
+              .map(agg => (
+                <Query
+                  key={agg.type}
+                  endpoint={this.state.ep}
+                  name="FacetQuery"
+                  query={`
                     query {
                       ${agg.type} {
                         aggregations {
@@ -274,23 +263,23 @@ class App extends Component {
                       }
                     }
                   `}
-              >
-                {data =>
-                  !data ? (
-                    'loading'
-                  ) : (
-                    <div className="remainder">
-                      {Object.entries(
-                        data[agg.type].aggregations,
-                      ).map(([field, data]) => (
-                        <div key={field}>
-                          <TermAgg field={field} buckets={data.buckets} />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-              </Query>
-            ))}
+                >
+                  {data =>
+                    !data ? (
+                      'loading'
+                    ) : (
+                      <div className="remainder">
+                        {Object.entries(
+                          data[agg.type].aggregations,
+                        ).map(([field, data]) => (
+                          <div key={field}>
+                            <TermAgg field={field} buckets={data.buckets} />
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                </Query>
+              ))}
         </div>
       </div>
     )
