@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 export default ({ typesState, name }) => (
-  <div style={{ width: 200, borderRight: '1px solid #cacaca' }}>
+  <div style={{ width: 170, borderRight: '1px solid #cacaca' }}>
     <div style={{ display: 'flex', padding: 10, alignItems: 'center' }}>
       <span
         style={{

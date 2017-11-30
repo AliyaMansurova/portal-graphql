@@ -96,3 +96,7 @@ body,
   border-radius: 0.25em;
   font-weight: bold;
 }
+.smaller {
+  transform: scale(0.8);
+  transform-origin: top left;
+}
