@@ -6,40 +6,42 @@ import _ from 'lodash'
 // import { inCurrentFilters } from './filters'
 // import Location from './Location'
 
-export default props => {
+export default ({ handleFieldClick = () => {}, ...props }) => {
   const dotField = props.field.replace(/__/g, '.')
   const filteredBuckets = props.buckets
 
   return (
     <div style={props.style} className="test-term-aggregation">
-      {dotField}
+      <div style={{ display: 'flex', padding: 10, alignItems: 'center' }}>
+        <span
+          style={{
+            fontSize: 15,
+            color: '#537979',
+          }}
+        >
+          {dotField}
+        </span>
+      </div>
       <div>
         {_.orderBy(filteredBuckets, 'doc_count', 'desc')
           // .slice(0, props.showingMore ? Infinity : 5)
           .map(b => ({ ...b, name: b.key_as_string || b.key }))
           .map(bucket => (
-            <div key={bucket.name}>
+            <div
+              key={bucket.name}
+              className="bucket-item"
+              style={{ display: 'flex' }}
+            >
               {/* <Location> */}
               {/* {p => ( */}
-              <a
+              <span
                 className="bucket-link"
                 merge="toggle"
-                query={{
-                  // ...p,
-                  offset: 0,
-                  filters: {
-                    op: 'and',
-                    content: [
-                      {
-                        op: 'in',
-                        content: {
-                          field: dotField,
-                          value: [bucket.name],
-                        },
-                      },
-                    ],
-                  },
-                }}
+                onClick={() =>
+                  handleFieldClick({
+                    field: dotField,
+                    value: bucket.name,
+                  })}
               >
                 <input
                   readOnly
@@ -74,7 +76,7 @@ export default props => {
                   >
                     {bucket.name}
                   </OverflowTooltippedLabel> */}
-              </a>
+              </span>
               {/* )} */}
               {/* </Location> */}
               <span className="bucket-count">

@@ -4,67 +4,12 @@ import MonacoEditor from './MonacoEditor'
 import { debounce } from 'lodash'
 import './App.css'
 import mappingToAggsType from './mapaggs'
+import AggsPanel from './AggsPanel'
 import Query from './Query'
-import TermAgg from './TermAgg'
 
 let API = 'http://localhost:5050'
 
-let exampleInit = {
-  user: [
-    {
-      name: 'Alex',
-      favorite_movies: [
-        {
-          title: 'Memento',
-          rating: 5,
-        },
-        {
-          title: 'Fight Club',
-          rating: 4,
-        },
-      ],
-    },
-    {
-      name: 'Chris',
-      favorite_movies: [
-        {
-          title: 'Memento',
-          rating: 4,
-        },
-        {
-          title: 'Superman',
-          rating: 3,
-        },
-      ],
-    },
-  ],
-  movie: [
-    {
-      title: 'Memento',
-    },
-    {
-      title: 'Fight Club',
-    },
-  ],
-}
-
-let initData = [
-  // {
-  //   name: 'Chris',
-  //   favorite_movies: [
-  //     {
-  //       title: 'Memento',
-  //       rating: 4,
-  //     },
-  //     {
-  //       title: 'Superman',
-  //       rating: 3,
-  //     },
-  //   ],
-  // },
-]
-
-initData = []
+let initData = []
 
 class App extends Component {
   state = {
@@ -87,10 +32,12 @@ class App extends Component {
           .props.match.params.type}`,
     ).then(r => r.json())
 
-    this.setState(
-      { data: JSON.stringify(r.hits.map(x => x._source), null, 2) },
-      () => this.onChange(this.state.data),
-    )
+    if (!r.error) {
+      this.setState(
+        { data: JSON.stringify(r.hits.map(x => x._source), null, 2) },
+        () => this.onChange(this.state.data),
+      )
+    }
   }
   onChange = (newValue, e) => {
     let data
@@ -155,6 +102,11 @@ class App extends Component {
           mapping: mappingToAggsType(type.properties).map(field =>
             field.split(':').map(x => x.trim()),
           ),
+          scalarFields: Object.entries(type.properties)
+            .filter(
+              ([, metadata]) => metadata.type && metadata.type !== 'nested',
+            )
+            .map(([field]) => field),
         }
       })
     }
@@ -169,18 +121,30 @@ class App extends Component {
       <div
         style={{
           display: 'flex',
-          height: 'calc(100vh - 100px)',
+          height: 'calc(100vh - 50px)',
           overflow: 'hidden',
         }}
       >
-        <MonacoEditor
-          requireConfig={{ url: '/vs/loader.js' }}
-          language="json"
-          value={data}
-          options={options}
-          onChange={this.onChange}
-          editorDidMount={this.editorDidMount}
-        />
+        <div style={{ width: 700 }}>
+          <div style={{ display: 'flex', padding: 10, alignItems: 'center' }}>
+            <span
+              style={{
+                fontSize: 15,
+                color: '#537979',
+              }}
+            >
+              DOCUMENTS
+            </span>
+          </div>
+          <MonacoEditor
+            requireConfig={{ url: '/vs/loader.js' }}
+            language="json"
+            value={data}
+            options={options}
+            onChange={this.onChange}
+            editorDidMount={this.editorDidMount}
+          />
+        </div>
         {!this.state.valid &&
           !this.state.loading &&
           !d && <div style={{ width: 700, padding: 20 }}>Invalid mapping.</div>}
@@ -195,8 +159,18 @@ class App extends Component {
         {this.state.valid &&
           !this.state.loading && (
             <div className="aggs-config" style={{ width: 700 }}>
-              <div>Aggregation Configuration</div>
-              <hr />
+              <div
+                style={{ display: 'flex', padding: 10, alignItems: 'center' }}
+              >
+                <span
+                  style={{
+                    fontSize: 15,
+                    color: '#537979',
+                  }}
+                >
+                  FACET CONFIG
+                </span>
+              </div>
               {aggs
                 .filter(agg => agg.type === this.props.match.params.type)
                 .map(agg =>
@@ -210,7 +184,16 @@ class App extends Component {
                 )}
             </div>
           )}
-        <div className="aggs-config" style={{ width: 700 }}>
+        <div className="aggs" style={{ width: 700 }}>
+          {this.state.valid &&
+            !this.state.loading &&
+            aggs
+              .filter(agg => agg.type === this.props.match.params.type)
+              .map(agg => (
+                <AggsPanel key={agg.type} agg={agg} ep={this.state.ep} />
+              ))}
+        </div>
+        <div className="search-results">
           {this.state.valid &&
             !this.state.loading &&
             aggs
@@ -219,61 +202,87 @@ class App extends Component {
                 <Query
                   key={agg.type}
                   endpoint={this.state.ep}
-                  name="FacetQuery"
+                  name="TableQuery"
+                  // variables={{
+                  //   filters: p.filters,
+                  // }}
                   query={`
-                    query {
-                      ${agg.type} {
-                        aggregations {
-                          ${agg.mapping
-                            // .filter(field => {
-                            //   let [name] = field.split(':').map(x => x.trim())
-                            //   return activeFacets.includes(name)
-                            // })
-                            .map(([name, type]) => {
-                              return type === 'Aggregations'
-                                ? `
-                                ${name} {
-                                  buckets {
-                                    doc_count
-                                    key
-                                  }
-                                }
-                              `
-                                : `
-                              ${name} {
-                                stats {
-                                  max
-                                  min
-                                  count
-                                  avg
-                                  sum
-                                }
-                                histogram(interval: 1.0) {
-                                  buckets {
-                                    doc_count
-                                    key
-                                  }
-                                }
-                              }
-                              `
-                            })}
-                        }
-                      }
-                    }
-                  `}
+          query TableQuery($filters: FiltersArgument) {
+            ${this.props.match.params.type} {
+              hits(first: 1000 filters: $filters) {
+                total
+                edges {
+                  node {
+                    id
+                    ${agg.scalarFields}
+                  }
+                }
+              }
+            }
+          }
+        `}
                 >
                   {data =>
-                    !data ? (
-                      'loading'
-                    ) : (
-                      <div className="remainder">
-                        {Object.entries(
-                          data[agg.type].aggregations,
-                        ).map(([field, data]) => (
-                          <div key={field}>
-                            <TermAgg field={field} buckets={data.buckets} />
-                          </div>
-                        ))}
+                    !(data && data[this.props.match.params.type]) ? null : (
+                      <div
+                        style={{
+                          width: 300,
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            padding: 10,
+                            alignItems: 'center',
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: 15,
+                              color: '#537979',
+                            }}
+                          >
+                            <span>Results</span>{' '}
+                            <span>
+                              {
+                                data[this.props.match.params.type].hits.edges
+                                  .length
+                              }{' '}
+                              of{' '}
+                              {data[
+                                this.props.match.params.type
+                              ].hits.total.toLocaleString()}
+                            </span>
+                          </span>
+                        </div>
+                        <div
+                          style={{
+                            overflowX: 'auto',
+                            height: 'calc(100vh - 50px)',
+                            overflow: 'auto',
+                          }}
+                        >
+                          <table className="pure-table smaller pure-table-bordered">
+                            <thead>
+                              <tr>
+                                {agg.scalarFields.map(field => (
+                                  <th key={field}>{field}</th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {data[
+                                this.props.match.params.type
+                              ].hits.edges.map(({ node }) => (
+                                <tr key={node.id}>
+                                  {agg.scalarFields.map(field => (
+                                    <td key={field}>{node[field]}</td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     )}
                 </Query>
