@@ -1,8 +1,11 @@
 import React from 'react'
+import { stringify } from 'query-string'
 import Query from './Query'
 import TermAgg from './TermAgg'
+import { inCurrentFilters } from './filters'
+import Location from './Location'
 
-export default ({ agg, ep }) => (
+export default ({ agg, ep, history }) => (
   <Query
     key={agg.type}
     endpoint={ep}
@@ -56,13 +59,38 @@ export default ({ agg, ep }) => (
         <div className="remainder">
           {Object.entries(data[agg.type].aggregations).map(([field, data]) => (
             <div key={field}>
-              <TermAgg
-                field={field}
-                buckets={data.buckets}
-                handleFieldClick={d => {
-                  console.log(123, d)
-                }}
-              />
+              <Location>
+                {p => (
+                  <TermAgg
+                    field={field}
+                    buckets={data.buckets}
+                    isActive={d =>
+                      inCurrentFilters({
+                        key: d.value,
+                        dotField: d.field,
+                        currentFilters: (p.filters || {}).content,
+                      })}
+                    handleFieldClick={d => {
+                      history.push({
+                        search: stringify({
+                          filters: JSON.stringify({
+                            op: 'and',
+                            content: [
+                              {
+                                op: 'in',
+                                content: {
+                                  field: d.field,
+                                  value: [d.value],
+                                },
+                              },
+                            ],
+                          }),
+                        }),
+                      })
+                    }}
+                  />
+                )}
+              </Location>
             </div>
           ))}
         </div>

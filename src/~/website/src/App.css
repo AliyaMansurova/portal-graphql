@@ -84,7 +84,13 @@ body,
 .bucket-item {
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  font-size: 14px;
+  padding: 4px 10px;
+}
+
+.bucket-item:hover {
+  cursor: pointer;
+  background-color: rgb(237, 244, 247);
 }
 
 .bucket-count {
@@ -99,4 +105,19 @@ body,
 .smaller {
   transform: scale(0.8);
   transform-origin: top left;
+}
+
+.current-filter-content span {
+  font-weight: bold;
+  color: #28a70b;
+}
+.current-filter-content span + span {
+  margin-left: 5px;
+}
+
+span.clear-filters {
+  color: #ff2525;
+  font-size: 11px;
+  text-transform: uppercase;
+  cursor: pointer;
 }

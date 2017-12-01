@@ -22,7 +22,7 @@ export default ({ typesState, name }) => (
 
     {typesState.types.map(type => (
       <div key={type} style={{ lineHeight: 2, paddingLeft: 10 }}>
-        <Link to={`${name}/${type}`}>{type}</Link>
+        <Link to={`/${name}/${type}`}>{type}</Link>
       </div>
     ))}
   </div>

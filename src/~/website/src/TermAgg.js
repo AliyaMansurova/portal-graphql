@@ -6,7 +6,11 @@ import _ from 'lodash'
 // import { inCurrentFilters } from './filters'
 // import Location from './Location'
 
-export default ({ handleFieldClick = () => {}, ...props }) => {
+export default ({
+  handleFieldClick = () => {},
+  isActive = () => {},
+  ...props
+}) => {
   const dotField = props.field.replace(/__/g, '.')
   const filteredBuckets = props.buckets
 
@@ -31,18 +35,15 @@ export default ({ handleFieldClick = () => {}, ...props }) => {
               key={bucket.name}
               className="bucket-item"
               style={{ display: 'flex' }}
+              onClick={() =>
+                handleFieldClick({
+                  field: dotField,
+                  value: bucket.name,
+                })}
             >
               {/* <Location> */}
               {/* {p => ( */}
-              <span
-                className="bucket-link"
-                merge="toggle"
-                onClick={() =>
-                  handleFieldClick({
-                    field: dotField,
-                    value: bucket.name,
-                  })}
-              >
+              <span className="bucket-link" merge="toggle">
                 <input
                   readOnly
                   type="checkbox"
@@ -52,11 +53,10 @@ export default ({ handleFieldClick = () => {}, ...props }) => {
                     flexShrink: 0,
                     verticalAlign: 'middle',
                   }}
-                  // checked={inCurrentFilters({
-                  //   key: bucket.name,
-                  //   dotField,
-                  //   currentFilters: (p.filters || {}).content,
-                  // })}
+                  checked={isActive({
+                    field: dotField,
+                    value: bucket.name,
+                  })}
                   id={`input-${props.title}-${bucket.name.replace(/\s/g, '-')}`}
                   name={`input-${props.title}-${bucket.name.replace(
                     /\s/g,
