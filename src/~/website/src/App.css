@@ -121,3 +121,19 @@ span.clear-filters {
   text-transform: uppercase;
   cursor: pointer;
 }
+
+.id-field {
+  width: 65px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.config-field-label {
+  font-size: 12px;
+}
+
+.config-field + .config-field {
+  margin-top: 7px;
+}

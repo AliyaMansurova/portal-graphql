@@ -178,8 +178,19 @@ class App extends Component {
                 .map(agg =>
                   agg.mapping.map(([field]) => {
                     return (
-                      <div key={field}>
-                        <div>{field.replace(/__/g, '.')}</div>
+                      <div key={field} className="config-field">
+                        <div>
+                          <span className="config-field-label">
+                            FIELD:
+                          </span>{' '}
+                          <span>{field.replace(/__/g, '.')}</span>
+                        </div>
+                        <div>
+                          <span className="config-field-label">
+                            DISPLAY NAME:
+                          </span>{' '}
+                          <span>{field.replace(/__/g, '.')}</span>
+                        </div>
                       </div>
                     )
                   }),

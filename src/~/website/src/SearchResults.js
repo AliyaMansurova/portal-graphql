@@ -67,6 +67,7 @@ edges {
                     <table className="pure-table smaller pure-table-bordered">
                       <thead>
                         <tr>
+                          <th>uuid</th>
                           {agg.scalarFields.map(field => (
                             <th key={field}>{field}</th>
                           ))}
@@ -75,6 +76,9 @@ edges {
                       <tbody>
                         {data[type].hits.edges.map(({ node }) => (
                           <tr key={node.id}>
+                            <td>
+                              <span className="id-field">{node.id}</span>
+                            </td>
                             {agg.scalarFields.map(field => (
                               <td key={field}>{node[field]}</td>
                             ))}
