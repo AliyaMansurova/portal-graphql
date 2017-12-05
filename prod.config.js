@@ -136,6 +136,9 @@ export let ROOT_TYPES = {
         ): ${JSONScalar}
       }
     `,
+    resolvers: {
+      data: () => ({}),
+    },
     // resolvers: {
     // data: async (obj, { gene_ids = [], first = 0}) => {
     //   let data = await fetch(process.env.GDCAPI + '/top_cases_counts_by_genes', {
@@ -166,6 +169,9 @@ export let ROOT_TYPES = {
         ): ${JSONScalar}
       }
     `,
+    resolvers: {
+      data: () => ({}),
+    },
   },
   cart_summary: {
     typeDefs: `
@@ -195,5 +201,8 @@ export let ROOT_TYPES = {
         aggregations(filters: ${JSONScalar}): CartSummaryAggs
       }
     `,
+    resolvers: {
+      aggregations: () => ({}),
+    },
   },
 }
