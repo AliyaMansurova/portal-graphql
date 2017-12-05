@@ -5,7 +5,7 @@ import { typeDefs as AggregationsTypeDefs } from './Aggregations'
 import { typeDefs as SortTypeDefs } from './Sort'
 import { createConnectionResolvers, mappingToFields } from '~/utils'
 
-let RootTypeDefs = ({ types }) => `
+let RootTypeDefs = ({ types, rootTypes }) => `
   scalar JSON
 
   ${Object.keys(global.config.SCALARS).map(type => `scalar ${type}`)}
@@ -18,8 +18,6 @@ let RootTypeDefs = ({ types }) => `
     value: Float
   }
 
-
-
   type QueryResults {
     total: Int
     hits: [Node]
@@ -29,9 +27,11 @@ let RootTypeDefs = ({ types }) => `
     node(id: ID): Node
     viewer: Root
     query(query: String, types: [String]): QueryResults
-
+    ${rootTypes.map(([key]) => `${key}: ${startCase(key).replace(/\s/g, '')}`)}
     ${types.map(([key, type]) => `${key}: ${type.name}`)}
   }
+
+  ${rootTypes.map(([, type]) => type.typeDefs)}
 
   schema {
     query: Root
@@ -46,8 +46,8 @@ let RootTypeDefs = ({ types }) => `
 //   key => `${key}: ${startCase(key).replace(/\s/g, '')}`,
 // )}
 
-export let typeDefs = ({ types }) => [
-  RootTypeDefs({ types }),
+export let typeDefs = ({ types, rootTypes }) => [
+  RootTypeDefs({ types, rootTypes }),
   // MutationTypeDefs,
   AggregationsTypeDefs,
   SortTypeDefs,
@@ -68,16 +68,6 @@ export let resolvers = ({ types }) => {
         }),
         {},
       ),
-      // ...Object.keys({
-      //   ...global.config.ES_TYPES,
-      //   ...global.config.ROOT_TYPES,
-      // }).reduce(
-      //   (acc, key) => ({
-      //     ...acc,
-      //     [key]: resolveObject,
-      //   }),
-      //   {},
-      // ),
     },
     ...types.reduce(
       (acc, [key, type]) => ({

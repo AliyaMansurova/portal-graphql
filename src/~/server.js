@@ -12,6 +12,7 @@ import uuid from 'uuid/v4'
 import bb from 'bodybuilder'
 
 export default async es => {
+  let rootTypes = Object.entries(global.config.ROOT_TYPES)
   let types = Object.entries(global.config.ES_TYPES)
   let app = express()
   let mappings
@@ -48,7 +49,7 @@ export default async es => {
       type.nested_fields = getNestedFields(mapping)
     })
 
-    let schema = await makeSchema({ types })
+    let schema = await makeSchema({ types, rootTypes })
 
     if (!es) {
       console.log(

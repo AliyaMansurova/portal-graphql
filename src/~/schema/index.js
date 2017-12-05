@@ -4,9 +4,9 @@ import {
   resolvers as generateResolvers,
 } from './Root'
 
-export default async ({ types }) => {
-  let typeDefs = generateTypeDefs({ types })
-  let resolvers = generateResolvers({ types })
+export default async ({ types, rootTypes }) => {
+  let typeDefs = generateTypeDefs({ types, rootTypes })
+  let resolvers = generateResolvers({ types, rootTypes })
 
   return makeExecutableSchema({
     typeDefs,
