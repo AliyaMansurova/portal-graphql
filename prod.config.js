@@ -1,3 +1,4 @@
+import fetch from 'node-fetch'
 import JSONType from './JSONTypeTemp'
 
 export let JSONScalar = 'FiltersArgument'
@@ -23,6 +24,7 @@ export let ES_TYPES = {
     customFields: `
       disease_type: [String]
       primary_site: [String]
+      summary: ProjectSummaryNotNested
     `,
   },
   cases: {
@@ -75,6 +77,21 @@ export let ES_TYPES = {
 }
 
 export let ROOT_TYPES = {
+  projectSummaryNotNested: {
+    typeDefs: `
+      type ProjectSummaryNotNestedDataCategories {
+        case_count: Int
+        data_category: String
+      }
+      type ProjectSummaryNotNested {
+        file_size: Float
+        file_count: Int
+        case_count: Int
+        data_categories: [ProjectSummaryNotNestedDataCategories]
+      }
+    `,
+    resolvers: () => ({}),
+  },
   repository: {
     typeDefs: `
       type Repository {
@@ -137,25 +154,27 @@ export let ROOT_TYPES = {
       }
     `,
     resolvers: {
-      data: () => ({}),
+      data: async (obj, { gene_ids = [], first = 0 }) => {
+        let data = await fetch(
+          process.env.GDCAPI + '/analysis/top_cases_counts_by_genes',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              gene_ids: gene_ids.join(),
+              size: first,
+              // filters: json.dumps(
+              // args.get('filters', { op: 'and', content: [] }),
+              // ),
+            }),
+          },
+        ).then(r => r.json())
+        console.log(data)
+        return '{}'
+      },
     },
-    // resolvers: {
-    // data: async (obj, { gene_ids = [], first = 0}) => {
-    //   let data = await fetch(process.env.GDCAPI + '/top_cases_counts_by_genes', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       gene_ids: gene_ids.join(),
-    //       size: first,
-    //       filters: json.dumps(args.get('filters', { op: 'and', content: [] })),
-    //     }),
-    //   }).then(r => r.json())
-    //   console.log(data)
-    //   return '{}'
-    // },
-    // }
   },
   protein_mutations: {
     typeDefs: `

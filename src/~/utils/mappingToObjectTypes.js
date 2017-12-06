@@ -10,11 +10,16 @@ let mappingToObjectTypes = (type, mapping) => {
     .filter(([, metadata]) => !metadata.type && metadata.properties)
     .map(
       ([field, metadata]) => `
+        ${mappingToObjectTypes(type + capitalize(field), metadata.properties)},
         ${mappingToNestedTypes(
           type + capitalize(field),
           metadata.properties,
         ).join('\n')}
         type ${type + capitalize(field)} {
+          ${mappingToNestedFields(
+            type + capitalize(field),
+            metadata.properties,
+          )}
           ${mappingToScalarFields(metadata.properties)}
         }
       `,

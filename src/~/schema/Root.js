@@ -54,15 +54,8 @@ export let resolvers = ({ types, rootTypes }) => {
     JSON: GraphQLJSON,
     Root: {
       viewer: resolveObject,
-      ...types.reduce(
+      ...[...types, ...rootTypes].reduce(
         (acc, [key]) => ({
-          ...acc,
-          [key]: resolveObject,
-        }),
-        {},
-      ),
-      ...rootTypes.reduce(
-        (acc, [key, type]) => ({
           ...acc,
           [key]: resolveObject,
         }),
