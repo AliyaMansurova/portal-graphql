@@ -1,37 +1,26 @@
-import JSONType from "./JSONTypeTemp";
-import fetch from "node-fetch";
-import elasticsearch from "elasticsearch";
+import JSONType from './JSONTypeTemp'
+import fetch from 'node-fetch'
+import elasticsearch from 'elasticsearch'
 
-let api = `${process.env.GDCAPI}/graphql`;
-
-// let esconfig = {
-//   host: process.env.ES_HOST
-// };
-// if (process.env.ES_TRACE) esconfig.log = process.env.ES_TRACE;
-// let es = new elasticsearch.Client(esconfig);
-let es = new elasticsearch.Client({
-  host: "142.1.177.42:9200"
-});
-
-export let JSONScalar = "FiltersArgument";
+export let JSONScalar = 'FiltersArgument'
 
 export let SCALARS = {
-  [JSONScalar]: JSONType(JSONScalar)
-};
+  [JSONScalar]: JSONType(JSONScalar),
+}
 
 export let ES_TYPES = {
   annotations: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
     es_type: process.env.ES_ANNOTATION_TYPE,
-    name: "Annotation"
+    name: 'Annotation',
   },
   projects: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
     es_type: process.env.ES_PROJECT_TYPE,
-    name: "Project",
+    name: 'Project',
     nested_fields: [
-      "summary.data_categories",
-      "summary.experimental_strategies"
+      'summary.data_categories',
+      'summary.experimental_strategies',
     ],
     customFields: `
       disease_type: [String]
@@ -42,7 +31,7 @@ export let ES_TYPES = {
   cases: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
     es_type: process.env.ES_CASE_TYPE,
-    name: "Case",
+    name: 'Case',
     customFields: `
       aliquot_ids: [String]
       analyte_ids: [String]
@@ -56,37 +45,37 @@ export let ES_TYPES = {
       submitter_portion_ids: [String]
       available_variation_data: [String]
       id: ID!
-    `
+    `,
   },
   files: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
     es_type: process.env.ES_FILE_TYPE,
-    name: "File"
+    name: 'File',
   },
   case_centric: {
     index: process.env.ES_CASE_CENTRIC_INDEX,
     es_type: process.env.ES_CASE_CENTRIC_TYPE,
-    name: "ECase"
+    name: 'ECase',
   },
   gene_centric: {
     index: process.env.ES_GENE_CENTRIC_INDEX,
     es_type: process.env.ES_GENE_CENTRIC_TYPE,
-    name: "Gene",
+    name: 'Gene',
     customFields: `
       cytoband: [String]
-    `
+    `,
   },
   ssm_centric: {
     index: process.env.ES_SSM_CENTRIC_INDEX,
     es_type: process.env.ES_SSM_CENTRIC_TYPE,
-    name: "Ssm"
+    name: 'Ssm',
   },
   ssm_occurrence_centric: {
     index: process.env.ES_SSM_OCC_CENTRIC_INDEX,
     es_type: process.env.ES_SSM_OCC_CENTRIC_TYPE,
-    name: "SsmOccurrenceCentric"
-  }
-};
+    name: 'SsmOccurrenceCentric',
+  },
+}
 
 export let ROOT_TYPES = {
   projectSummaryNotNested: {
@@ -113,9 +102,9 @@ export let ROOT_TYPES = {
     `,
     resolvers: {
       cases: () => ({}),
-      files: () => ({})
+      files: () => ({}),
     },
-    deprecationReason: "Use top level fields for ES types"
+    deprecationReason: 'Use top level fields for ES types',
   },
   explore: {
     typeDefs: `
@@ -128,9 +117,9 @@ export let ROOT_TYPES = {
     resolvers: {
       cases: () => ({}),
       genes: () => ({}),
-      ssms: () => ({})
+      ssms: () => ({}),
     },
-    deprecationReason: "Use top level fields for ES types"
+    deprecationReason: 'Use top level fields for ES types',
   },
   user: {
     typeDefs: `
@@ -139,8 +128,8 @@ export let ROOT_TYPES = {
       }
     `,
     resolvers: {
-      username: () => "user"
-    }
+      username: () => 'user',
+    },
   },
   analysis: {
     typeDefs: `
@@ -152,8 +141,8 @@ export let ROOT_TYPES = {
     `,
     resolvers: {
       protein_mutations: () => ({}),
-      top_cases_count_by_genes: () => ({})
-    }
+      top_cases_count_by_genes: () => ({}),
+    },
   },
   top_cases_count_by_genes: {
     typeDefs: `
@@ -198,63 +187,62 @@ export let ROOT_TYPES = {
       }
     `,
     resolvers: {
-      data: async (obj, args, context, info) => {
+      data: async (obj, args, { es }, info) => {
         const content = [
           {
-            op: "NOT",
+            op: 'NOT',
             content: {
-              field: "consequence.transcript.aa_start",
-              value: "MISSING"
-            }
-          }
-        ];
+              field: 'consequence.transcript.aa_start',
+              value: 'MISSING',
+            },
+          },
+        ]
 
-        let filters = args.filters || {};
-        if (filters.op && filters.content) content.push(filters);
-        filters = { op: "and", content: content };
+        let filters = args.filters || {}
+        if (filters.op && filters.content) content.push(filters)
+        filters = { op: 'and', content: content }
 
         let response = await fetch(
-          "http://localhost:5000/graphql/build_filters",
+          process.env.GDCAPI + '/graphql/build_filters',
           {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               ...args,
               doc_type: process.env.ES_SSM_CENTRIC_TYPE,
-              filters: filters,
+              filters,
               nested_fields: [
-                "occurrence",
-                "occurrence.case.exposures",
-                "occurrence.case.diagnoses",
-                "occurrence.case.diagnoses.treatments",
-                "occurrence.case.observation",
-                "occurrence.case.family_histories",
-                "occurrence.case.summary.data_categories",
-                "occurrence.case.summary.experimental_strategies",
-                "consequence"
-              ]
-            })
-          }
-        );
-        filters = await response.json();
+                'occurrence',
+                'occurrence.case.exposures',
+                'occurrence.case.diagnoses',
+                'occurrence.case.diagnoses.treatments',
+                'occurrence.case.observation',
+                'occurrence.case.family_histories',
+                'occurrence.case.summary.data_categories',
+                'occurrence.case.summary.experimental_strategies',
+                'consequence',
+              ],
+            }),
+          },
+        )
+        filters = await response.json()
         const body = {
           _source: args.fields,
           track_scores: !!args.score,
           size: args.first || 10,
           from: 0,
-          query: filters.query
-        };
+          query: filters.query,
+        }
 
         let data = await es.search({
           index: process.env.ES_SSM_CENTRIC_INDEX,
           type: process.env.ES_SSM_CENTRIC_TYPE,
-          body: body
-        });
+          body: body,
+        })
 
-        console.log(JSON.stringify(body));
-        return data.hits;
-      }
-    }
+        return data.hits
+      },
+    },
   },
   cart_summary: {
     typeDefs: `
@@ -286,32 +274,22 @@ export let ROOT_TYPES = {
     `,
     resolvers: {
       aggregations: async (obj, args, context, info) => {
-        let response = await fetch("http://localhost:5000/ui/search/summary", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(args)
-        });
+        let response = await fetch(process.env.GDCAPI + '/ui/search/summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(args),
+        })
 
-        let data = await response.json(),
-          keys = Object.keys(data),
-          formattedData = {};
+        let data = await response.json()
+        let keys = Object.keys(data)
+        let formattedData = {}
 
         keys.forEach((x, i) => {
-          let key = x.replace(".", "__");
-          formattedData[key] = data[keys[i]];
-        });
-        return formattedData;
-      }
-    }
-  }
-};
-
-`{
-  access: {
-    buckets: () => [
-      {
-        doc_count: 11
-      }
-    ]
-  }
-};`;
+          let key = x.replace('.', '__')
+          formattedData[key] = data[keys[i]]
+        })
+        return formattedData
+      },
+    },
+  },
+}
