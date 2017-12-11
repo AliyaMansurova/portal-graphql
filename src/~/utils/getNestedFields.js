@@ -6,7 +6,10 @@ let getNestedFields = (mapping, parent = '') => {
       .filter(([, metadata]) => metadata.type === 'nested')
       .map(([field, metadata]) => [
         parent ? `${parent}.${field}` : field,
-        ...getNestedFields(metadata.properties, field),
+        ...getNestedFields(
+          metadata.properties,
+          parent ? `${parent}.${field}` : field,
+        ),
       ]),
   )
 }

@@ -9,6 +9,24 @@
       ]
     },
     "properties": {
+      "aliquot_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "analyte_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
       "available_variation_data": {
         "type": "keyword"
       },
@@ -394,6 +412,1860 @@
           }
         }
       },
+      "files": {
+        "properties": {
+          "access": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "acl": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "analysis": {
+            "properties": {
+              "analysis_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "created_datetime": {
+                "type": "date"
+              },
+              "input_files": {
+                "properties": {
+                  "access": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "created_datetime": {
+                    "type": "date"
+                  },
+                  "data_category": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "data_format": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "data_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "experimental_strategy": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_size": {
+                    "type": "long"
+                  },
+                  "file_state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "md5sum": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "platform": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "metadata": {
+                "properties": {
+                  "read_groups": {
+                    "properties": {
+                      "created_datetime": {
+                        "type": "date"
+                      },
+                      "experiment_name": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "is_paired_end": {
+                        "type": "boolean"
+                      },
+                      "library_name": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "library_strategy": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "platform": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "read_group_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "read_group_name": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "read_group_qcs": {
+                        "properties": {
+                          "adapter_content": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "basic_statistics": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "created_datetime": {
+                            "type": "date"
+                          },
+                          "encoding": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "fastq_name": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "kmer_content": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "overrepresented_sequences": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_base_n_content": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_base_sequence_content": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_base_sequence_quality": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_sequence_gc_content": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_sequence_quality_score": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "per_tile_sequence_quality": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "percent_gc_content": {
+                            "type": "long"
+                          },
+                          "read_group_qc_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "sequence_duplication_levels": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "sequence_length_distribution": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "state": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "submitter_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "total_sequences": {
+                            "type": "long"
+                          },
+                          "updated_datetime": {
+                            "type": "date"
+                          },
+                          "workflow_link": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "workflow_type": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "workflow_version": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "read_length": {
+                        "type": "long"
+                      },
+                      "sequencing_center": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "sequencing_date": {
+                        "type": "date"
+                      },
+                      "state": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "submitter_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "target_capture_kit_catalog_number": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "target_capture_kit_name": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "target_capture_kit_target_region": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "target_capture_kit_vendor": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "updated_datetime": {
+                        "type": "date"
+                      }
+                    }
+                  }
+                }
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              },
+              "workflow_link": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "workflow_type": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "workflow_version": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "archive": {
+            "properties": {
+              "archive_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "created_datetime": {
+                "type": "date"
+              },
+              "data_category": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "data_format": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "data_type": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "file_name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "file_size": {
+                "type": "long"
+              },
+              "file_state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "md5sum": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "revision": {
+                "type": "long"
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              }
+            }
+          },
+          "cases": {
+            "properties": {
+              "case_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "demographic": {
+                "properties": {
+                  "demographic_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "ethnicity": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "gender": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "race": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  },
+                  "year_of_birth": {
+                    "type": "long"
+                  }
+                }
+              },
+              "diagnoses": {
+                "properties": {
+                  "age_at_diagnosis": {
+                    "type": "long"
+                  },
+                  "classification_of_tumor": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "days_to_birth": {
+                    "type": "long"
+                  },
+                  "days_to_last_follow_up": {
+                    "type": "long"
+                  },
+                  "diagnosis_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "last_known_disease_status": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "morphology": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "primary_diagnosis": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "prior_malignancy": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "progression_or_recurrence": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "site_of_resection_or_biopsy": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "tissue_or_organ_of_origin": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "treatments": {
+                    "properties": {
+                      "state": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "submitter_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "treatment_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "updated_datetime": {
+                        "type": "date"
+                      }
+                    }
+                  },
+                  "tumor_grade": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "tumor_stage": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  },
+                  "vital_status": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "disease_type": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "exposures": {
+                "properties": {
+                  "exposure_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "primary_site": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "project": {
+                "properties": {
+                  "disease_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "primary_site": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "program": {
+                    "properties": {
+                      "dbgap_accession_number": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "name": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "program_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "project_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "released": {
+                    "type": "boolean"
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "samples": {
+                "properties": {
+                  "days_to_collection": {
+                    "type": "long"
+                  },
+                  "initial_weight": {
+                    "type": "long"
+                  },
+                  "is_ffpe": {
+                    "type": "boolean"
+                  },
+                  "oct_embedded": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "pathology_report_uuid": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "portions": {
+                    "properties": {
+                      "analytes": {
+                        "properties": {
+                          "a260_a280_ratio": {
+                            "type": "float"
+                          },
+                          "aliquots": {
+                            "properties": {
+                              "aliquot_id": {
+                                "type": "text",
+                                "fields": {
+                                  "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                  }
+                                }
+                              },
+                              "center": {
+                                "properties": {
+                                  "center_id": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  },
+                                  "center_type": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  },
+                                  "code": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  },
+                                  "name": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  },
+                                  "namespace": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  },
+                                  "short_name": {
+                                    "type": "text",
+                                    "fields": {
+                                      "keyword": {
+                                        "type": "keyword",
+                                        "ignore_above": 256
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "concentration": {
+                                "type": "float"
+                              },
+                              "source_center": {
+                                "type": "text",
+                                "fields": {
+                                  "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                  }
+                                }
+                              },
+                              "state": {
+                                "type": "text",
+                                "fields": {
+                                  "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                  }
+                                }
+                              },
+                              "submitter_id": {
+                                "type": "text",
+                                "fields": {
+                                  "keyword": {
+                                    "type": "keyword",
+                                    "ignore_above": 256
+                                  }
+                                }
+                              },
+                              "updated_datetime": {
+                                "type": "date"
+                              }
+                            }
+                          },
+                          "analyte_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "analyte_type": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "analyte_type_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "concentration": {
+                            "type": "float"
+                          },
+                          "spectrophotometer_method": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "state": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "submitter_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "updated_datetime": {
+                            "type": "date"
+                          }
+                        }
+                      },
+                      "creation_datetime": {
+                        "type": "long"
+                      },
+                      "is_ffpe": {
+                        "type": "boolean"
+                      },
+                      "portion_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "portion_number": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "slides": {
+                        "properties": {
+                          "percent_lymphocyte_infiltration": {
+                            "type": "long"
+                          },
+                          "percent_monocyte_infiltration": {
+                            "type": "long"
+                          },
+                          "percent_necrosis": {
+                            "type": "long"
+                          },
+                          "percent_neutrophil_infiltration": {
+                            "type": "long"
+                          },
+                          "percent_normal_cells": {
+                            "type": "long"
+                          },
+                          "percent_stromal_cells": {
+                            "type": "long"
+                          },
+                          "percent_tumor_cells": {
+                            "type": "long"
+                          },
+                          "percent_tumor_nuclei": {
+                            "type": "long"
+                          },
+                          "section_location": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "slide_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "state": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "submitter_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "updated_datetime": {
+                            "type": "date"
+                          }
+                        }
+                      },
+                      "state": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "submitter_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "updated_datetime": {
+                        "type": "date"
+                      },
+                      "weight": {
+                        "type": "long"
+                      }
+                    }
+                  },
+                  "sample_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "sample_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "sample_type_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "tissue_source_site": {
+                "properties": {
+                  "bcr_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "code": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "project": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "tissue_source_site_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              }
+            }
+          },
+          "created_datetime": {
+            "type": "date"
+          },
+          "data_category": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "data_format": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "data_type": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "downstream_analyses": {
+            "properties": {
+              "analysis_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "created_datetime": {
+                "type": "date"
+              },
+              "output_files": {
+                "properties": {
+                  "access": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "created_datetime": {
+                    "type": "date"
+                  },
+                  "data_category": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "data_format": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "data_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "experimental_strategy": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "file_size": {
+                    "type": "long"
+                  },
+                  "file_state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "md5sum": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              },
+              "workflow_link": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "workflow_type": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "workflow_version": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              }
+            }
+          },
+          "experimental_strategy": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "file_id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "file_name": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "file_size": {
+            "type": "long"
+          },
+          "file_state": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "index_files": {
+            "properties": {
+              "created_datetime": {
+                "type": "date"
+              },
+              "data_category": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "data_format": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "data_type": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "file_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "file_name": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "file_size": {
+                "type": "long"
+              },
+              "file_state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "md5sum": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              }
+            }
+          },
+          "md5sum": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "platform": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "state": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "submitter_id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "type": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "updated_datetime": {
+            "type": "date"
+          }
+        }
+      },
       "gene": {
         "type": "nested",
         "properties": {
@@ -574,19 +2446,7 @@
                             "type": "keyword"
                           },
                           "polyphen": {
-                            "type": "text",
-                            "fields": {
-                              "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                              }
-                            }
-                          },
-                          "polyphen_impact": {
                             "type": "keyword"
-                          },
-                          "polyphen_score": {
-                            "type": "float"
                           },
                           "protein_position": {
                             "type": "keyword"
@@ -595,19 +2455,7 @@
                             "type": "keyword"
                           },
                           "sift": {
-                            "type": "text",
-                            "fields": {
-                              "keyword": {
-                                "type": "keyword",
-                                "ignore_above": 256
-                              }
-                            }
-                          },
-                          "sift_impact": {
                             "type": "keyword"
-                          },
-                          "sift_score": {
-                            "type": "float"
                           },
                           "swissprot": {
                             "type": "keyword"
@@ -657,9 +2505,6 @@
               "observation": {
                 "type": "nested",
                 "properties": {
-                  "acl": {
-                    "type": "keyword"
-                  },
                   "center": {
                     "type": "keyword"
                   },
@@ -952,6 +2797,15 @@
           }
         }
       },
+      "portion_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
       "primary_site": {
         "type": "keyword",
         "copy_to": [
@@ -1014,14 +2868,504 @@
           }
         }
       },
+      "sample_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "samples": {
+        "properties": {
+          "days_to_collection": {
+            "type": "long"
+          },
+          "initial_weight": {
+            "type": "long"
+          },
+          "is_ffpe": {
+            "type": "boolean"
+          },
+          "oct_embedded": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "pathology_report_uuid": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "portions": {
+            "properties": {
+              "analytes": {
+                "properties": {
+                  "a260_a280_ratio": {
+                    "type": "float"
+                  },
+                  "aliquots": {
+                    "properties": {
+                      "aliquot_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "center": {
+                        "properties": {
+                          "center_id": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "center_type": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "code": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "name": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "namespace": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          },
+                          "short_name": {
+                            "type": "text",
+                            "fields": {
+                              "keyword": {
+                                "type": "keyword",
+                                "ignore_above": 256
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "concentration": {
+                        "type": "float"
+                      },
+                      "source_center": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "state": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "submitter_id": {
+                        "type": "text",
+                        "fields": {
+                          "keyword": {
+                            "type": "keyword",
+                            "ignore_above": 256
+                          }
+                        }
+                      },
+                      "updated_datetime": {
+                        "type": "date"
+                      }
+                    }
+                  },
+                  "analyte_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "analyte_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "analyte_type_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "concentration": {
+                    "type": "float"
+                  },
+                  "spectrophotometer_method": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "center": {
+                "properties": {
+                  "center_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "center_type": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "code": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "namespace": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "short_name": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  }
+                }
+              },
+              "creation_datetime": {
+                "type": "long"
+              },
+              "is_ffpe": {
+                "type": "boolean"
+              },
+              "portion_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "portion_number": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "slides": {
+                "properties": {
+                  "percent_lymphocyte_infiltration": {
+                    "type": "long"
+                  },
+                  "percent_monocyte_infiltration": {
+                    "type": "long"
+                  },
+                  "percent_necrosis": {
+                    "type": "long"
+                  },
+                  "percent_neutrophil_infiltration": {
+                    "type": "long"
+                  },
+                  "percent_normal_cells": {
+                    "type": "long"
+                  },
+                  "percent_stromal_cells": {
+                    "type": "long"
+                  },
+                  "percent_tumor_cells": {
+                    "type": "long"
+                  },
+                  "percent_tumor_nuclei": {
+                    "type": "long"
+                  },
+                  "section_location": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "slide_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "state": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "submitter_id": {
+                    "type": "text",
+                    "fields": {
+                      "keyword": {
+                        "type": "keyword",
+                        "ignore_above": 256
+                      }
+                    }
+                  },
+                  "updated_datetime": {
+                    "type": "date"
+                  }
+                }
+              },
+              "state": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "submitter_id": {
+                "type": "text",
+                "fields": {
+                  "keyword": {
+                    "type": "keyword",
+                    "ignore_above": 256
+                  }
+                }
+              },
+              "updated_datetime": {
+                "type": "date"
+              },
+              "weight": {
+                "type": "long"
+              }
+            }
+          },
+          "sample_id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "sample_type": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "sample_type_id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "state": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "submitter_id": {
+            "type": "text",
+            "fields": {
+              "keyword": {
+                "type": "keyword",
+                "ignore_above": 256
+              }
+            }
+          },
+          "updated_datetime": {
+            "type": "date"
+          }
+        }
+      },
+      "slide_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
       "state": {
         "type": "keyword"
+      },
+      "submitter_aliquot_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "submitter_analyte_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
       },
       "submitter_id": {
         "type": "keyword",
         "copy_to": [
           "case_autocomplete"
         ]
+      },
+      "submitter_portion_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "submitter_sample_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
+      },
+      "submitter_slide_ids": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword",
+            "ignore_above": 256
+          }
+        }
       },
       "summary": {
         "properties": {

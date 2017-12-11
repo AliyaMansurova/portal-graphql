@@ -87,19 +87,7 @@
                     "type": "keyword"
                   },
                   "polyphen": {
-                    "type": "text",
-                    "fields": {
-                      "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                      }
-                    }
-                  },
-                  "polyphen_impact": {
                     "type": "keyword"
-                  },
-                  "polyphen_score": {
-                    "type": "float"
                   },
                   "protein_position": {
                     "type": "keyword"
@@ -108,19 +96,7 @@
                     "type": "keyword"
                   },
                   "sift": {
-                    "type": "text",
-                    "fields": {
-                      "keyword": {
-                        "type": "keyword",
-                        "ignore_above": 256
-                      }
-                    }
-                  },
-                  "sift_impact": {
                     "type": "keyword"
-                  },
-                  "sift_score": {
-                    "type": "float"
                   },
                   "swissprot": {
                     "type": "keyword"
@@ -603,9 +579,6 @@
               "observation": {
                 "type": "nested",
                 "properties": {
-                  "acl": {
-                    "type": "keyword"
-                  },
                   "center": {
                     "type": "keyword"
                   },

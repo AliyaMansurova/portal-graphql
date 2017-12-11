@@ -154,7 +154,7 @@ export let ROOT_TYPES = {
       }
     `,
     resolvers: {
-      data: async (obj, { gene_ids = [], first = 0 }) => {
+      data: async (obj, { gene_ids = [], first = 0, filters }) => {
         let data = await fetch(
           process.env.GDCAPI + '/analysis/top_cases_counts_by_genes',
           {
@@ -165,14 +165,11 @@ export let ROOT_TYPES = {
             body: JSON.stringify({
               gene_ids: gene_ids.join(),
               size: first,
-              // filters: json.dumps(
-              // args.get('filters', { op: 'and', content: [] }),
-              // ),
+              filters: JSON.stringify(filters),
             }),
           },
         ).then(r => r.json())
-        console.log(data)
-        return '{}'
+        return JSON.stringify(data)
       },
     },
   },
