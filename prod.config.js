@@ -37,7 +37,7 @@ export let ES_TYPES = {
       disease_type: [String]
       primary_site: [String]
       summary: ProjectSummaryNotNested
-    `,
+    `
   },
   cases: {
     index: process.env.ES_GDC_FROM_GRAPH_INDEX,
@@ -102,7 +102,7 @@ export let ROOT_TYPES = {
         data_categories: [ProjectSummaryNotNestedDataCategories]
       }
     `,
-    resolvers: () => ({}),
+    resolvers: () => ({})
   },
   repository: {
     typeDefs: `
@@ -168,22 +168,22 @@ export let ROOT_TYPES = {
     resolvers: {
       data: async (obj, { gene_ids = [], first = 0, filters }) => {
         let data = await fetch(
-          process.env.GDCAPI + '/analysis/top_cases_counts_by_genes',
+          process.env.GDCAPI + "/analysis/top_cases_counts_by_genes",
           {
-            method: 'POST',
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json"
             },
             body: JSON.stringify({
               gene_ids: gene_ids.join(),
               size: first,
-              filters: JSON.stringify(filters),
-            }),
-          },
-        ).then(r => r.json())
-        return JSON.stringify(data)
-      },
-    },
+              filters: JSON.stringify(filters)
+            })
+          }
+        ).then(r => r.json());
+        return JSON.stringify(data);
+      }
+    }
   },
   protein_mutations: {
     typeDefs: `
@@ -292,14 +292,11 @@ export let ROOT_TYPES = {
           body: JSON.stringify(args)
         });
 
-        let data = await response.json(),
-          keys = Object.keys(data),
-          formattedData = {};
-
-        keys.forEach((x, i) => {
-          let key = x.replace(".", "__");
-          formattedData[key] = data[keys[i]];
-        });
+        let data = await response.json();
+        let formattedData = Object.entries(data).reduce(
+          (acc, [key, val]) => ({ ...acc, [key.replace(".", "__")]: val }),
+          {}
+        );
         return formattedData;
       }
     }
