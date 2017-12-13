@@ -36,6 +36,7 @@ export default ({ type, fields = '' }) => `
   }
 
   type ${type.name}Node implements Node {
+    _type: String
     id: ID!
     score: Int
     ${fields}

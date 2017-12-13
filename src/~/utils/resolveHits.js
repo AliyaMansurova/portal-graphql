@@ -3,7 +3,7 @@ import buildQuery from './buildQuery'
 
 let joinParent = (parent, field) => (parent ? `${parent}.${field}` : field)
 
-let resolveNested = ({ node, nested_fields, parent = '' }) => {
+export let resolveNested = ({ node, nested_fields, parent = '' }) => {
   return Object.entries(node)
     .filter(([field]) => nested_fields.includes(joinParent(parent, field)))
     .reduce((acc, [field, hits]) => {
